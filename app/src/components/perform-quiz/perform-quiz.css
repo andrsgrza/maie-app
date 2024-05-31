@@ -1,0 +1,38 @@
+.perform-quiz {
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.question-section {
+    margin-top: 20px;
+}
+
+.answer-section {
+    margin-top: 10px;
+}
+
+h3 {
+    margin: 0;
+    padding: 10px 0;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    box-sizing: border-box;
+}
+
+button {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #333;
+}

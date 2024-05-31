@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Section from './Section';
+import Section from './create-quiz/Section';
 
 export default function SectionList({ sections, updateSection, deleteSection, addSection, quizTitle, setQuizTitle, highlightedSections }) {
     const [isEditingQuizTitle, setIsEditingQuizTitle] = useState(false);

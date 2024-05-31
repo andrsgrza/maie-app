@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import SectionList from './SectionList';
+import SectionList from '../SectionList';
+import { saveAs } from 'file-saver';
 
 export default function QuizCreator() {
     const [sections, setSections] = useState([{ title: 'Section 1', items: [] }]);
@@ -44,7 +45,8 @@ export default function QuizCreator() {
                 sections,
             };
             const quizJson = JSON.stringify(quiz, null, 2);
-            console.log(quizJson); // Save or send the JSON as needed
+            const blob = new Blob([quizJson], { type: "application/json;charset=utf-8" });
+            saveAs(blob, `${quizTitle.replace(/\s+/g, '_').toLowerCase()}.json`);
             setSaveMessage({ text: 'Quiz saved successfully!', type: 'success' });
             setHighlightedSections([]);
         }

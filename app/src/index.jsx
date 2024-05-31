@@ -1,16 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import QuizCreator from './components/QuizCreator';
+import MainPage from './components/main-page/main-page.jsx';
 
 class Maie extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <div className='maie-header'>
-                    <h1>Maie</h1>
-                </div>
-                <QuizCreator />
+                <MainPage />
             </React.Fragment>
         );
     }
