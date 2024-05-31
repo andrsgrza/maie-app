@@ -22,7 +22,7 @@ pipeline {
                 branch 'main'
             }
             steps {
-                sh 'docker run -dp 127.0.0.1:3000:3000 maie-app-img'
+                sh 'docker run -dp 0.0.0.0:3000:3000 maie-app-img'
             }
         }
     }
