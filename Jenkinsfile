@@ -20,7 +20,7 @@ pipeline {
         stage('Start') {
            
             steps {
-                sh 'docker run -dp 127.0.0.1:3000:3000 maie-app-img'
+                sh 'docker run -p 3000:3000 maie-app-img'
             }
         }
     }
