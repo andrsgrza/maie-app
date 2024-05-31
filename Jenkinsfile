@@ -9,7 +9,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                docker build -t MAIE-APP-IMG Dockerfile .
+                sh 'docker build -t MAIE-APP-IMG -f Dockerfile .'
             }
         }
         stage('Test') {
@@ -22,7 +22,7 @@ pipeline {
                 branch 'main'
             }
             steps {
-                docker run -dp 127.0.0.1:3000:3000 MAIE-APP-IMG
+                sh 'docker run -dp 127.0.0.1:3000:3000 MAIE-APP-IMG'
             }
         }
     }
