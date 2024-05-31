@@ -18,9 +18,7 @@ pipeline {
             }
         }
         stage('Start') {
-            when {
-                branch 'main'
-            }
+           
             steps {
                 sh 'docker run -dp 0.0.0.0:3000:3000 maie-app-img'
             }
