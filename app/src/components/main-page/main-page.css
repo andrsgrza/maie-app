@@ -53,11 +53,11 @@ body {
 }
 
 .logo-container {
-    margin: 20px 0;
+    margin: 10px;
 }
 
 .logo {
-    height: 80px; /* Adjust the size of the logo */
+    height: 99%;
     max-width: 100%;
 }
 

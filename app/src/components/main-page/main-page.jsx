@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import QuizCreator from '../create-quiz/QuizCreator';
-import PerformQuiz from '../perform-quiz/PerformQuiz';
+import QuizPerformer from '../perform-quiz/QuizPerformer';
 import './main-page.css';
 import logo from '../../../resources/logo.jpeg'; // Correctly import the image
 
@@ -27,15 +27,15 @@ export default function MainPage() {
                     </div>
                     <nav>
                         <ul>
-                            <li><Link to="/create-quiz">Create Quiz</Link></li>
                             <li><Link to="/perform-quiz">Perform Quiz</Link></li>
+                            <li><Link to="/create-quiz">Create Quiz</Link></li>                        
                         </ul>
                     </nav>
                 </div>
                 <div className="content">
                     <Routes>
                         <Route path="/create-quiz" element={<QuizCreator />} />
-                        <Route path="/perform-quiz" element={<PerformQuiz />} />
+                        <Route path="/perform-quiz" element={<QuizPerformer />} />
                         <Route path="/" element={() => <div>Dashboard</div>} />
                     </Routes>
                 </div>
