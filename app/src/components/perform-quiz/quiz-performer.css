@@ -1,0 +1,30 @@
+.quiz-performer {
+    padding: 20px;
+}
+
+.completion-message {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.completion-message h2 {
+    margin-bottom: 20px;
+    color: #4caf50;
+}
+
+.completion-message button {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.centered-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    background-color: #fff;
+    border-radius: 8px;
+}
