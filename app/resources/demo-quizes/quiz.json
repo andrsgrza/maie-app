@@ -1,5 +1,11 @@
 {
   "title": "Quiz 2",
+  "quiz-id": "2",
+  "metadata": {
+    "author": "agarza",
+    "description":"This is another demo quiz",
+    "lastPerformed":"2024-06-15"
+  },
   "sections": [
     {
       "title": "Section 1",
