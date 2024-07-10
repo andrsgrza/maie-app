@@ -10,7 +10,7 @@ export default function QuizPerformer() {
     const [currentQuizIndex, setCurrentQuizIndex] = useState(0);
     const [allQuizesCompleted, setAllQuizesCompleted] = useState(false);
 
-    const handleQuizzesSelected = (quizzes) => {
+    const handleQuizzesSelected = (quizzes) => {        
         setSelectedQuizzes(quizzes);
         setCurrentQuizIndex(0);
     };
@@ -28,7 +28,7 @@ export default function QuizPerformer() {
         <div className="quiz-performer centered-container">
             {selectedQuizzes.length === 0 && (
                 <div className="quiz-selector">
-                    <QuizSelector onSelect={handleQuizzesSelected} />
+                    <QuizSelector letsSelect={handleQuizzesSelected} />
                 </div>
             )}            
             {selectedQuizzes.length > 0 && currentQuizIndex < selectedQuizzes.length && (
@@ -51,7 +51,7 @@ export default function QuizPerformer() {
                         />
                     </div>
                 ))
-            )}
+            )}            
         </div>
     );
 }

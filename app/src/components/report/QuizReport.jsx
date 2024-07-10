@@ -8,7 +8,7 @@ const QuizReport = ({ completedQuiz }) => {
     const incorrectAnswers = totalQuestions - correctAnswers;
 
     return (
-        <div className="quiz-report centered-container">
+        <div className="quiz-report">
             <h2>{title} - Quiz Report</h2>
             <div className="overall-summary">
                 <h3>Overall Summary</h3>

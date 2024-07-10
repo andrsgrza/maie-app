@@ -1,0 +1,27 @@
+.quiz-item {
+    border: 1px solid #ddd;
+    padding: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .quiz-item h3 {
+    margin: 0 0 0.5rem 0;
+    color: #007bff;
+  }
+  
+  .quiz-item p {
+    margin: 0.25rem 0;
+  }
+  
+  .quiz-item:hover {
+    background-color: #f0f8ff;
+    transform: translateY(-2px);
+  }
+  
+  .quiz-item.selected {
+    background-color: #e6f7ff;
+    border-color: #007bff;
+  }
+  
