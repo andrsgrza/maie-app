@@ -1,0 +1,20 @@
+{
+  "title": "single-question-single-section",
+  "quiz-id": "3",
+  "metadata": {
+    "author": "agarza",
+    "description":"Single question / Single section",
+    "lastPerformed":"2024-06-15"
+  },
+  "sections": [
+    {
+      "title": "Section 1",
+      "items": [
+        {
+          "question": "Which is the no se que",
+          "answer": "que pasa"
+        }
+      ]
+    }
+  ]
+}

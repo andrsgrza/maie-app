@@ -1,27 +1,118 @@
-.quiz-item {
-    border: 1px solid #ddd;
-    padding: 1rem;
-    border-radius: 8px;
+.perform-quiz {
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+}
+
+.question-section {
+    margin-top: 20px;
+}
+
+.answer-section {
+    margin-top: 10px;
+}
+
+h3 {
+    margin: 0;
+    padding: 10px 0;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 4px;
     cursor: pointer;
-    transition: all 0.3s ease;
-  }
-  
-  .quiz-item h3 {
-    margin: 0 0 0.5rem 0;
-    color: #007bff;
-  }
-  
-  .quiz-item p {
-    margin: 0.25rem 0;
-  }
-  
-  .quiz-item:hover {
-    background-color: #f0f8ff;
-    transform: translateY(-2px);
-  }
-  
-  .quiz-item.selected {
-    background-color: #e6f7ff;
-    border-color: #007bff;
-  }
-  
+    font-size: 16px;
+}
+
+button.disabled {
+    background-color: grey;
+    cursor: not-allowed;
+}
+
+button:hover:not(.disabled) {
+    background-color: #333;
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.mark-button {
+    flex: 1;
+    padding: 10px;
+    margin: 0;
+    border: 1px solid #ccc;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    text-align: center;
+}
+
+.mark-button.selected {
+    background-color: #d0e0f0;
+}
+
+.mark-button:first-of-type {
+    border-right: none;
+}
+
+.mark-button:hover {
+    background-color: #e0e0e0;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin: 5px 0;
+}
+
+h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+h3 {
+    font-size: 20px;
+}
+
+p {
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+input[type="text"]::placeholder {
+    color: #999;
+}
+
+button:focus,
+input[type="text"]:focus {
+    outline: none;
+    border-color: #666;
+}
+
+.disabled {
+    background-color: grey;
+    cursor: not-allowed;
+}
+
+.disabled:hover {
+    background-color: grey;
+}

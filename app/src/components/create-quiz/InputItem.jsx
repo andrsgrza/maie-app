@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-export default function InputItem({ addItem, onCancel, keepOpen, setKeepOpen }) {
-    const [question, setQuestion] = useState('');
-    const [answer, setAnswer] = useState('');
+export default function InputItem({ item, addItem, onCancel, keepOpen, setKeepOpen, edit, updateItem, index, hasSubmitted }) {
+    const [question, setQuestion] = useState(item?.question || '');
+    const [answer, setAnswer] = useState(item?.question || '');
     const questionInputRef = useRef(null);
 
     useEffect(() => {
@@ -22,12 +22,19 @@ export default function InputItem({ addItem, onCancel, keepOpen, setKeepOpen }) 
 
     const handleOnClick = () => {
         if (question && answer) {
-            addItem({ question, answer });
-            setQuestion('');
-            setAnswer('');
-            if (keepOpen && questionInputRef.current) {
-                questionInputRef.current.focus();
-            }
+            
+            if(edit){
+                const id = item.id                
+                updateItem({question, answer}, index) 
+            }else{                
+                item = { question, answer};                
+                addItem(item);
+                setQuestion('');
+                setAnswer('');
+                if (keepOpen && questionInputRef.current) {
+                    questionInputRef.current.focus();
+                }
+            }            
         }
     };
 
@@ -35,6 +42,10 @@ export default function InputItem({ addItem, onCancel, keepOpen, setKeepOpen }) 
         event.preventDefault();
         handleOnClick();
     };
+
+    const handleOnCancel = () => {
+        onCancel(index)
+    }
 
     return (
         <div className='input-item'>
@@ -68,9 +79,9 @@ export default function InputItem({ addItem, onCancel, keepOpen, setKeepOpen }) 
                         onChange={() => setKeepOpen(!keepOpen)}
                     />
                     Keep form open after submission
-                </label>
-                <button type="submit">Submit Item</button>
-                <button type="button" onClick={onCancel} className="cancel-button">Cancel</button>
+                </label>                
+                <button type="submit" onClick={handleOnClick}>{edit ? (hasSubmitted ? "Edit Item" : "Submit Item") : "Submit Item"}</button>
+                <button type="button" onClick={handleOnCancel} className="cancel-button">Cancel</button>
             </form>
         </div>
     );

@@ -1,0 +1,81 @@
+{
+    "title": "Control Theory - Closed Loop Control and System Analysis",
+    "quiz-id": "5",
+    "metadata": {
+      "author": "Your Name",
+      "description": "A comprehensive quiz covering key concepts in closed-loop control systems and analysis of control systems.",
+      "lastPerformed": "2024-07-10"
+    },
+    "sections": [
+      {
+        "title": "Section 1: Basic Concepts of Closed-Loop Control",
+        "items": [
+          {
+            "question": "What is the primary difference between open-loop and closed-loop control systems?",
+            "answer": "Closed-loop control systems use feedback to compare the actual output with the desired output, while open-loop systems do not.",
+            "isAnswerCorrect": false
+          },
+          {
+            "question": "In a closed-loop control system, what is the role of the feedback signal?",
+            "answer": "The feedback signal is used to adjust the control input to achieve the desired output.",
+            "isAnswerCorrect": true
+          },
+          {
+            "question": "Which of the following is an advantage of closed-loop control systems?",
+            "answer": "Increased accuracy and ability to correct disturbances and changes in system parameters.",
+            "isAnswerCorrect": false
+          }
+        ]
+      },
+      {
+        "title": "Section 2: Analysis of Control Systems",
+        "items": [
+          {
+            "question": "What is the transfer function of a control system?",
+            "answer": "The transfer function is a mathematical representation that defines the output response of a system to an input signal in the Laplace transform domain.",
+            "isAnswerCorrect": false
+          },
+          {
+            "question": "Why is stability important in control systems?",
+            "answer": "Stability ensures that the system will return to its equilibrium state after a disturbance.",
+            "isAnswerCorrect": true
+          },
+          {
+            "question": "What is the purpose of a Bode plot in control system analysis?",
+            "answer": "A Bode plot is used to analyze the frequency response of a control system and assess its stability and performance.",
+            "isAnswerCorrect": true
+          },
+          {
+            "question": "Define the term 'Gain Margin' in the context of control systems.",
+            "answer": "Gain margin is the amount by which the system gain can be increased before it becomes unstable.",
+            "isAnswerCorrect": true
+          },
+          {
+            "question": "What is the Nyquist criterion used for?",
+            "answer": "The Nyquist criterion is used to determine the stability of a control system by analyzing the frequency response plot.",
+            "isAnswerCorrect": false
+          }
+        ]
+      },
+      {
+        "title": "Section 3: Practical Applications",
+        "items": [
+          {
+            "question": "How can PID controllers be used in closed-loop control systems?",
+            "answer": "PID controllers adjust the control input based on proportional, integral, and derivative terms of the error signal to achieve desired system performance.",
+            "isAnswerCorrect": true
+          },
+          {
+            "question": "Explain the concept of feedforward control and how it complements feedback control.",
+            "answer": "Feedforward control predicts the effect of disturbances and adjusts the control input accordingly, while feedback control corrects errors based on the actual output.",
+            "isAnswerCorrect": false
+          },
+          {
+            "question": "Give an example of a real-world application of a closed-loop control system.",
+            "answer": "An example is the cruise control system in cars, which adjusts the throttle to maintain a set speed despite changes in road conditions.",
+            "isAnswerCorrect": true
+          }
+        ]
+      }
+    ]
+  }

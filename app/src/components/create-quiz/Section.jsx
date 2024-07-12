@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import InputItem from './InputItem';
 import ItemList from './ItemList';
+import Item from './item.js'
 
 export default function Section({ section, updateSection, deleteSection, hasError, isFirstSection }) {
     const [isCollapsed, setIsCollapsed] = useState(false);
@@ -10,7 +11,9 @@ export default function Section({ section, updateSection, deleteSection, hasErro
     const [keepOpen, setKeepOpen] = useState(false);
     const [items, setItems] = useState(section.items || []);
 
-    const addItem = (item) => {
+    const [showAddItemButton,setShowAddItemButton] = useState(false)
+
+    const addItem = (item) => {        
         const newItems = [...items, item];
         setItems(newItems);
         updateSection({ ...section, items: newItems });
@@ -18,6 +21,22 @@ export default function Section({ section, updateSection, deleteSection, hasErro
             setIsAddingItem(false);
         }
     };
+
+    const updateItem = (updatedItem, index) => {
+        const newItems = items.map((item, idx) => (index === idx ? new Item(updatedItem.question, updatedItem.answer) : item));
+        setItems(newItems);
+        updateSection({ ...section, items: newItems });
+        setShowAddItemButton(true)
+
+    };
+
+    const handleEditModeToggle = (index) => {
+        const updatedItems = items.map((item, i) => 
+            i === index ? { ...item, editMode: !item.editMode } : item
+        );
+        setItems(updatedItems);
+        updateSection({ ...section, items: updatedItems });
+    }
 
     const deleteItem = (index) => {
         const newItems = items.filter((_, i) => i !== index);
@@ -28,17 +47,12 @@ export default function Section({ section, updateSection, deleteSection, hasErro
         }
     };
 
-    const updateItem = (index, updatedItem) => {
-        const newItems = items.map((item, i) => (i === index ? updatedItem : item));
-        setItems(newItems);
-        updateSection({ ...section, items: newItems });
-    };
-
     const toggleCollapse = () => {
         setIsCollapsed(!isCollapsed);
     };
 
     const toggleAddItem = () => {
+        
         setIsAddingItem(!isAddingItem);
     };
 
@@ -50,11 +64,15 @@ export default function Section({ section, updateSection, deleteSection, hasErro
         setIsEditingTitle(false);
         updateSection({ ...section, title: sectionTitle });
     };
+    
+    const handleSaveItems = () => {
+        setItems()
+    }
 
     return (
         <div className={`section ${hasError ? 'section-error' : ''}`}>
             <div className='section-header'>
-                <div className='collapse-icon' onClick={toggleCollapse}>
+                <div className='collapse-icon' onClick={toggleAddItem}>
                     {isCollapsed ? <i className="fas fa-chevron-down"></i> : <i className="fas fa-chevron-up"></i>}
                 </div>
                 {isEditingTitle ? (
@@ -77,15 +95,20 @@ export default function Section({ section, updateSection, deleteSection, hasErro
             </div>
             {!isCollapsed && (
                 <>
-                    {items.length > 0 && <ItemList items={items} deleteItem={deleteItem} updateItem={updateItem} />}
-                    {isAddingItem ? (
-                        <>
-                            <InputItem addItem={addItem} onCancel={toggleAddItem} keepOpen={keepOpen} setKeepOpen={setKeepOpen} />
-                            {items.length > 0 && <button className='close-add-item-button' onClick={toggleAddItem}>Close</button>}
-                        </>
-                    ) : (
+                    <ItemList
+                        items={items}
+                        isAddingItem={isAddingItem}                        
+                        deleteItem={deleteItem}
+                        updateItem={updateItem}
+                        addItem={addItem}
+                        toggleAddItem={toggleAddItem}
+                        handleEditModeToggle={handleEditModeToggle}
+                        setKeepOpen={setKeepOpen}
+                        hasSubmitted={showAddItemButton}
+                    />
+                    {showAddItemButton && !isAddingItem && (
                         <button className='add-item-button' onClick={toggleAddItem}>Add Item</button>
-                    )}
+                    )}                    
                 </>
             )}
         </div>
