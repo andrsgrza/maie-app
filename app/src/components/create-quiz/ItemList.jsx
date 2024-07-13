@@ -1,19 +1,43 @@
 import React from 'react';
 import ItemBox from './ItemBox';
+import InputItem from './InputItem';
 
-export default function ItemList({ items, deleteItem, updateItem }) {
+export default function ItemList({ items, deleteItem, isAddingItem, updateItem, addItem, toggleAddItem, keepOpen, setKeepOpen, handleEditModeToggle, hasSubmitted }) {
+    if(items.length < 0) throw new Error()
     return (
         <div className='item-list'>
-            <h2>Items</h2>
+            <h2>Items</h2>                      
             {items.map((item, index) => (
-                <ItemBox 
-                    key={index}
-                    item={item}
-                    index={index}
-                    deleteItem={deleteItem}
-                    updateItem={updateItem}
-                />
-            ))}
+                <>
+                { !item.editMode ? (
+                    <ItemBox 
+                        key={index}
+                        item={item}
+                        index={index}
+                        deleteItem={deleteItem}
+                        updateItem={updateItem}
+                        onEdit={handleEditModeToggle}
+                    />
+                ): (
+                    <InputItem
+                        key={index}
+                        index={index}
+                        item={item}
+                        addItem={addItem}
+                        updateItem={updateItem}
+                        onCancel={handleEditModeToggle}
+                        keepOpen={keepOpen}
+                        setKeepOpen={setKeepOpen}
+                        first={false}
+                        edit={true}
+                        hasSubmitted={hasSubmitted}
+                    />
+                )}
+                </>
+                ))}
+                {isAddingItem && (
+                    <InputItem item={null} addItem={addItem} onCancel={toggleAddItem} updateItem={updateItem} keepOpen={keepOpen} setKeepOpen={setKeepOpen} first={false} edit={false}/>
+                )}                
         </div>
     );
 }

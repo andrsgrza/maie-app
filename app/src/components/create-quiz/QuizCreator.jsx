@@ -41,8 +41,14 @@ export default function QuizCreator() {
             setHighlightedSections(emptySections);
         } else {
             const quiz = {
-                title: quizTitle,
-                sections,
+                title: quizTitle,                
+                quizid: 2,
+                metadata: {
+                    author: "agarza",
+                    description:"This is another demo quiz",
+                    lastPerformed:"2024-06-15"
+                },
+                sections
             };
             const quizJson = JSON.stringify(quiz, null, 2);
             const blob = new Blob([quizJson], { type: "application/json;charset=utf-8" });

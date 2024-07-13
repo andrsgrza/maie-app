@@ -1,0 +1,48 @@
+{
+  "title": "Control Theory - Closed Loop Control and System Analysis",
+  "quiz-id": "5",
+  "metadata": {
+    "author": "Your Name",
+    "description": "A comprehensive quiz covering key concepts in closed-loop control systems and analysis of control systems.",
+    "lastPerformed": "2024-07-10"
+  },
+  "sections": [
+    {
+      "title": "Section 1: Basic Concepts of Closed-Loop Control",
+      "items": [
+        {
+          "question": "In a closed-loop control system, what is the role of the feedback signal?",
+          "answer": "The feedback signal is used to adjust the control input to achieve the desired output."
+        }
+      ]
+    },
+    {
+      "title": "Section 2: Analysis of Control Systems",
+      "items": [
+        {
+          "question": "What is the transfer function of a control system?",
+          "answer": "The transfer function is a mathematical representation that defines the output response of a system to an input signal in the Laplace transform domain."
+        },
+        {
+          "question": "What is the purpose of a Bode plot in control system analysis?",
+          "answer": "A Bode plot is used to analyze the frequency response of a control system and assess its stability and performance."
+        },
+        {
+          "question": "What is the Nyquist criterion used for?",
+          "answer": "The Nyquist criterion is used to determine the stability of a control system by analyzing the frequency response plot."
+        }
+      ]
+    },
+    {
+      "title": "Section 3: Practical Applications",
+      "items": [
+        {
+          "question": "Explain the concept of feedforward control and how it complements feedback control.",
+          "answer": "Feedforward control predicts the effect of disturbances and adjusts the control input accordingly, while feedback control corrects errors based on the actual output."
+        }
+      ]
+    }
+  ],
+  "redo": "R101",
+  "selected": false
+}

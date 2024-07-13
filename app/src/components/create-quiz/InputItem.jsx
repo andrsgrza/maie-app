@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-export default function InputItem({ addItem, onCancel, keepOpen, setKeepOpen }) {
-    const [question, setQuestion] = useState('');
-    const [answer, setAnswer] = useState('');
+export default function InputItem({ item, addItem, onCancel, keepOpen, setKeepOpen, edit, updateItem, index, hasSubmitted }) {
+    const [question, setQuestion] = useState(item?.question || '');
+    const [answer, setAnswer] = useState(item?.answer || '');
     const questionInputRef = useRef(null);
+    const answerInputRef = useRef(null);    
 
     useEffect(() => {
         if (questionInputRef.current) {
@@ -11,30 +12,57 @@ export default function InputItem({ addItem, onCancel, keepOpen, setKeepOpen }) 
         }
     }, []);
 
-    const handleInputChange = (event) => {
-        const { name, value } = event.target;
-        if (name === 'question') {
+    const handleInputChange = (event) => {        
+        const { name, value } = event.target;        
+        if (name === 'question') {            
             setQuestion(value);
         } else if (name === 'answer') {
-            setAnswer(value);
+            setAnswer(value);            
+        }
+    };
+
+    const handleKeyDown = (event) => {
+        console.log(questionInputRef)
+        if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault();            
+            if(questionInputRef.current.value === ''){                
+                question.current.focus();
+            }
+            if(answerInputRef.current.value === ''){                
+                answerInputRef.current.focus();
+            }
+            else{
+                handleOnClick();
+            }            
         }
     };
 
     const handleOnClick = () => {
         if (question && answer) {
-            addItem({ question, answer });
-            setQuestion('');
-            setAnswer('');
-            if (keepOpen && questionInputRef.current) {
+            if(edit){
+                const id = item.id                
+                updateItem({question, answer}, index) 
+            }else{                
+                item = { question, answer};                
+                addItem(item);
+                setQuestion('');
+                setAnswer('');
+                if (keepOpen && questionInputRef.current) {
+                    questionInputRef.current.focus();
+                }
                 questionInputRef.current.focus();
-            }
+            }            
         }
     };
 
     const handleOnSubmit = (event) => {
-        event.preventDefault();
+        event.preventDefault();        
         handleOnClick();
     };
+
+    const handleOnCancel = () => {
+        onCancel(index)
+    }
 
     return (
         <div className='input-item'>
@@ -42,26 +70,28 @@ export default function InputItem({ addItem, onCancel, keepOpen, setKeepOpen }) 
             <form onSubmit={handleOnSubmit}>
                 <label>
                     Question:
-                    <input
-                        type="text"
+                    <textarea
                         name="question"
                         placeholder="Enter your question"
                         value={question}
                         onChange={handleInputChange}
+                        onKeyDown={handleKeyDown}
                         ref={questionInputRef}
                     />
                 </label>
                 <label>
                     Answer:
-                    <input
-                        type="text"
+                    <textarea
                         name="answer"
                         placeholder="Enter your answer"
                         value={answer}
                         onChange={handleInputChange}
+                        onKeyDown={handleKeyDown}
+                        ref={answerInputRef}
                     />
                 </label>
-                <label className='keep-open-label'>
+                {!edit && (
+                    <label className='keep-open-label'>
                     <input
                         type="checkbox"
                         checked={keepOpen}
@@ -69,8 +99,9 @@ export default function InputItem({ addItem, onCancel, keepOpen, setKeepOpen }) 
                     />
                     Keep form open after submission
                 </label>
-                <button type="submit">Submit Item</button>
-                <button type="button" onClick={onCancel} className="cancel-button">Cancel</button>
+                )}
+                <button type="submit">Submit</button>
+                <button type="button" onClick={handleOnCancel}>Cancel</button>
             </form>
         </div>
     );

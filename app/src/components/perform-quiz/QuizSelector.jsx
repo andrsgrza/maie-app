@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import quiz1 from '../../../resources/demo-quizes/quiz_title.json';
-import quiz2 from '../../../resources/demo-quizes/quiz.json'; // Add more quizzes as needed
+
 import QuizItem from './QuizItem';
 import './quiz-selector.css';
 
-const quizzes = [quiz1, quiz2]; // Array of quizzes
-
-const QuizSelector = ({letsSelect}) => {
+const QuizSelector = ({quizzes, onSelected}) => {
     const [selectedQuizzes, setSelectedQuizzes] = useState([]);
 
     useEffect(() => {
@@ -14,7 +11,24 @@ const QuizSelector = ({letsSelect}) => {
         quizzes.forEach(quiz => quiz.selected = false);
     }, []);
 
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (selectedQuizzes.length > 0) {
+                if (event.key === 'Enter') {
+                    onSelected(selectedQuizzes)
+                } 
+            }
+           
+
+        }
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [selectedQuizzes]);
+
     const handleSelectQuiz = (selectedQuiz) => {
+
         setSelectedQuizzes(prevSelectedQuizzes => {
             const isAlreadySelected = prevSelectedQuizzes.some(quiz => quiz['quiz-id'] === selectedQuiz['quiz-id']);
             if (isAlreadySelected) {
@@ -33,17 +47,28 @@ const QuizSelector = ({letsSelect}) => {
     };
 
     return (
-        <div className="quiz-selector">
+        <div className="quiz-selector ">
             {quizzes.map((quiz) => (
-                <QuizItem
-                    key={quiz['quiz-id']}
-                    quiz={quiz}
-                    isSelected={selectedQuizzes.some(selectedQuiz => selectedQuiz['quiz-id'] === quiz['quiz-id'])}
-                    onSelect={() => handleSelectQuiz(quiz)}
-                />
-            ))}
-            <div>{JSON.stringify(selectedQuizzes, null, 2)}</div>
-            <button onClick={() => letsSelect(selectedQuizzes)}>Start Training</button>
+                <React.Fragment key={quiz['quiz-id']}>
+                    <QuizItem
+                        key={quiz['quiz-id']}
+                        quiz={quiz}
+                        isSelected={selectedQuizzes.some(selectedQuiz => selectedQuiz['quiz-id'] === quiz['quiz-id'])}
+                        onSelect={() => handleSelectQuiz(quiz)}
+                        redo={false}
+                    />
+                    {quiz.redo && (
+                        <QuizItem
+                            key={`${quiz['quiz-id']}-redo`}
+                            quiz={quiz}
+                            isSelected={selectedQuizzes.some(selectedQuiz => selectedQuiz['quiz-id'] === quiz['quiz-id'])}
+                            onSelect={() => handleSelectQuiz(quiz)}
+                            redo={true}
+                        />
+                    )}
+                </React.Fragment>
+            ))}            
+            <button className="basic-button" onClick={() => onSelected(selectedQuizzes)}>Start Training</button>
         </div>        
     );
 };

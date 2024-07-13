@@ -1,19 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './perform-quiz.css';
-import QuizReport from '../report/QuizReport';
 
 export default function PerformQuiz({ quiz, onComplete }) {
     const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [userAnswer, setUserAnswer] = useState('');
     const [showAnswer, setShowAnswer] = useState(false);
-    const [isAnswerCorrect, setIsAnswerCorrect] = useState(null);
-    const [answers, setAnswers] = useState([]);
+    const [isAnswerCorrect, setIsAnswerCorrect] = useState(null);    
     const [isMarked, setIsMarked] = useState(false);
-    const [completedQuiz, setCompletedQuiz] = useState(JSON.parse(JSON.stringify(quiz)));
+    const [completedQuiz, setCompletedQuiz] = useState(JSON.parse(JSON.stringify(quiz)));    
 
-
-    const answerInputRef = useRef(null);    
+    const answerInputRef = useRef(null);
 
     useEffect(() => {
         if (answerInputRef.current) {
@@ -21,30 +18,61 @@ export default function PerformQuiz({ quiz, onComplete }) {
         }
     }, [currentQuestionIndex, currentSectionIndex]);
 
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (showAnswer) {
+                if (event.key === 'ArrowLeft' || event.key.toLowerCase() === 'c') {
+                    handleMarkAnswer(true);
+                } else if (event.key === 'ArrowRight' || event.key.toLowerCase() === 'm') {
+                    handleMarkAnswer(false);
+                }
+            }
+            if (event.key === 'Enter') {
+                if(isMarked){
+                    if(isLastQuestionInSection()){
+                        if(isLastSection()){
+                            handleSubmitQuiz();
+                        }else{
+                            handleNextSection();
+                        }
+                    }else{
+                        handleNextQuestion();
+                    }                
+                } else{
+                    handleSubmitAnswer(); 
+                } 
+            } 
+
+        }
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [showAnswer, userAnswer, isMarked]);
+
     const restartQuiz = () => {
         setCurrentSectionIndex(0);
-        setCurrentQuestionIndex(0)
+        setCurrentQuestionIndex(0);
         setUserAnswer('');
-        setShowAnswer(false)        
-        setIsAnswerCorrect(null)
-        setAnswers([]);
-        setIsMarked(false)
-    }
+        setShowAnswer(false);
+        setIsAnswerCorrect(null);        
+        setIsMarked(false);
+    };
 
-    const handleNextQuestion = (e) => {                
-        const userAnswer = answerInputRef.current.value;
+    const handleNextQuestion = () => {
+        //const userAnswer = answerInputRef.current.value;
         setCompletedQuiz((prev) => {
             const newSections = [...prev.sections];
             newSections[currentSectionIndex].items[currentQuestionIndex] = {
-              ...newSections[currentSectionIndex].items[currentQuestionIndex],
-              userAnswer,
-              isAnswerCorrect,
+                ...newSections[currentSectionIndex].items[currentQuestionIndex],
+                userAnswer,
+                isAnswerCorrect,
             };
             return {
-              ...prev,
-              sections: newSections,
+                ...prev,
+                sections: newSections,
             };
-          });
+        });
         setShowAnswer(false);
         setIsAnswerCorrect(null);
         setUserAnswer('');
@@ -52,20 +80,19 @@ export default function PerformQuiz({ quiz, onComplete }) {
         setIsMarked(false);
     };
 
-    const handleNextSection = (e) => {
-        const userAnswer = answerInputRef.current.value;
+    const handleNextSection = () => {
         setCompletedQuiz((prev) => {
             const newSections = [...prev.sections];
             newSections[currentSectionIndex].items[currentQuestionIndex] = {
-              ...newSections[currentSectionIndex].items[currentQuestionIndex],
-              userAnswer,
-              isAnswerCorrect,
+                ...newSections[currentSectionIndex].items[currentQuestionIndex],
+                userAnswer,
+                isAnswerCorrect,
             };
             return {
-              ...prev,
-              sections: newSections,
+                ...prev,
+                sections: newSections,
             };
-          });
+        });
         setShowAnswer(false);
         setIsAnswerCorrect(null);
         setUserAnswer('');
@@ -74,19 +101,16 @@ export default function PerformQuiz({ quiz, onComplete }) {
         setIsMarked(false);
     };
 
-    const handleSubmitAnswer = () => {
-        setShowAnswer(true);
+    const handleSubmitAnswer = () => {        
+        setShowAnswer(true);        
     };
 
-    const handleMarkAnswer = (isCorrect) => {        
+    const handleMarkAnswer = (isCorrect) => {
         setIsAnswerCorrect(isCorrect);
         setIsMarked(true);
     };
 
     const handleSubmitQuiz = () => {
-        console.log("Submitting quiz", answerInputRef.current.value);
-        const userAnswer = answerInputRef.current.value;
-        
         setCompletedQuiz((prev) => {
             const newSections = [...prev.sections];
             newSections[currentSectionIndex].items[currentQuestionIndex] = {
@@ -98,16 +122,13 @@ export default function PerformQuiz({ quiz, onComplete }) {
                 ...prev,
                 sections: newSections,
             };
-            // Ensure that onComplete gets the updated quiz state
             setTimeout(() => {
                 onComplete(updatedQuiz);
             }, 0);
             return updatedQuiz;
         });
-        
         restartQuiz();
-    }
-    
+    };
 
     const isLastQuestionInSection = () => {
         return currentQuestionIndex >= quiz.sections[currentSectionIndex].items.length - 1;
@@ -118,66 +139,67 @@ export default function PerformQuiz({ quiz, onComplete }) {
     };
 
     return (
-        <div className="perform-quiz">            
+        <div className="perform-quiz">
             <h2>{quiz.title}</h2>
+            
             <h3 className="section-title">{quiz.sections[currentSectionIndex].title}</h3>
             <div className="question-section">
                 <h3>{quiz.sections[currentSectionIndex].items[currentQuestionIndex].question}</h3>
-                <input
-                    type="text"
-                    value={userAnswer}
-                    onChange={(e) => setUserAnswer(e.target.value)}
-                    ref={answerInputRef}
-                />
-                <button 
-                    onClick={handleSubmitAnswer} 
-                    disabled={!userAnswer.trim()}
-                    className={!userAnswer.trim() ? 'disabled' : ''}
-                >
-                    Submit
-                </button>
+                
+                {!showAnswer && (
+                    <div>
+                        <input
+                            type="text"
+                            value={userAnswer}
+                            onChange={(e) => setUserAnswer(e.target.value)}
+                            ref={answerInputRef}
+                        />
+                        <button
+                            onClick={handleSubmitAnswer}
+                            disabled={!userAnswer.trim()}
+                            className={!userAnswer.trim() ? 'disabled' : ''}
+                        >
+                        Submit
+                        </button>
+                    </div>
+                )}
                 {showAnswer && (
                     <div className="answer-section">
                         <p>Correct Answer: {quiz.sections[currentSectionIndex].items[currentQuestionIndex].answer}</p>
-                        <div className="radio-group">
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="correct"
-                                    onChange={() => handleMarkAnswer(true)}
-                                />
+                        <div className="button-group">
+                            <button
+                                onClick={() => handleMarkAnswer(true)}
+                                className={`mark-button ${isAnswerCorrect === true ? 'selected' : ''}`}
+                            >
                                 Correct
-                            </label>
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="correct"
-                                    onChange={() => handleMarkAnswer(false)}
-                                />
+                            </button>
+                            <button
+                                onClick={() => handleMarkAnswer(false)}
+                                className={`mark-button ${isAnswerCorrect === false ? 'selected' : ''}`}
+                            >
                                 Incorrect
-                            </label>
+                            </button>
                         </div>
                     </div>
                 )}
             </div>
             {!isLastQuestionInSection() ? (
-                <button 
-                    onClick={handleNextQuestion} 
+                <button
+                    onClick={handleNextQuestion}
                     disabled={!isMarked}
                     className={!isMarked ? 'disabled' : ''}
                 >
                     Next Question
                 </button>
-                ) : (
-                    <button 
-                    onClick={isLastSection() ? handleSubmitQuiz : handleNextSection} 
+            ) : (
+                <button
+                    onClick={isLastSection() ? handleSubmitQuiz : handleNextSection}
                     disabled={!isMarked}
                     className={!isMarked ? 'disabled' : ''}
                 >
-                    {isLastSection() ? "Quiz Completed" : "Next Section"}
+                    {isLastSection() ? "Submit Quiz" : "Next Section"}
                 </button>
-                
-                )}
+            )}
         </div>
     );
 }

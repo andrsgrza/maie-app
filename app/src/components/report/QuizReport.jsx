@@ -1,4 +1,5 @@
 import React from 'react';
+import { saveAs } from 'file-saver';
 import './quiz-report.css';
 
 const QuizReport = ({ completedQuiz }) => {
@@ -7,9 +8,11 @@ const QuizReport = ({ completedQuiz }) => {
     const correctAnswers = sections.reduce((total, section) => total + section.items.filter(item => item.isAnswerCorrect).length, 0);
     const incorrectAnswers = totalQuestions - correctAnswers;
 
+
     return (
-        <div className="quiz-report">
+        <div className="quiz-report">            
             <h2>{title} - Quiz Report</h2>
+            <p>{JSON.stringify(completedQuiz)}</p>
             <div className="overall-summary">
                 <h3>Overall Summary</h3>
                 <div className="quiz-summary">
@@ -54,9 +57,10 @@ const QuizReport = ({ completedQuiz }) => {
                         ))}
                     </ul>
                 </div>
-            ))}
+            ))}            
+            {/* <button className="basic-button" onClick={here is where it should happen</div>}>Save ReDo Quiz</button> */}
         </div>
     );
-};
+}
 
 export default QuizReport;
