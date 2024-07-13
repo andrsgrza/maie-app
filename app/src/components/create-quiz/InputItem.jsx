@@ -38,6 +38,7 @@ export default function InputItem({ item, addItem, onCancel, keepOpen, setKeepOp
     };
 
     const handleOnClick = () => {
+        console.log("handling on click")
         if (question && answer) {
             if(edit){
                 const id = item.id                
@@ -47,10 +48,9 @@ export default function InputItem({ item, addItem, onCancel, keepOpen, setKeepOp
                 addItem(item);
                 setQuestion('');
                 setAnswer('');
-                if (keepOpen && questionInputRef.current) {
+                if (keepOpen) {
                     questionInputRef.current.focus();
                 }
-                questionInputRef.current.focus();
             }            
         }
     };
@@ -67,6 +67,7 @@ export default function InputItem({ item, addItem, onCancel, keepOpen, setKeepOp
     return (
         <div className='input-item'>
             <h2>Enter the question and answer:</h2>
+            <p>{console.log("keep open",keepOpen)}</p>
             <form onSubmit={handleOnSubmit}>
                 <label>
                     Question:
@@ -97,7 +98,7 @@ export default function InputItem({ item, addItem, onCancel, keepOpen, setKeepOp
                         checked={keepOpen}
                         onChange={() => setKeepOpen(!keepOpen)}
                     />
-                    Keep form open after submission
+                    Auto-create next
                 </label>
                 )}
                 <button type="submit">Submit</button>

@@ -55,7 +55,7 @@ export default function Section({ section, updateSection, deleteSection, hasErro
     };
 
     const toggleAddItem = () => {
-        
+        console.log(items)
         setIsAddingItem(!isAddingItem);
     };
 
@@ -74,7 +74,7 @@ export default function Section({ section, updateSection, deleteSection, hasErro
 
     return (
         <div className={`section ${hasError ? 'section-error' : ''}`}>
-            <div className='section-header'>
+            <div className='section-header'>                
                 <div className='collapse-icon' onClick={toggleAddItem}>
                     {isCollapsed ? <i className="fas fa-chevron-down"></i> : <i className="fas fa-chevron-up"></i>}
                 </div>
@@ -107,6 +107,7 @@ export default function Section({ section, updateSection, deleteSection, hasErro
                         toggleAddItem={toggleAddItem}
                         handleEditModeToggle={handleEditModeToggle}
                         setKeepOpen={setKeepOpen}
+                        keepOpen={keepOpen}
                         hasSubmitted={showAddItemButton}
                     />
                     { !isAddingItem && (

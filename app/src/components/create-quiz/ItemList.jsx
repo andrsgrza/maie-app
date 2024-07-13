@@ -20,7 +20,7 @@ export default function ItemList({ items, deleteItem, isAddingItem, updateItem, 
                     />
                 ): (
                     <InputItem
-                        key={index}
+                        key={index+1}
                         index={index}
                         item={item}
                         addItem={addItem}
