@@ -1,17 +1,6 @@
-import React, { useState } from 'react';
-import InputItem from './InputItem';
+import React from 'react';
 
-export default function ItemBox({ item, index, deleteItem, updateItem, onEdit }) {
-    const [isEditing, setIsEditing] = useState(false);
-
-    const handleEditClick = () => {
-        setIsEditing(true);
-    };
-
-    const handleUpdateItem = (updatedItem) => {
-        updateItem(index, updatedItem);
-        setIsEditing(false);
-    };
+export default function ItemBox({ item, index, deleteItem, onEdit }) {    
 
     return (
         <div className='item-box'>

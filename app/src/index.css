@@ -49,21 +49,23 @@ body {
     margin-bottom: 10px;
 }
 
-.input-item input[type="text"] {
+.input-item textarea {
     width: calc(100% - 22px);
     padding: 10px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 1rem;
+    resize: none; /* Disable resizing */
+    font-family: 'Playfair Display', serif;
 }
 
-.input-item input[type="checkbox"] {
-    margin-right: 10px;
+.input-item textarea.error {
+    border: 1px solid rgb(0, 124, 62);
 }
 
 .input-item button {
-    background-color: black; 
+    background-color: black;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -94,7 +96,7 @@ body {
 
 /* Section component styles */
 .section {
-    background-color: white;
+    background-color: rgb(0, 0, 0);
     border: 1px solid #ddd; /* Light gray border */
     border-radius: 8px;
     padding: 20px;
@@ -102,7 +104,7 @@ body {
     max-width: 800px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     position: relative; /* For positioning the buttons */
-    padding-bottom: 60px; /* Add padding to make space for the button */
+    padding-bottom: 60px; /* Add padding to make space for the button */    
 }
 
 .section-error {
@@ -123,7 +125,7 @@ body {
 .section-header h2 {
     margin: 0;
     font-size: 1.5rem;
-    color: black;
+    color: white;
     cursor: pointer;
 }
 
@@ -132,6 +134,7 @@ body {
     border: none;
     border-bottom: 1px solid #ddd;
     padding: 5px;
+    width: fit-content;
 }
 
 .section-actions {
@@ -194,8 +197,8 @@ body {
 /* Add Item button styles */
 .add-item-button,
 .close-add-item-button {
-    background-color: black;
-    color: white;
+    background-color: rgb(255, 255, 255);
+    color: black;
     padding: 10px 20px;
     border: none;
     border-radius: 4px;
@@ -281,18 +284,19 @@ body {
 }
 
 .item-box {
-    background-color: #f0f2f5; /* Light gray for contrast */
+    background-color: #000000; /* Light gray for contrast */
     border: 1px solid #ccc; /* Light gray border */
     padding: 10px;
     border-radius: 4px;
     margin: 10px 0;
-    position: relative; /* For positioning the delete button */
+    position: relative; /* For positioning the delete button */    
 }
 
 .item-box .item-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    color: white;
 }
 
 .item-box .item-actions {
@@ -303,7 +307,7 @@ body {
 .item-box .delete-button {
     background: none;
     border: none;
-    color: black;
+    color: rgb(255, 255, 255);
     cursor: pointer;
     font-size: 1.2rem;
     transition: color 0.3s ease;
@@ -321,19 +325,19 @@ body {
 .item-box h2 {
     margin: 0;
     font-size: 1.25rem;
-    color: black;
+    color: rgb(255, 255, 255);
 }
 
 .item-box h3 {
     margin: 5px 0 0;
     font-size: 1rem;
-    color: black;
+    color: white;
 }
 
 .item-box p {
     margin: 5px 0 0;
     font-size: 1rem;
-    color: black;
+    color: white;
 }
 
 /* Responsive design */
@@ -344,7 +348,7 @@ body {
         padding: 15px;
     }
     
-    .input-item input[type="text"] {
+    .input-item textarea {
         width: calc(100% - 20px);
     }
     

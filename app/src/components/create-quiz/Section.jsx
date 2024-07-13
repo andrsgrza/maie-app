@@ -31,9 +31,12 @@ export default function Section({ section, updateSection, deleteSection, hasErro
     };
 
     const handleEditModeToggle = (index) => {
+        console.log("index", index)
+        console.log(items)
         const updatedItems = items.map((item, i) => 
             i === index ? { ...item, editMode: !item.editMode } : item
         );
+        console.log(updatedItems)
         setItems(updatedItems);
         updateSection({ ...section, items: updatedItems });
     }
@@ -106,7 +109,7 @@ export default function Section({ section, updateSection, deleteSection, hasErro
                         setKeepOpen={setKeepOpen}
                         hasSubmitted={showAddItemButton}
                     />
-                    {showAddItemButton && !isAddingItem && (
+                    { !isAddingItem && (
                         <button className='add-item-button' onClick={toggleAddItem}>Add Item</button>
                     )}                    
                 </>

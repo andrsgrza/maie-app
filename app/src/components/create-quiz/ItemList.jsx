@@ -6,7 +6,7 @@ export default function ItemList({ items, deleteItem, isAddingItem, updateItem, 
     if(items.length < 0) throw new Error()
     return (
         <div className='item-list'>
-            <h2>Items</h2>               
+            <h2>Items</h2>                      
             {items.map((item, index) => (
                 <>
                 { !item.editMode ? (

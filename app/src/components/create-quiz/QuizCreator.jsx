@@ -3,7 +3,7 @@ import SectionList from '../SectionList';
 import { saveAs } from 'file-saver';
 
 export default function QuizCreator() {
-    const [sections, setSections] = useState([{ title: 'Section 1', items: [{"question":"", "answer":"", "editMode":"true"}] }]);
+    const [sections, setSections] = useState([{ title: 'Section 1', items: [] }]);
     const [quizTitle, setQuizTitle] = useState('Quiz Title');
     const [saveMessage, setSaveMessage] = useState({ text: '', type: '' });
     const [highlightedSections, setHighlightedSections] = useState([]);
