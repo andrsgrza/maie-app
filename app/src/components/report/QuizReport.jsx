@@ -11,8 +11,7 @@ const QuizReport = ({ completedQuiz }) => {
 
     return (
         <div className="quiz-report">            
-            <h2>{title} - Quiz Report</h2>
-            <p>{JSON.stringify(completedQuiz)}</p>
+            <h2>{title} - Quiz Report</h2>            
             <div className="overall-summary">
                 <h3>Overall Summary</h3>
                 <div className="quiz-summary">

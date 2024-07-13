@@ -2,13 +2,22 @@ import React from 'react';
 import ItemBox from './ItemBox';
 import InputItem from './InputItem';
 
-export default function ItemList({ items, deleteItem, isAddingItem, updateItem, addItem, toggleAddItem, keepOpen, setKeepOpen, handleEditModeToggle, hasSubmitted }) {
-    if(items.length < 0) throw new Error()
+export default function ItemList({
+    items,
+    deleteItem,
+    isAddingItem,
+    updateItem,
+    addItem,
+    toggleAddItem,
+    keepOpen,
+    setKeepOpen,
+    handleEditModeToggle,
+    hasSubmitted}) {    
     return (
         <div className='item-list'>
             <h2>Items</h2>                      
             {items.map((item, index) => (
-                <>
+                <>                
                 { !item.editMode ? (
                     <ItemBox 
                         key={index}
@@ -36,7 +45,9 @@ export default function ItemList({ items, deleteItem, isAddingItem, updateItem, 
                 </>
                 ))}
                 {isAddingItem && (
+                    <>                    
                     <InputItem item={null} addItem={addItem} onCancel={toggleAddItem} updateItem={updateItem} keepOpen={keepOpen} setKeepOpen={setKeepOpen} first={false} edit={false}/>
+                    </>
                 )}                
         </div>
     );

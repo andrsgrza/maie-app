@@ -21,8 +21,7 @@ export default function InputItem({ item, addItem, onCancel, keepOpen, setKeepOp
         }
     };
 
-    const handleKeyDown = (event) => {
-        console.log(questionInputRef)
+    const handleKeyDown = (event) => {        
         if (event.key === 'Enter' && !event.shiftKey) {
             event.preventDefault();            
             if(questionInputRef.current.value === ''){                
@@ -38,14 +37,20 @@ export default function InputItem({ item, addItem, onCancel, keepOpen, setKeepOp
     };
 
     const handleOnClick = () => {
-        console.log("handling on click")
+
+
+
+        const check =question && answer ? "YES" : "NO";
         if (question && answer) {
+
+
             if(edit){
                 const id = item.id                
                 updateItem({question, answer}, index) 
             }else{                
-                item = { question, answer};                
+                item = { question, answer, "editMode": false};                
                 addItem(item);
+
                 setQuestion('');
                 setAnswer('');
                 if (keepOpen) {
@@ -66,8 +71,7 @@ export default function InputItem({ item, addItem, onCancel, keepOpen, setKeepOp
 
     return (
         <div className='input-item'>
-            <h2>Enter the question and answer:</h2>
-            <p>{console.log("keep open",keepOpen)}</p>
+            <h2>Enter the question and answer:</h2>            
             <form onSubmit={handleOnSubmit}>
                 <label>
                     Question:

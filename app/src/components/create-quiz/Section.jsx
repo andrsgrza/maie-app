@@ -15,11 +15,17 @@ export default function Section({ section, updateSection, deleteSection, hasErro
 
     const addItem = (item) => {        
         const newItems = [...items, item];
+        const updatedItems = newItems.map(existingItem => {            
+            return { ...existingItem, newElement: 'value' };
+        });
+
         setItems(newItems);
-        updateSection({ ...section, items: newItems });
+
+        updateSection({ ...section, items: newItems });        
         if (!keepOpen) {
             setIsAddingItem(false);
         }
+
     };
 
     const updateItem = (updatedItem, index) => {
@@ -30,13 +36,11 @@ export default function Section({ section, updateSection, deleteSection, hasErro
 
     };
 
-    const handleEditModeToggle = (index) => {
-        console.log("index", index)
-        console.log(items)
+    const handleEditModeToggle = (index) => {                
         const updatedItems = items.map((item, i) => 
             i === index ? { ...item, editMode: !item.editMode } : item
         );
-        console.log(updatedItems)
+
         setItems(updatedItems);
         updateSection({ ...section, items: updatedItems });
     }
@@ -54,8 +58,7 @@ export default function Section({ section, updateSection, deleteSection, hasErro
         setIsCollapsed(!isCollapsed);
     };
 
-    const toggleAddItem = () => {
-        console.log(items)
+    const toggleAddItem = () => {        
         setIsAddingItem(!isAddingItem);
     };
 
@@ -67,10 +70,6 @@ export default function Section({ section, updateSection, deleteSection, hasErro
         setIsEditingTitle(false);
         updateSection({ ...section, title: sectionTitle });
     };
-    
-    const handleSaveItems = () => {
-        setItems()
-    }
 
     return (
         <div className={`section ${hasError ? 'section-error' : ''}`}>
