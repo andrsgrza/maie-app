@@ -17,9 +17,18 @@ export default function PerformQuiz({ quiz, onComplete }) {
             answerInputRef.current.focus();
         }
     }, [currentQuestionIndex, currentSectionIndex]);
+   
+    const handleKeyDown = (event) => {        
+        if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault(); // Prevent default behavior
+            // Call your function to handle the Enter key press
+            console.log("achieved");
+            handleSubmitAnswer();
+        }
+    };
 
     useEffect(() => {
-        const handleKeyDown = (event) => {
+        const handleGlobalKeyDown = (event) => {            
             if (showAnswer) {
                 if (event.key === 'ArrowLeft' || event.key.toLowerCase() === 'c') {
                     handleMarkAnswer(true);
@@ -27,7 +36,7 @@ export default function PerformQuiz({ quiz, onComplete }) {
                     handleMarkAnswer(false);
                 }
             }
-            if (event.key === 'Enter') {
+            if (event.key === 'Enter' && !event.shiftKey) {
                 if(isMarked){
                     if(isLastQuestionInSection()){
                         if(isLastSection()){
@@ -44,9 +53,9 @@ export default function PerformQuiz({ quiz, onComplete }) {
             } 
 
         }
-        window.addEventListener('keydown', handleKeyDown);
+        window.addEventListener('keydown', handleGlobalKeyDown);
         return () => {
-            window.removeEventListener('keydown', handleKeyDown);
+            window.removeEventListener('keydown', handleGlobalKeyDown);
         };
     }, [showAnswer, userAnswer, isMarked]);
 
@@ -60,7 +69,6 @@ export default function PerformQuiz({ quiz, onComplete }) {
     };
 
     const handleNextQuestion = () => {
-        //const userAnswer = answerInputRef.current.value;
         setCompletedQuiz((prev) => {
             const newSections = [...prev.sections];
             newSections[currentSectionIndex].items[currentQuestionIndex] = {
@@ -145,15 +153,16 @@ export default function PerformQuiz({ quiz, onComplete }) {
             <h3 className="section-title">{quiz.sections[currentSectionIndex].title}</h3>
             <div className="question-section">
                 <h3>{quiz.sections[currentSectionIndex].items[currentQuestionIndex].question}</h3>
-                
+                <textarea
+                    name="answer-input"
+                    placeholder="Write here your answer"
+                    value={userAnswer}
+                    onChange={(e) => setUserAnswer(e.target.value)}
+                    onKeyDown={handleKeyDown} // Add this line
+                    ref={answerInputRef}
+                />
                 {!showAnswer && (
                     <div>
-                        <input
-                            type="text"
-                            value={userAnswer}
-                            onChange={(e) => setUserAnswer(e.target.value)}
-                            ref={answerInputRef}
-                        />
                         <button
                             onClick={handleSubmitAnswer}
                             disabled={!userAnswer.trim()}

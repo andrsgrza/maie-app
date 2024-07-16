@@ -35,8 +35,8 @@
 
 /* Style for redo items */
 .quiz-item.redo {
-    background-color: #fff0f0; /* Adjust based on your app's color scheme */
-    border-color: #ff0000;
+    background-color: #dacdcd; /* Adjust based on your app's color scheme */
+    border: 1px solid #ddd;
 }
 
 /* Style for selected redo items */

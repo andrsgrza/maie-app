@@ -60,6 +60,12 @@ body {
     font-family: 'Playfair Display', serif;
 }
 
+.input-item textarea:focus {
+    outline: none;
+    border-color: #007BFF; /* Change to your preferred focus border color */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add a subtle shadow if desired */
+}
+
 .input-item textarea.error {
     border: 1px solid rgb(0, 124, 62);
 }
