@@ -17,9 +17,26 @@ export default function PerformQuiz({ quiz, onComplete }) {
             answerInputRef.current.focus();
         }
     }, [currentQuestionIndex, currentSectionIndex]);
+   
+    const handleKeyDown = (event) => {        
+        console.log("TOP",event)
+        console.log("top event in instance of OF OBJECT", event instanceof(Object))
+        if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault(); // Prevent default behavior
+            const answer = answerInputRef.current.value.trim(); // Trim to handle spaces
+            console.log("VALUE", answer ? "not undefined" : "is undefined", answerInputRef.current);
+            if (userAnswer.trim() !== '') {
+                handleSubmitAnswer();
+            } else {
+                console.log("Textarea is empty, not submitting answer.");
+            }
+        }
+    };
+    
 
     useEffect(() => {
-        const handleKeyDown = (event) => {
+        const handleGlobalKeyDown = (event) => {       
+            console.log("global",event)     
             if (showAnswer) {
                 if (event.key === 'ArrowLeft' || event.key.toLowerCase() === 'c') {
                     handleMarkAnswer(true);
@@ -27,8 +44,11 @@ export default function PerformQuiz({ quiz, onComplete }) {
                     handleMarkAnswer(false);
                 }
             }
-            if (event.key === 'Enter') {
+            console.log("global event is isntaine opf OF OBJECT", event instanceof(Object))
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault(); // Prevent default behavior
                 if(isMarked){
+                    console.log("MARKESD")
                     if(isLastQuestionInSection()){
                         if(isLastSection()){
                             handleSubmitQuiz();
@@ -38,15 +58,16 @@ export default function PerformQuiz({ quiz, onComplete }) {
                     }else{
                         handleNextQuestion();
                     }                
-                } else{
+                } else if(userAnswer.trim() !== ''){
+                    console.log("ANSWER",userAnswer.trim());
                     handleSubmitAnswer(); 
                 } 
             } 
 
         }
-        window.addEventListener('keydown', handleKeyDown);
+        window.addEventListener('keydown', handleGlobalKeyDown);
         return () => {
-            window.removeEventListener('keydown', handleKeyDown);
+            window.removeEventListener('keydown', handleGlobalKeyDown);
         };
     }, [showAnswer, userAnswer, isMarked]);
 
@@ -60,7 +81,6 @@ export default function PerformQuiz({ quiz, onComplete }) {
     };
 
     const handleNextQuestion = () => {
-        //const userAnswer = answerInputRef.current.value;
         setCompletedQuiz((prev) => {
             const newSections = [...prev.sections];
             newSections[currentSectionIndex].items[currentQuestionIndex] = {
@@ -101,7 +121,8 @@ export default function PerformQuiz({ quiz, onComplete }) {
         setIsMarked(false);
     };
 
-    const handleSubmitAnswer = () => {        
+    const handleSubmitAnswer = () => { 
+        console.log("Submitting")       
         setShowAnswer(true);        
     };
 
@@ -145,27 +166,29 @@ export default function PerformQuiz({ quiz, onComplete }) {
             <h3 className="section-title">{quiz.sections[currentSectionIndex].title}</h3>
             <div className="question-section">
                 <h3>{quiz.sections[currentSectionIndex].items[currentQuestionIndex].question}</h3>
-                
+                <textarea
+                    name="answer-input"
+                    placeholder="Write here your answer"
+                    value={userAnswer}
+                    onChange={(e) => setUserAnswer(e.target.value)}
+                    onKeyDown={handleKeyDown} // Add this line
+                    ref={answerInputRef}
+                    disabled={showAnswer}
+                />
                 {!showAnswer && (
-                    <div>
-                        <input
-                            type="text"
-                            value={userAnswer}
-                            onChange={(e) => setUserAnswer(e.target.value)}
-                            ref={answerInputRef}
-                        />
+                    <div>                        
                         <button
                             onClick={handleSubmitAnswer}
                             disabled={!userAnswer.trim()}
                             className={!userAnswer.trim() ? 'disabled' : ''}
                         >
                         Submit
-                        </button>
+                        </button>                        
                     </div>
                 )}
                 {showAnswer && (
                     <div className="answer-section">
-                        <p>Correct Answer: {quiz.sections[currentSectionIndex].items[currentQuestionIndex].answer}</p>
+                        <h4>Correct Answer:<br></br><br></br>{quiz.sections[currentSectionIndex].items[currentQuestionIndex].answer}</h4>
                         <div className="button-group">
                             <button
                                 onClick={() => handleMarkAnswer(true)}

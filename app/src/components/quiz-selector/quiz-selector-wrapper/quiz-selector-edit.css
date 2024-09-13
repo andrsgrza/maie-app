@@ -1,0 +1,156 @@
+/* Wrapper for the add quiz button */
+.add-quiz-wrapper {
+    position: relative;
+}
+
+/* The Add Quiz button */
+.add-quiz-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #000000;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 50%;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: 24px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+}
+
+.add-quiz-button:hover {
+    background-color: #0056b3;
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+    display: block;
+    position: fixed;
+    bottom: 80px; /* Adjust based on button position */
+    right: 50px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 2000;
+    width: 180px;
+    background-color: lightgray;
+    border: 2px solid rgb(255, 255, 255);
+    box-sizing: border-box;
+    padding: 0;
+}
+
+/* Individual dropdown items */
+.dropdown-item {
+    padding: 10px;
+    color: #000;
+    text-align: left;
+    cursor: pointer;
+    display: block; /* Set to block to take full width of the parent */
+    background-color: white;
+    border-bottom: 1px solid #ddd; /* Creates the dividing line */
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: 'YourAppFont', sans-serif;
+    font-size: 18px; /* Set a default font-size */
+    margin: 0;
+    line-height: 1;
+}
+
+/* Remove border from the last dropdown item */
+.dropdown-item:last-child {
+    border-bottom: none;
+}
+
+/* Hover effect for both Link and button */
+.dropdown-item:hover,
+.dropdown-item a:hover,
+.dropdown-item button:hover {
+    background-color: #aa3939;
+    color: white; /* Apply color change */
+    text-decoration: none; /* Ensure no underline on hover for links */
+}
+
+/* Button styled to behave like a link */
+.dropdown-item button {
+    background: none;
+    border: none;
+    color: #000;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    padding: 10px;
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+
+/* Modal Styles */
+.modal {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Transparent background */
+    z-index: 1000;
+}
+
+.modal-content {
+    position: fixed;
+    background-color: white;
+    width: 600px; /* Increased width */
+    max-width: 90%;
+    padding: 20px;
+    border-radius: 8px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modal-content h3 {
+    margin-top: 0;
+}
+
+.modal-content textarea {
+    width: 97%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: none; /* Prevent textarea from being resizable */
+    font-family: 'Arial', sans-serif; /* Ensure consistent font */
+}
+
+.modal-content input[type="file"] {
+    display: block;
+    margin-bottom: 15px;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    color: black;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.submit-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.submit-button:hover {
+    background-color: #0056b3;
+}

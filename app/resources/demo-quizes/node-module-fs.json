@@ -1,0 +1,104 @@
+{
+  "title": "Node module - fs",
+  "quizid": 2,
+  "metadata": {
+    "author": "agarza",
+    "description": "This is another demo quiz",
+    "lastPerformed": "2024-06-15"
+  },
+  "sections": [
+    {
+      "title": "Setting up fs",
+      "items": [
+        {
+          "question": "What is the fs module?",
+          "answer": "The fs (File System) module, in Node.js allows you to interact with the file system on your server. It provides a wide range of functions to create, read, write, delete, and manupualte files and directories.",
+          "editMode": false
+        },
+        {
+          "question": "What do you need to use fs?",
+          "answer": "A directory fro my project, and using require() function to import the module to the project: const fs = require('fs');"
+        }
+      ]
+    },
+    {
+      "title": "Basic File Operations",
+      "items": [
+        {
+          "question": "Which are the methods for reading files?",
+          "answer": "fs.readFile() for asynchronous reading. and fs.readFileSync() for synchronous reading",
+          "editMode": false
+        },
+        {
+          "question": "Explain the asynchronous read operation.",
+          "answer": "Allow your application to read a file without blocking the event loop. This means that while the file is being read, the Node.js process can continue executing other tasks. The file reading operation will call the callback funciton once it completes either with the file data or and error:const fs = require('fs');  fs.readFile('example.txt', 'utf8', (err, data) => {   if (err) {     console.error(err); // Log the error if one occurs     return; // Exit the function   }   console.log(data); // Log the file content if no error occurs });"
+        },
+        {
+          "question": "Which are the parameters of fs.readFile()?",
+          "answer": "(<Name of the file you want to read>, <Encoding to use for reading the file>, callback funciton that gets executed agter the file is read, which has access to err and data)"
+        },
+        {
+          "question": "Explain the synchronoys read operation.",
+          "answer": "Blocks the Node.js event loop until the file read operation is complete. This means that no other code will execute until the file is completely read. While this can be simpler to implement, it can negatively impact the porformance of your application, espacially for large files or when reading multople files."
+        },
+        {
+          "question": "Explain the parameters of fs.readFileSync()",
+          "answer": "(<name of the file you want to read>,<Encoding to use for reagin the file>)"
+        },
+        {
+          "question": "Which are the methods to append data to a file?",
+          "answer": "fs.appendFile for asynchronous and fs. appendFileSync() for syncronous"
+        },
+        {
+          "question": "Which are the methods for deleting files?",
+          "answer": "fs.unlink() for asynchronous and fs.unlinkSync for synchronous"
+        }
+      ]
+    },
+    {
+      "title": "Directory Operations",
+      "items": [
+        {
+          "question": "Which are the functions to create directories?",
+          "answer": "fs.mkdir for asynchronous and fs.mkdirSync for scynchronous",
+          "editMode": false
+        },
+        {
+          "question": "Which are the parameters for mkdir()?",
+          "answer": "(<directory name>,<options>, <callback function executed once the directory createion is completed >)"
+        },
+        {
+          "question": "Which are the methods for reading a directroy? What does these methods return?",
+          "answer": "readdir() for asynchronous and readdirSync for synchronous. Theryu return an array of the names of the files in the directroy, expliding . and .."
+        },
+        {
+          "question": "Which is the syntax of fs.readdir?",
+          "answer": "fs.readdir(path, options, callback); Where path is the directory path to read, options are the optional parameters that can specify the encoding and the withFileTyles flac, callback is a funciton that is called with the results.",
+          "editMode": false
+        },
+        {
+          "question": "Which are the functions to delete a directory?",
+          "answer": "fs.rmdir for asynchonous and fs.rmdirSync for synchronous"
+        },
+        {
+          "question": "Which are the methods for removing non-empty directorues?",
+          "answer": "fs.rm() or fs..rmSyn with the { recursive: true } option"
+        }
+      ]
+    },
+    {
+      "title": "Watching for File Changes",
+      "items": [
+        {
+          "question": "How can you watch for changes in a file or directory?",
+          "answer": "How can you watch for changes in a file or directory?",
+          "editMode": false
+        },
+        {
+          "question": "Provide fs.watch() syntax",
+          "answer": "fs.watch(filename, [options], listener)"
+        }
+      ]
+    }
+  ]
+}

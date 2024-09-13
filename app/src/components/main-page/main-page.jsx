@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import QuizCreator from '../create-quiz/QuizCreator';
 import QuizPerformer from '../perform-quiz/QuizPerformer';
 import './main-page.css';
-import logo from '../../../resources/logo.jpeg'; // Correctly import the image
+import QuizSelectorEdit from '../quiz-selector/quiz-selector-wrapper/QuizSelectorEdit';
 
 export default function MainPage() {
     const [isMenuOpen, setIsMenuOpen] = useState(true);
@@ -15,27 +15,26 @@ export default function MainPage() {
     return (
         <Router>
             <div className="main-page">
+                
+                <div className={`left-menu ${isMenuOpen ? 'open' : 'collapsed'}`}>
+                    <nav>
+                        <ul>
+                            <li><Link to="/my-quizzes">My Trainings</Link></li>
+                            <li><Link to="/perform-quiz">Arena</Link></li>                            
+                        </ul>
+                    </nav>
+                </div>
                 <button 
                     onClick={toggleMenu} 
                     className={`menu-toggle ${isMenuOpen ? 'menu-open' : 'menu-collapsed'}`}
                 >
                     {isMenuOpen ? '✕' : '☰'}
                 </button>
-                <div className={`left-menu ${isMenuOpen ? 'open' : 'collapsed'}`}>
-                    <div className="logo-container">
-                        <img src={logo} alt="Logo" className="logo" />
-                    </div>
-                    <nav>
-                        <ul>
-                            <li><Link to="/perform-quiz">Perform Quiz</Link></li>
-                            <li><Link to="/create-quiz">Create Quiz</Link></li>                        
-                        </ul>
-                    </nav>
-                </div>
                 <div className="content">
                     <Routes>
                         <Route path="/create-quiz" element={<QuizCreator />} />
-                        <Route path="/perform-quiz" element={<QuizPerformer />} />
+                        <Route path="/perform-quiz" element={<QuizPerformer/>} />
+                        <Route path="/my-quizzes" element={<QuizSelectorEdit />} />
                         <Route path="/" element={() => <div>Dashboard</div>} />
                     </Routes>
                 </div>

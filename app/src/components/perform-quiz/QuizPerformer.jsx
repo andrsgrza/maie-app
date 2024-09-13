@@ -1,24 +1,14 @@
-import React, { useState } from 'react';
-import QuizSelector from './QuizSelector';
+import React, { useState, useEffect } from 'react';
+import QuizSelectorPerform from '../quiz-selector/quiz-selector-wrapper/QuizSelectorPerform';
 import PerformQuiz from './PerformQuiz';
 import './quiz-performer.css';
 import QuizReport from '../report/QuizReport';
-import quiz4 from '../../../resources/demo-quizes/single-question-multiple-sections.json';
-import quiz3 from '../../../resources/demo-quizes/single-question-single-section.json';
-import quiz1 from '../../../resources/demo-quizes/quiz_title.json';
-import quiz2 from '../../../resources/demo-quizes/quiz.json'; 
-import quiz5 from '../../../resources/demo-quizes/control.json'; 
 
 export default function QuizPerformer() {
     const [selectedQuizzes, setSelectedQuizzes] = useState([]); 
     const [completedQuizzes, setCompletedQuizzes] = useState([]); 
     const [currentQuizIndex, setCurrentQuizIndex] = useState(0); 
     const [allQuizzesCompleted, setAllQuizzesCompleted] = useState(false);
-
-    const loadQuizzes = () => {
-        return [quiz1, quiz2, quiz3, quiz4, quiz5];
-    }
-    const quizzes = loadQuizzes();
 
     const handleQuizzesSelected = (quizzes) => {        
         setSelectedQuizzes(quizzes);
@@ -47,10 +37,12 @@ export default function QuizPerformer() {
     }
     
     return (
-        <div className="quiz-performer centered-container">
+        <div className="quiz-performer centered-container">            
             {selectedQuizzes.length === 0 && (
                 <div className="quiz-selector">
-                    <QuizSelector quizzes={quizzes} onSelected={handleQuizzesSelected} />
+                    <QuizSelectorPerform
+                        onSelected={handleQuizzesSelected}
+                    />
                 </div>
             )}            
             {selectedQuizzes.length > 0 && currentQuizIndex < selectedQuizzes.length && (

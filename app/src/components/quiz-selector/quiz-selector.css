@@ -1,0 +1,37 @@
+.quiz-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    font-family: 'YourAppFont', sans-serif;
+    color: #333; /* Adjust based on your app's color scheme */
+}
+button:disabled {
+    background-color: grey;
+    cursor: not-allowed;
+}
+/* Style for the Add Quiz button */
+.add-quiz-button {
+    position: fixed; /* Fix the button in the bottom right corner */
+    bottom: 20px;
+    right: 20px;
+    background-color: #000000; /* Blue color */
+    color: white;
+    padding: 15px 20px;
+    border-radius: 50%;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+    font-size: 24px; /* Large plus icon */
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+}
+
+.add-quiz-button:hover {
+    background-color: #31373d; /* Darker blue on hover */
+}
+
+.add-quiz-button i {
+    margin: 0; /* Adjust the icon spacing */
+    display: inline-block;
+    vertical-align: middle;
+}

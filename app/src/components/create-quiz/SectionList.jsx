@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Section from './create-quiz/Section';
+import Section from './Section';
 
-export default function SectionList({ sections, updateSection, deleteSection, addSection, quizTitle, setQuizTitle, highlightedSections }) {
+export default function SectionList({ sections, updateSection, deleteSection, addSection, quizTitle, setQuizTitle, highlightedSections, edit }) {
     const [isEditingQuizTitle, setIsEditingQuizTitle] = useState(false);
 
     const handleQuizTitleChange = (event) => {
@@ -28,6 +28,7 @@ export default function SectionList({ sections, updateSection, deleteSection, ad
                 <h1 onClick={() => setIsEditingQuizTitle(true)} className='quiz-title'>{quizTitle}</h1>
             )}
             {sections.map((section, index) => (
+                
                 <Section
                     key={index}
                     section={section}
@@ -35,6 +36,7 @@ export default function SectionList({ sections, updateSection, deleteSection, ad
                     deleteSection={() => deleteSection(index)}
                     hasError={highlightedSections.includes(index)}
                     isFirstSection={index === 0}
+                    edit={edit}
                 />
             ))}
             <button className='add-section-button' onClick={addSection}>Add Section</button>

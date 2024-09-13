@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import ItemBox from './ItemBox';
 import InputItem from './InputItem';
 
@@ -12,10 +12,10 @@ export default function ItemList({
     keepOpen,
     setKeepOpen,
     handleEditModeToggle,
-    hasSubmitted}) {    
+    hasSubmitted}) {  
     return (
         <div className='item-list'>
-            <h2>Items</h2>                      
+            <h2>Items</h2>                  
             {items.map((item, index) => (
                 <>                
                 { !item.editMode ? (

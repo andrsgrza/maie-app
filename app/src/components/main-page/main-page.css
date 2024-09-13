@@ -7,6 +7,7 @@ body {
 .main-page {
     display: flex;
     height: 100vh;
+    background-color: white;
 }
 
 .left-menu {
@@ -21,6 +22,7 @@ body {
     padding-top: 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     position: relative;
+    font-family: 'YourAppFont', sans-serif;
 }
 
 .left-menu.collapsed {
@@ -37,18 +39,18 @@ body {
     text-align: center;
     z-index: 1000; /* Ensure the button is always on top */
     transition: color 0.3s;
+    height: fit-content;
 }
 
 .menu-toggle.menu-open {
-    position: absolute;
-    top: 20px;
-    right: 20px;
+    position: relative;
+    right: auto;
+    color: black;
 }
 
 .menu-toggle.menu-collapsed {
-    position: fixed;
-    top: 20px;
-    left: 20px;
+    position: relative;
+
     color: black; /* Color when the menu is collapsed */
 }
 
@@ -61,15 +63,19 @@ body {
     max-width: 100%;
 }
 
+.left-menu nav {
+    width: 100%;
+}
+
 .left-menu nav ul {
     list-style: none;
     padding: 0;
     width: 100%;
-    text-align: center;
+    text-align: left;
 }
 
 .left-menu nav ul li {
-    margin: 20px 0;
+    margin: 2px 0;
 }
 
 .left-menu nav ul li a {

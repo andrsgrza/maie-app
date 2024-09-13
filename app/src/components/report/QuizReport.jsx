@@ -1,12 +1,19 @@
-import React from 'react';
-import { saveAs } from 'file-saver';
+import React, {useState} from 'react';
 import './quiz-report.css';
+import { cleanQuizData } from'/app/src/utils/quizUtils.js'
 
 const QuizReport = ({ completedQuiz }) => {
     const { title, sections } = completedQuiz;
     const totalQuestions = sections.reduce((total, section) => total + section.items.length, 0);
     const correctAnswers = sections.reduce((total, section) => total + section.items.filter(item => item.isAnswerCorrect).length, 0);
     const incorrectAnswers = totalQuestions - correctAnswers;
+
+    const [activated, setActivated] = useState(false);
+    const handleSaveRedoQuiz = () => {
+        const redoQuiz = cleanQuizData(completedQuiz);
+        console.log(redoQuiz);
+        setActivated(true);
+    }
 
 
     return (
@@ -57,7 +64,12 @@ const QuizReport = ({ completedQuiz }) => {
                     </ul>
                 </div>
             ))}            
-            {/* <button className="basic-button" onClick={here is where it should happen</div>}>Save ReDo Quiz</button> */}
+            <button className="basic-button" onClick={handleSaveRedoQuiz}>Save ReDo Quiz</button>
+            {activated && (
+                <p>
+                    <pre>{JSON.stringify(completedQuiz, null, 2)}</pre>
+                </p>
+            )}
         </div>
     );
 }
