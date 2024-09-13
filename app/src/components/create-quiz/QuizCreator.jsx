@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SectionList from './SectionList';
-import { saveAs } from 'file-saver';
+import { BackButton } from '../../common/BackButton';
 import { postQuiz } from '../../quiz-client';
 import { useLocation } from 'react-router-dom';
 
@@ -94,6 +94,7 @@ export default function QuizCreator() {
                         {saveMessage.text}
                     </p>
                 )}
+                <BackButton />
                 <button 
                     className='save-quiz-button' 
                     onClick={saveQuiz}

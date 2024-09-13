@@ -21,7 +21,7 @@ const QuizItem = ({ quiz, isSelected, onSelect, redo, onDelete, editable, select
             <h3>{quiz.title}</h3>
             <p>Author: {quiz.metadata.author}</p>
             <p>{quiz.metadata.description}</p>
-            <p>Days since last performance: {calculateDaysSinceLastPerformance(quiz.metadata.lastPerformed)}</p>
+            <p>Performed {calculateDaysSinceLastPerformance(quiz.metadata.lastPerformed)} days ago</p>
           </>
         ) : (
           <>
