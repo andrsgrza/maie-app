@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import QuizSelectorPerform from '../quiz-selector/quiz-selector-wrapper/QuizSelectorPerform';
 import PerformQuiz from './PerformQuiz';
-import './quiz-performer.css';
 import QuizReport from '../report/QuizReport';
+import './quiz-performer.css';
 
 export default function QuizPerformer() {
     const [selectedQuizzes, setSelectedQuizzes] = useState([]); 
@@ -70,7 +70,7 @@ export default function QuizPerformer() {
                 <div>
                     <button className="basic-button" onClick={handleRefreshArena}>Go to Arena</button>
                 </div>
-            )}                        
-        </div>
+            )}                             
+        </div>  
     );
 }
