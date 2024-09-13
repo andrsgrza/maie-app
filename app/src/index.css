@@ -102,7 +102,7 @@ body {
 
 /* Section component styles */
 .section {
-    background-color: rgb(0, 0, 0);
+    background-color: #f9f9f9;
     border: 1px solid #ddd; /* Light gray border */
     border-radius: 8px;
     padding: 20px;
@@ -131,7 +131,7 @@ body {
 .section-header h2 {
     margin: 0;
     font-size: 1.5rem;
-    color: white;
+    color: rgb(0, 0, 0);
     cursor: pointer;
 }
 
@@ -203,8 +203,8 @@ body {
 /* Add Item button styles */
 .add-item-button,
 .close-add-item-button {
-    background-color: rgb(255, 255, 255);
-    color: black;
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
     padding: 10px 20px;
     border: none;
     border-radius: 4px;
@@ -290,7 +290,7 @@ body {
 }
 
 .item-box {
-    background-color: #000000; /* Light gray for contrast */
+    background-color: #f9f9f9; /* Light gray for contrast */
     border: 1px solid #ccc; /* Light gray border */
     padding: 10px;
     border-radius: 4px;
@@ -313,7 +313,7 @@ body {
 .item-box .delete-button {
     background: none;
     border: none;
-    color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
     cursor: pointer;
     font-size: 1.2rem;
     transition: color 0.3s ease;
@@ -331,19 +331,19 @@ body {
 .item-box h2 {
     margin: 0;
     font-size: 1.25rem;
-    color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
 }
 
 .item-box h3 {
     margin: 5px 0 0;
     font-size: 1rem;
-    color: white;
+    color: rgb(0, 0, 0);
 }
 
 .item-box p {
     margin: 5px 0 0;
     font-size: 1rem;
-    color: white;
+    color: rgb(0, 0, 0);
 }
 
 /* Responsive design */

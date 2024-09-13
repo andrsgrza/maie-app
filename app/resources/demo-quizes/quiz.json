@@ -3,8 +3,8 @@
   "quiz-id": "2",
   "metadata": {
     "author": "agarza",
-    "description":"This is another demo quiz",
-    "lastPerformed":"2024-06-15"
+    "description": "This is another demo quiz",
+    "lastPerformed": "2024-06-15"
   },
   "sections": [
     {
@@ -12,7 +12,8 @@
       "items": [
         {
           "question": "Which is the no se que",
-          "answer": "que pasa"
+          "answer": "que pasa",
+          "isAnswerCorrect": true
         }
       ]
     },
@@ -21,9 +22,9 @@
       "items": [
         {
           "question": "asdfasdf",
-          "answer": "go"
+          "answer": "go",
+          "isAnswerCorrect": true
         }
-
       ]
     }
   ]

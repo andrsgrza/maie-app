@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import InputItem from './InputItem';
 import ItemList from './ItemList';
 import Item from './item.js'
 
-export default function Section({ section, updateSection, deleteSection, hasError, isFirstSection }) {
+export default function Section({ section, updateSection, deleteSection, hasError, isFirstSection, edit }) {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [sectionTitle, setSectionTitle] = useState(section.title);
@@ -12,6 +12,15 @@ export default function Section({ section, updateSection, deleteSection, hasErro
     const [items, setItems] = useState(section.items || []);
 
     const [showAddItemButton,setShowAddItemButton] = useState(false)
+
+    useEffect(() => {
+        console.log("section.items",section.items)
+        if(edit){
+            setIsAddingItem(section.items.length === 0);
+            setSectionTitle(section.title);
+            setItems(section.items);
+        }
+    }, [section.items, edit]);
 
     const addItem = (item) => {        
         const newItems = [...items, item];
@@ -73,7 +82,7 @@ export default function Section({ section, updateSection, deleteSection, hasErro
 
     return (
         <div className={`section ${hasError ? 'section-error' : ''}`}>
-            <div className='section-header'>                
+            <div className='section-header'> 
                 <div className='collapse-icon' onClick={toggleAddItem}>
                     {isCollapsed ? <i className="fas fa-chevron-down"></i> : <i className="fas fa-chevron-up"></i>}
                 </div>

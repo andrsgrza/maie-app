@@ -1,6 +1,5 @@
 {
     "title": "Control Theory - Closed Loop Control and System Analysis",
-    "quiz-id": "5",
     "metadata": {
       "author": "Your Name",
       "description": "A comprehensive quiz covering key concepts in closed-loop control systems and analysis of control systems.",
@@ -12,18 +11,15 @@
         "items": [
           {
             "question": "What is the primary difference between open-loop and closed-loop control systems?",
-            "answer": "Closed-loop control systems use feedback to compare the actual output with the desired output, while open-loop systems do not.",
-            "isAnswerCorrect": false
+            "answer": "Closed-loop control systems use feedback to compare the actual output with the desired output, while open-loop systems do not."
           },
           {
             "question": "In a closed-loop control system, what is the role of the feedback signal?",
-            "answer": "The feedback signal is used to adjust the control input to achieve the desired output.",
-            "isAnswerCorrect": true
+            "answer": "The feedback signal is used to adjust the control input to achieve the desired output."
           },
           {
             "question": "Which of the following is an advantage of closed-loop control systems?",
-            "answer": "Increased accuracy and ability to correct disturbances and changes in system parameters.",
-            "isAnswerCorrect": false
+            "answer": "Increased accuracy and ability to correct disturbances and changes in system parameters."
           }
         ]
       },
@@ -32,28 +28,23 @@
         "items": [
           {
             "question": "What is the transfer function of a control system?",
-            "answer": "The transfer function is a mathematical representation that defines the output response of a system to an input signal in the Laplace transform domain.",
-            "isAnswerCorrect": false
+            "answer": "The transfer function is a mathematical representation that defines the output response of a system to an input signal in the Laplace transform domain."
           },
           {
             "question": "Why is stability important in control systems?",
-            "answer": "Stability ensures that the system will return to its equilibrium state after a disturbance.",
-            "isAnswerCorrect": true
+            "answer": "Stability ensures that the system will return to its equilibrium state after a disturbance."
           },
           {
             "question": "What is the purpose of a Bode plot in control system analysis?",
-            "answer": "A Bode plot is used to analyze the frequency response of a control system and assess its stability and performance.",
-            "isAnswerCorrect": true
+            "answer": "A Bode plot is used to analyze the frequency response of a control system and assess its stability and performance."
           },
           {
             "question": "Define the term 'Gain Margin' in the context of control systems.",
-            "answer": "Gain margin is the amount by which the system gain can be increased before it becomes unstable.",
-            "isAnswerCorrect": true
+            "answer": "Gain margin is the amount by which the system gain can be increased before it becomes unstable."
           },
           {
             "question": "What is the Nyquist criterion used for?",
-            "answer": "The Nyquist criterion is used to determine the stability of a control system by analyzing the frequency response plot.",
-            "isAnswerCorrect": false
+            "answer": "The Nyquist criterion is used to determine the stability of a control system by analyzing the frequency response plot."            
           }
         ]
       },
@@ -62,18 +53,15 @@
         "items": [
           {
             "question": "How can PID controllers be used in closed-loop control systems?",
-            "answer": "PID controllers adjust the control input based on proportional, integral, and derivative terms of the error signal to achieve desired system performance.",
-            "isAnswerCorrect": true
+            "answer": "PID controllers adjust the control input based on proportional, integral, and derivative terms of the error signal to achieve desired system performance."
           },
           {
             "question": "Explain the concept of feedforward control and how it complements feedback control.",
-            "answer": "Feedforward control predicts the effect of disturbances and adjusts the control input accordingly, while feedback control corrects errors based on the actual output.",
-            "isAnswerCorrect": false
+            "answer": "Feedforward control predicts the effect of disturbances and adjusts the control input accordingly, while feedback control corrects errors based on the actual output."
           },
           {
             "question": "Give an example of a real-world application of a closed-loop control system.",
-            "answer": "An example is the cruise control system in cars, which adjusts the throttle to maintain a set speed despite changes in road conditions.",
-            "isAnswerCorrect": true
+            "answer": "An example is the cruise control system in cars, which adjusts the throttle to maintain a set speed despite changes in road conditions."            
           }
         ]
       }

@@ -19,16 +19,24 @@ export default function PerformQuiz({ quiz, onComplete }) {
     }, [currentQuestionIndex, currentSectionIndex]);
    
     const handleKeyDown = (event) => {        
+        console.log("TOP",event)
+        console.log("top event in instance of OF OBJECT", event instanceof(Object))
         if (event.key === 'Enter' && !event.shiftKey) {
             event.preventDefault(); // Prevent default behavior
-            // Call your function to handle the Enter key press
-            console.log("achieved");
-            handleSubmitAnswer();
+            const answer = answerInputRef.current.value.trim(); // Trim to handle spaces
+            console.log("VALUE", answer ? "not undefined" : "is undefined", answerInputRef.current);
+            if (userAnswer.trim() !== '') {
+                handleSubmitAnswer();
+            } else {
+                console.log("Textarea is empty, not submitting answer.");
+            }
         }
     };
+    
 
     useEffect(() => {
-        const handleGlobalKeyDown = (event) => {            
+        const handleGlobalKeyDown = (event) => {       
+            console.log("global",event)     
             if (showAnswer) {
                 if (event.key === 'ArrowLeft' || event.key.toLowerCase() === 'c') {
                     handleMarkAnswer(true);
@@ -36,8 +44,11 @@ export default function PerformQuiz({ quiz, onComplete }) {
                     handleMarkAnswer(false);
                 }
             }
+            console.log("global event is isntaine opf OF OBJECT", event instanceof(Object))
             if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault(); // Prevent default behavior
                 if(isMarked){
+                    console.log("MARKESD")
                     if(isLastQuestionInSection()){
                         if(isLastSection()){
                             handleSubmitQuiz();
@@ -47,7 +58,8 @@ export default function PerformQuiz({ quiz, onComplete }) {
                     }else{
                         handleNextQuestion();
                     }                
-                } else{
+                } else if(userAnswer.trim() !== ''){
+                    console.log("ANSWER",userAnswer.trim());
                     handleSubmitAnswer(); 
                 } 
             } 
@@ -109,7 +121,8 @@ export default function PerformQuiz({ quiz, onComplete }) {
         setIsMarked(false);
     };
 
-    const handleSubmitAnswer = () => {        
+    const handleSubmitAnswer = () => { 
+        console.log("Submitting")       
         setShowAnswer(true);        
     };
 
@@ -160,21 +173,22 @@ export default function PerformQuiz({ quiz, onComplete }) {
                     onChange={(e) => setUserAnswer(e.target.value)}
                     onKeyDown={handleKeyDown} // Add this line
                     ref={answerInputRef}
+                    disabled={showAnswer}
                 />
                 {!showAnswer && (
-                    <div>
+                    <div>                        
                         <button
                             onClick={handleSubmitAnswer}
                             disabled={!userAnswer.trim()}
                             className={!userAnswer.trim() ? 'disabled' : ''}
                         >
                         Submit
-                        </button>
+                        </button>                        
                     </div>
                 )}
                 {showAnswer && (
                     <div className="answer-section">
-                        <p>Correct Answer: {quiz.sections[currentSectionIndex].items[currentQuestionIndex].answer}</p>
+                        <h4>Correct Answer:<br></br><br></br>{quiz.sections[currentSectionIndex].items[currentQuestionIndex].answer}</h4>
                         <div className="button-group">
                             <button
                                 onClick={() => handleMarkAnswer(true)}

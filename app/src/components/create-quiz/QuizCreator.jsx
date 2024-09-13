@@ -1,12 +1,27 @@
-import React, { useState } from 'react';
-import SectionList from '../SectionList';
+import React, { useState, useEffect } from 'react';
+import SectionList from './SectionList';
 import { saveAs } from 'file-saver';
+import { postQuiz } from '../../quiz-client';
+import { useLocation } from 'react-router-dom';
 
 export default function QuizCreator() {
     const [sections, setSections] = useState([{ title: 'Section 1', items: [] }]);
     const [quizTitle, setQuizTitle] = useState('Quiz Title');
     const [saveMessage, setSaveMessage] = useState({ text: '', type: '' });
     const [highlightedSections, setHighlightedSections] = useState([]);
+    const location = useLocation();
+    const { quiz, edit } = location.state || {};
+
+    useEffect(() => {
+        console.log(location.state)
+        if (quiz) {
+            setSections(quiz.sections);
+            setQuizTitle(quiz.title);
+            console.log("there is quiz",quiz.sections);
+        } else {
+            console.log("there is no quiz");
+        }
+    }, [quiz]);
 
     const addSection = () => {
         setSections([...sections, { title: `Section ${sections.length + 1}`, items: [] }]);
@@ -29,7 +44,7 @@ export default function QuizCreator() {
     };
 
     const deleteSection = (index) => {
-        if (index === 0) return; // Prevent deletion of the first section
+        if (index === 0) return; 
         const newSections = sections.filter((_, i) => i !== index);
         setSections(newSections);
     };
@@ -51,10 +66,13 @@ export default function QuizCreator() {
                 sections
             };
             const quizJson = JSON.stringify(quiz, null, 2);
-            const blob = new Blob([quizJson], { type: "application/json;charset=utf-8" });
-            saveAs(blob, `${quizTitle.replace(/\s+/g, '_').toLowerCase()}.json`);
-            setSaveMessage({ text: 'Quiz saved successfully!', type: 'success' });
-            setHighlightedSections([]);
+            console.log("quiz", quizJson);
+            postQuiz(quiz)
+            console.log("Quiz allegedly saved!");
+            // const blob = new Blob([quizJson], { type: "application/json;charset=utf-8" });
+            // saveAs(blob, `${quizTitle.replace(/\s+/g, '_').toLowerCase()}.json`);
+            // setSaveMessage({ text: 'Quiz saved successfully!', type: 'success' });
+            // setHighlightedSections([]);
         }
     };
 
@@ -68,6 +86,7 @@ export default function QuizCreator() {
                 quizTitle={quizTitle} 
                 setQuizTitle={setQuizTitle} 
                 highlightedSections={highlightedSections}
+                edit={edit}
             />
             <div className='save-quiz-container'>
                 {saveMessage.text && (

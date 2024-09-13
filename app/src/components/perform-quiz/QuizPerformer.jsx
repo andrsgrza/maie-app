@@ -1,45 +1,14 @@
-import React, { useState } from 'react';
-import QuizSelector from './QuizSelector';
+import React, { useState, useEffect } from 'react';
+import QuizSelectorPerform from '../quiz-selector/quiz-selector-wrapper/QuizSelectorPerform';
 import PerformQuiz from './PerformQuiz';
 import './quiz-performer.css';
 import QuizReport from '../report/QuizReport';
-import quiz4 from '../../../resources/demo-quizes/single-question-multiple-sections.json';
-import quiz3 from '../../../resources/demo-quizes/single-question-single-section.json';
-import quiz1 from '../../../resources/demo-quizes/quiz_title.json';
-import quiz2 from '../../../resources/demo-quizes/quiz.json'; 
-import quiz5 from '../../../resources/demo-quizes/control.json';
-import quiz6 from '../../../resources/demo-quizes/node-module-fs.json'; 
-//import { readJsonFile, readFilesInDirectory } from'/app/src/utils/fileUtil.js'
 
 export default function QuizPerformer() {
     const [selectedQuizzes, setSelectedQuizzes] = useState([]); 
     const [completedQuizzes, setCompletedQuizzes] = useState([]); 
     const [currentQuizIndex, setCurrentQuizIndex] = useState(0); 
     const [allQuizzesCompleted, setAllQuizzesCompleted] = useState(false);
-    
-
-    const loadQuizzes = () => {
-        readFilesInDirectory('/app/src/resources/demo-quizes').then(filePaths => {
-            const quizzes = filePaths.map(filePath => {
-                return readJsonFile(filePath);
-            });
-            return Promise.all(quizzes);
-        })
-        // }).then(quizzes => {
-        //     return quizzes.map(quiz => {
-        //         return {
-        //            ...quiz,
-        //             selected: false
-        //         };
-        //     });
-        // }).then(quizzes => {
-        //     setSelectedQuizzes(quizzes);
-        // });
-        // return [quiz6, quiz1, quiz2, quiz3, quiz4, quiz5];
-    }
-
-    //Need to replace with backend
-    const quizzes = [quiz6, quiz1, quiz2, quiz3, quiz4, quiz5];
 
     const handleQuizzesSelected = (quizzes) => {        
         setSelectedQuizzes(quizzes);
@@ -68,10 +37,12 @@ export default function QuizPerformer() {
     }
     
     return (
-        <div className="quiz-performer centered-container">
+        <div className="quiz-performer centered-container">            
             {selectedQuizzes.length === 0 && (
                 <div className="quiz-selector">
-                    <QuizSelector quizzes={quizzes} onSelected={handleQuizzesSelected} />
+                    <QuizSelectorPerform
+                        onSelected={handleQuizzesSelected}
+                    />
                 </div>
             )}            
             {selectedQuizzes.length > 0 && currentQuizIndex < selectedQuizzes.length && (

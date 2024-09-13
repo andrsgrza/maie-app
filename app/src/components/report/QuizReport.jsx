@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './quiz-report.css';
-//import { cleanQuizData } from'/app/src/utils/quizUtils.js'
+import { cleanQuizData } from'/app/src/utils/quizUtils.js'
 
 const QuizReport = ({ completedQuiz }) => {
     const { title, sections } = completedQuiz;
