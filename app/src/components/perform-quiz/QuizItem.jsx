@@ -40,6 +40,13 @@ const QuizItem = ({ quiz, isSelected, onSelect, redo, onDelete, editable, select
     });
   };
 
+  const calculateDaysSinceLastPerformance = (creationDateDate) => {
+    const lastDate = new Date(creationDateDate);
+    const currentDate = new Date();
+    const differenceInTime = currentDate - lastDate;
+    return Math.floor(differenceInTime / (1000 * 3600 * 24));
+  };
+
   return (
     <div
       className={`quiz-item ${(isSelected) ? 'selected' : ''} ${redo ? 'redo' : ''} ${selectible ? 'quiz-item-selectible' : ''}`}
@@ -56,7 +63,9 @@ const QuizItem = ({ quiz, isSelected, onSelect, redo, onDelete, editable, select
         ) : (
           <>
             <h3>{quiz.title}</h3>
-            <p>Days since last performance: {calculateDaysSinceLastPerformance(quiz.metadata.creationDate)}</p>
+            <p>Days since last performance: {calculateDaysSinceLastPerformance
+            
+            (quiz.metadata.creationDate)}</p>
           </>
         )}
       </div>
