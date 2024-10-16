@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     entry: './app/src/index.jsx',
@@ -32,10 +33,16 @@ module.exports = {
     },
     mode: 'development',
     plugins: [
-        new HtmlWebpackPlugin({ template: 'app/src/index.html' })
+        new HtmlWebpackPlugin({ template: 'app/src/index.html' }),
+        new CopyWebpackPlugin({
+            patterns: [
+                { from: path.resolve(__dirname, 'app/resources/logo.ico'), to: 'resources/' },
+            ],
+        }),
     ],
     devServer: {
         historyApiFallback: true,
-        port:8081
-    }
+        port:8082
+    },
+    devtool: 'eval-source-map',
 };

@@ -1,10 +1,47 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './quiz-item.css';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { FaEdit, FaTrash, FaKey, FaDownload, FaCog } from 'react-icons/fa';
 
 const QuizItem = ({ quiz, isSelected, onSelect, redo, onDelete, editable, selectible }) => {
-  const calculateDaysSinceLastPerformance = (lastPerformedDate) => {
-    const lastDate = new Date(lastPerformedDate);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+  const toggleRef = useRef(null);
+  
+  // Using useNavigate hook for navigation
+  const navigate = useNavigate();
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        dropdownRef.current && 
+        toggleRef.current && 
+        !dropdownRef.current.contains(event.target) && 
+        !toggleRef.current.contains(event.target)
+      ) {
+        setDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  // Function to navigate to edit page
+  const handleEdit = () => {
+    navigate('/create-quiz', {
+      state: { preloadedQuiz: quiz, edit: true }
+    });
+  };
+
+  const calculateDaysSinceLastPerformance = (creationDateDate) => {
+    const lastDate = new Date(creationDateDate);
     const currentDate = new Date();
     const differenceInTime = currentDate - lastDate;
     return Math.floor(differenceInTime / (1000 * 3600 * 24));
@@ -19,28 +56,42 @@ const QuizItem = ({ quiz, isSelected, onSelect, redo, onDelete, editable, select
         {!redo ? (
           <>
             <h3>{quiz.title}</h3>
-            <p>Author: {quiz.metadata.author}</p>
-            <p>{quiz.metadata.description}</p>
-            <p>Performed {calculateDaysSinceLastPerformance(quiz.metadata.lastPerformed)} days ago</p>
+            <p>{quiz.metadata.description}</p>            
+            {editable ? <p>Created on {quiz.metadata.creationDate}</p> : <p>Last performed {calculateDaysSinceLastPerformance(quiz.metadata.creationDate)} days ago</p>}
+            <p>Owner: {quiz.metadata.author}</p>            
           </>
         ) : (
           <>
             <h3>{quiz.title}</h3>
-            <p>Days since last performance: {calculateDaysSinceLastPerformance(quiz.metadata.lastPerformed)}</p>
+            <p>Days since last performance: {calculateDaysSinceLastPerformance
+            
+            (quiz.metadata.creationDate)}</p>
           </>
         )}
       </div>
       {editable && <div className='quiz-item-actions'>
-        <Link 
-          className='edit-button button-link' 
-          to="/create-quiz"
-          state={{ quiz: quiz, edit: true}}  // Pass the quiz object using `state`
-        >
-          <i className="fas fa-edit"></i>
-        </Link>
-        <button className='delete-button' onClick={(e) => { e.stopPropagation(); onDelete(quiz.id); }}>
-          <i className="fas fa-trash"></i>
-        </button>
+        <div className="dropdown-wrapper">
+          <button className="dropdown-toggle" onClick={toggleDropdown} ref={toggleRef}>
+            <FaCog />
+          </button>
+
+          {dropdownOpen && (
+            <ul className='dropdown-menu2' ref={dropdownRef}>
+              <li className='entitlement-element' onClick={() => handleAction('entitlements')}>
+                <FaKey className="icon" /> Entitlements
+              </li>
+              <li className='edit-element' onClick={handleEdit}>
+                <FaEdit className="icon" /> Edit
+              </li>
+              <li className='download-element' onClick={() => handleAction('download')}>
+                <FaDownload className="icon" /> Download
+              </li>
+              <li className='delete-element' onClick={(e) => { e.stopPropagation(); onDelete(quiz.id); }}>
+                <FaTrash className="icon" /> Remove
+              </li>
+            </ul>
+          )}
+        </div>
       </div>}
     </div>
   );

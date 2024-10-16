@@ -1,90 +1,149 @@
 import React, { useState, useEffect } from 'react';
 import SectionList from './SectionList';
 import { BackButton } from '../../common/BackButton';
-import { postQuiz } from '../../quiz-client';
+import QuizClient from '../../api/quiz-client';
 import { useLocation } from 'react-router-dom';
+import protoQuiz from '../../../resources/proto-quiz.json';
+import './quiz-editor.css'
+import { useNavigate } from 'react-router-dom';
 
 export default function QuizCreator() {
-    const [sections, setSections] = useState([{ title: 'Section 1', items: [] }]);
-    const [quizTitle, setQuizTitle] = useState('Quiz Title');
+    const [isEditingQuizTitle, setIsEditingQuizTitle] = useState(false);    
     const [saveMessage, setSaveMessage] = useState({ text: '', type: '' });
     const [highlightedSections, setHighlightedSections] = useState([]);
+    const [forgedQuiz, setForgedQuiz] = useState(protoQuiz);
     const location = useLocation();
-    const { quiz, edit } = location.state || {};
+    // quiz is preloaded quiz recieved on endit
+    // TODO change quiz to preloadedQuiz and remove unecessary edit by checking if quiz exists
+    const { preloadedQuiz, edit } = location.state || {};
+    const navigate = useNavigate();
 
     useEffect(() => {
-        console.log(location.state)
-        if (quiz) {
-            setSections(quiz.sections);
-            setQuizTitle(quiz.title);
-            console.log("there is quiz",quiz.sections);
-        } else {
-            console.log("there is no quiz");
-        }
-    }, [quiz]);
+        if (preloadedQuiz) {
+            setForgedQuiz(preloadedQuiz)
+        } 
+    }, [preloadedQuiz]);
 
-    const addSection = () => {
-        setSections([...sections, { title: `Section ${sections.length + 1}`, items: [] }]);
+    const updateForgedQuizTitle = (event) => {
+        console.log("updating forged quiz title")
+        setForgedQuiz((prevState) => ({
+            ...prevState,
+            title: event.target.value
+        }));
     };
 
-    const updateSection = (index, updatedSection) => {
-        const newSections = sections.map((section, i) => (i === index ? updatedSection : section));
-        setSections(newSections);
 
-        // Remove from highlightedSections if the section now has items
+    const exitTitleEdit = () => {
+        setIsEditingQuizTitle(false);
+    };
+
+    const handleQuizDescriptionChange = (event) => {
+        setForgedQuiz((prevState) => ({
+            ...prevState,
+            metadata: {
+                ...prevState.metadata,
+                description: event.target.value
+            }
+        }));
+    };
+
+    
+
+    const addSection = () => {
+        setForgedQuiz((prevQuiz) => ({
+            ...prevQuiz,
+            sections: [...prevQuiz.sections, { title: `Section ${prevQuiz.sections.length + 1}`, items: [] }]
+        }));
+    };
+    
+    const updateSection = (index, updatedSection) => {
+        setForgedQuiz((prevQuiz) => {
+            const newSections = prevQuiz.sections.map((section, i) => (i === index ? updatedSection : section));
+            return {
+                ...prevQuiz,
+                sections: newSections
+            };
+        });
+    
         if (updatedSection.items.length > 0) {
             const newHighlightedSections = highlightedSections.filter(sectionIndex => sectionIndex !== index);
             setHighlightedSections(newHighlightedSections);
-            
-            // Only clear the error message if there are no highlighted sections left
+    
             if (newHighlightedSections.length === 0) {
                 setSaveMessage({ text: '', type: '' });
             }
         }
     };
-
+    
     const deleteSection = (index) => {
-        if (index === 0) return; 
-        const newSections = sections.filter((_, i) => i !== index);
-        setSections(newSections);
+        if (index === 0) return; // Prevent deletion of the first section
+        setForgedQuiz((prevQuiz) => {
+            const newSections = prevQuiz.sections.filter((_, i) => i !== index);
+            return {
+                ...prevQuiz,
+                sections: newSections
+            };
+        });
     };
+    
 
-    const saveQuiz = () => {
-        const emptySections = sections.map((section, index) => section.items.length === 0 ? index : null).filter(index => index !== null);
+    const handleSaveQuiz = () => {
+        const emptySections = forgedQuiz.sections.map((section, index) => section.items.length === 0 ? index : null).filter(index => index !== null);
         if (emptySections.length > 0) {
-            setSaveMessage({ text: 'All sections must have at least one question.', type: 'error' });
+            setSaveMessage({ text: 'All sections must have at least one question submitted.', type: 'error' });
             setHighlightedSections(emptySections);
         } else {
-            const quiz = {
-                title: quizTitle,                
-                quizid: 2,
-                metadata: {
-                    author: "agarza",
-                    description:"This is another demo quiz",
-                    lastPerformed:"2024-06-15"
-                },
-                sections
-            };
-            const quizJson = JSON.stringify(quiz, null, 2);
+            const quizJson = JSON.stringify(forgedQuiz, null, 2);
             console.log("quiz", quizJson);
-            postQuiz(quiz)
-            console.log("Quiz allegedly saved!");
-            // const blob = new Blob([quizJson], { type: "application/json;charset=utf-8" });
-            // saveAs(blob, `${quizTitle.replace(/\s+/g, '_').toLowerCase()}.json`);
-            // setSaveMessage({ text: 'Quiz saved successfully!', type: 'success' });
-            // setHighlightedSections([]);
+                try{
+                    let response = "";
+                    if(preloadedQuiz){
+                        QuizClient.updateQuiz(forgedQuiz)
+                    }else {
+                        QuizClient.postQuiz(forgedQuiz)
+                    }
+                } catch (error) {
+                    console.error('Error saving quiz:', error);
+                    setSaveMessage({ text: 'Error saving quiz.', type: 'error' });
+                }
+                navigate('/my-quizzes');
         }
-    };
+        setSaveMessage({ text: 'Quiz saved successfully!', type: 'success' });
+        setHighlightedSections([]);
+    }
 
     return (
         <div className='quiz-creator'>
+            <div className='input-quiz-meta centered-container'>
+                {isEditingQuizTitle ? (
+                    <input
+                        type="text"
+                        value={forgedQuiz.title}
+                        onChange={updateForgedQuizTitle}
+                        onKeyPress={(e) => e.key === 'Enter' && exitTitleEdit()}
+                        onBlur={exitTitleEdit}
+                        autoFocus
+                        className='quiz-title-input'
+                        placeholder='Title'
+                    />
+                ) : (
+                    <h1 onClick={() => setIsEditingQuizTitle(true)} className='quiz-title'>{forgedQuiz.title}</h1>
+                )}
+                <label>
+                    Description:
+                    <textarea
+                        name="description"
+                        placeholder="Provide a description for the quiz"
+                        onChange={handleQuizDescriptionChange}
+                        value={forgedQuiz.metadata?.description}
+                    />
+                </label>
+            </div>
             <SectionList 
-                sections={sections} 
+                sections={forgedQuiz.sections} 
                 updateSection={updateSection} 
                 deleteSection={deleteSection} 
                 addSection={addSection} 
-                quizTitle={quizTitle} 
-                setQuizTitle={setQuizTitle} 
                 highlightedSections={highlightedSections}
                 edit={edit}
             />
@@ -97,7 +156,7 @@ export default function QuizCreator() {
                 <BackButton />
                 <button 
                     className='save-quiz-button' 
-                    onClick={saveQuiz}
+                    onClick={handleSaveQuiz}
                 >
                     Save Quiz
                 </button>
