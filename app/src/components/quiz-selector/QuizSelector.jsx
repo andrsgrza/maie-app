@@ -22,6 +22,7 @@ const QuizSelector = ({quizzes, setQuizzes, onSelected, selectible, editable }) 
             console.log('response', response.status)
             if(response.status >= 200 && response.status < 300){
                 setQuizzes(response.data);
+
                 setIsLoading(false);
             } else if ( response.status === 403 || response.status === 401) {                
                 addBanner('error', MESSAGES.ERROR.STATUS_MESSAGES[response.status], MESSAGES.ERROR.FEATURE_MESSAGES.FETCH_QUIZZES);                
