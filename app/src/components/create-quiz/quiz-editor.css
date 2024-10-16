@@ -1,0 +1,13 @@
+.input-quiz-meta{
+    width: calc(100% - 22px);
+    textarea {
+        width: calc(100% - 22px);
+        padding: 10px;
+        margin: 0 auto 20px auto;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        resize: none;
+    }
+    
+} 

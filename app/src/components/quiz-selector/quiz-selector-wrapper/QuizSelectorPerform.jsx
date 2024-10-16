@@ -23,7 +23,8 @@ export default function QuizSelectorPerform({onSelected}) {
                 setQuizzes={setQuizzes}
                 editable={false}
                 selectible={true}
-                onSelected={onSelected}/>
+                onSelected={onSelected}
+            />
         </div>
     );
 }

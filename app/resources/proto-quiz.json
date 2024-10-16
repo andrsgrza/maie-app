@@ -1,0 +1,16 @@
+{
+  "title": "Title",
+  "metadata": {
+    "author": "",
+    "description":"This is a quiz for practicing concept comprehension and memorization",
+    "creationDate":""
+  },
+  "sections": [
+    {
+      "title": "Section",
+      "items": [
+
+      ]
+    }
+  ]
+}

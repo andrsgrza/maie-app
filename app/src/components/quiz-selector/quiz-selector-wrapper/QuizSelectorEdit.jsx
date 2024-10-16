@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import QuizSelector from '../QuizSelector';
 import './quiz-selector-edit.css';
-import { getQuizzes, postQuiz } from '../../../quiz-client';
+import QuizClient from '../../../api/quiz-client';
+import { MESSAGES } from '../../../common/constants';
+import { useBanner } from '../../../context/BannerContext';
+import { ConfirmModal } from '../../../common/ConfirmModal';
 
 export default function QuizSelectorEdit() {
     const [quizzes, setQuizzes] = useState([])
@@ -10,20 +13,9 @@ export default function QuizSelectorEdit() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [jsonInput, setJsonInput] = useState('');
     const [isFileLoaded, setIsFileLoaded] = useState(false); 
+    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(true);
+    const { addBanner } = useBanner();
 
-    const fetchQuizzes = async () => {
-        try {
-            const response = await getQuizzes();
-            console.log("Quizzes fetched:", response);
-            setQuizzes(response);
-        } catch (error) {
-            console.error("Error fetching quizzes:", error);
-        }
-    };
-
-    useEffect(() => {
-        fetchQuizzes();
-    },[])
 
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
@@ -93,18 +85,32 @@ export default function QuizSelectorEdit() {
             try {
                 const parsedQuiz = JSON.parse(jsonInput);
                 // Handle the imported quiz data
-                const insertedQuiz = await postQuiz(parsedQuiz);
-                console.log("Quiz Imported: ", parsedQuiz);
-                console.log("Quiz inserted: ", insertedQuiz);
-                setQuizzes(prevQuizzes => [...prevQuizzes, insertedQuiz]);
-                console.log("Quiz Imported: ", parsedQuiz);
-                closeModal(); // Close modal after successful import
+                const response = await QuizClient.postQuiz(parsedQuiz);          
+
+                addBanner(
+                    MESSAGES.API_MESSAGES.POST_QUIZ[response.status].TYPE,
+                    MESSAGES.API_MESSAGES.POST_QUIZ[response.status].TITLE,
+                    MESSAGES.API_MESSAGES.POST_QUIZ[response.status].MESSAGE
+                );
+                if(response.status >= 200 && response.status < 300){
+                    const insertedQuiz = parsedQuiz;
+                    console.log("Quiz Imported: ", parsedQuiz);
+                    console.log("Quiz inserted: ", insertedQuiz);
+                    setQuizzes(prevQuizzes => [...prevQuizzes, insertedQuiz]);
+                    console.log("Quiz Imported: ", parsedQuiz);
+                    closeModal(); // Close modal after successful import
+                } 
             } catch (error) {
-                alert("Invalid JSON format.");
+                console.error("Error importing quiz:", error);
+                alert("Invalid JSON formatgsdfgsd.", error);
             }
         } else {
             alert("Please provide JSON content.");
         }
+    };
+
+    const closeConfirmModal = () => {
+        setIsConfirmModalOpen(false);
     };
 
     return (
@@ -137,6 +143,7 @@ export default function QuizSelectorEdit() {
                     </div>
                 </div>
             )}
+            {<ConfirmModal isOpen={isConfirmModalOpen} onConfirm={() => console.log('Confirming modal')} onCancel={closeConfirmModal} message="Are you sure you want to delete this quiz?" />}
             <QuizSelector quizzes={quizzes} setQuizzes={setQuizzes} editable={true} />
             <div className="add-quiz-wrapper">
                 {isDropdownOpen && (

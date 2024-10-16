@@ -1,32 +1,10 @@
 import React, { useState } from 'react';
 import Section from './Section';
 
-export default function SectionList({ sections, updateSection, deleteSection, addSection, quizTitle, setQuizTitle, highlightedSections, edit }) {
-    const [isEditingQuizTitle, setIsEditingQuizTitle] = useState(false);
-
-    const handleQuizTitleChange = (event) => {
-        setQuizTitle(event.target.value);
-    };
-
-    const saveQuizTitle = () => {
-        setIsEditingQuizTitle(false);
-    };
+export default function SectionList({ sections, updateSection, deleteSection, addSection, highlightedSections, edit }) {
 
     return (
-        <div className='section-list'>
-            {isEditingQuizTitle ? (
-                <input
-                    type="text"
-                    value={quizTitle}
-                    onChange={handleQuizTitleChange}
-                    onBlur={saveQuizTitle}
-                    onKeyPress={(e) => e.key === 'Enter' && saveQuizTitle()}
-                    autoFocus
-                    className='quiz-title-input'
-                />
-            ) : (
-                <h1 onClick={() => setIsEditingQuizTitle(true)} className='quiz-title'>{quizTitle}</h1>
-            )}
+        <div className='section-list'>            
             {sections.map((section, index) => (
                 
                 <Section
