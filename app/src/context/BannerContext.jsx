@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext } from 'react';
-import BannerContainer from '../common/BannerContainer';
+import BannerContainer from '../common/banner/BannerContainer';
 // Create the context
 const BannerContext = createContext();
 

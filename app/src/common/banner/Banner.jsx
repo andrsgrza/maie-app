@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './common.css'; // Assuming you have a styles folder or CSS module system
+import '../common.css'; // Assuming you have a styles folder or CSS module system
 
 const ErrorBanner = ({ message }) => {
     const [visible, setVisible] = useState(true);

@@ -1,6 +1,6 @@
 import React from 'react';
-import './common.css'; // Assuming you have CSS styles for the container and banners
-import { useBanner } from '../context/BannerContext';
+import '../common.css'; // Assuming you have CSS styles for the container and banners
+import { useBanner } from '../../context/BannerContext';
 
 const BannerContainer = ({ banners }) => {
     return (

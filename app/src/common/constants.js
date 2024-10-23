@@ -32,7 +32,24 @@ export const MESSAGES = {
                 TYPE: 'error',
                 TITLE: 'Quiz creation failed!',
                 MESSAGE: 'Something went wrong.'
-            }
+            },
+        },
+        PUT_QUIZ: {
+            200: {
+                TYPE: 'success',
+                TITLE: 'Quiz updated successfully!',
+                MESSAGE: 'You can now view your quiz.'
+            },
+            400: {
+                TYPE: 'error',
+                TITLE: 'Quiz update failed!',
+                MESSAGE: 'Something went wrong.'
+            },
+            500: {
+                TYPE: 'error',
+                TITLE: 'Quiz update failed!',
+                MESSAGE: 'Something went wrong.'
+            },
         }
     },    
     ERROR: {

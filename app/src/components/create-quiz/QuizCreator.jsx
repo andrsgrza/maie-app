@@ -6,13 +6,17 @@ import { useLocation } from 'react-router-dom';
 import protoQuiz from '../../../resources/proto-quiz.json';
 import './quiz-editor.css'
 import { useNavigate } from 'react-router-dom';
+import { useBanner } from '../../context/BannerContext';
+import { MESSAGES } from '../../common/constants';
 
 export default function QuizCreator() {
     const [isEditingQuizTitle, setIsEditingQuizTitle] = useState(false);    
     const [saveMessage, setSaveMessage] = useState({ text: '', type: '' });
     const [highlightedSections, setHighlightedSections] = useState([]);
     const [forgedQuiz, setForgedQuiz] = useState(protoQuiz);
+    const { addBanner } = useBanner();
     const location = useLocation();
+    
     // quiz is preloaded quiz recieved on endit
     // TODO change quiz to preloadedQuiz and remove unecessary edit by checking if quiz exists
     const { preloadedQuiz, edit } = location.state || {};
@@ -87,28 +91,36 @@ export default function QuizCreator() {
     };
     
 
-    const handleSaveQuiz = () => {
+    const handleSaveQuiz = async () => {
+        console.log("saving quiz");
         const emptySections = forgedQuiz.sections.map((section, index) => section.items.length === 0 ? index : null).filter(index => index !== null);
         if (emptySections.length > 0) {
             setSaveMessage({ text: 'All sections must have at least one question submitted.', type: 'error' });
             setHighlightedSections(emptySections);
         } else {
+            console.log("empty sections", emptySections);
             const quizJson = JSON.stringify(forgedQuiz, null, 2);
             console.log("quiz", quizJson);
                 try{
-                    let response = "";
+                    let response;
                     if(preloadedQuiz){
-                        QuizClient.updateQuiz(forgedQuiz)
+                        response = await QuizClient.updateQuiz(forgedQuiz)
                     }else {
-                        QuizClient.postQuiz(forgedQuiz)
+                        response = await QuizClient.postQuiz(forgedQuiz)
                     }
+                    console.log('edit response', response)
+                    addBanner(
+                        MESSAGES.API_MESSAGES.PUT_QUIZ[response.status].TYPE,
+                        MESSAGES.API_MESSAGES.PUT_QUIZ[response.status].TITLE,
+                        MESSAGES.API_MESSAGES.PUT_QUIZ[response.status].MESSAGE
+                    )
                 } catch (error) {
                     console.error('Error saving quiz:', error);
                     setSaveMessage({ text: 'Error saving quiz.', type: 'error' });
                 }
+                
                 navigate('/my-quizzes');
         }
-        setSaveMessage({ text: 'Quiz saved successfully!', type: 'success' });
         setHighlightedSections([]);
     }
 
