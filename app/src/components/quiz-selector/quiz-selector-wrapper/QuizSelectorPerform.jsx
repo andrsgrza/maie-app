@@ -1,20 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import QuizSelector from '../QuizSelector';
+import useFetchQuizzes from '../../../hooks/useFetchQuizzes';
 
 export default function QuizSelectorPerform({onSelected}) {
-    const [quizzes, setQuizzes] = useState([])
-    const fetchQuizzes = async () => {
-        try {
-            const response = await axios.get(`${apiBaseUrl}/getQuizzes`);
-            setQuizzes(response.data);
-        } catch (error) {
-            console.error("Error fetching quizzes:", error);
-        }
-    };
-
-    useEffect(() => {
-        fetchQuizzes();
-    },[])
+    
+    const { quizzes, setQuizzes, isLoading, error } = useFetchQuizzes();
 
     return (
         <div className='quiz-selector-wrapper'>
@@ -24,6 +14,8 @@ export default function QuizSelectorPerform({onSelected}) {
                 editable={false}
                 selectible={true}
                 onSelected={onSelected}
+                isLoading={isLoading}
+                error={error}
             />
         </div>
     );

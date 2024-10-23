@@ -37,7 +37,6 @@ export default class QuizClient {
     try {
       console.log(quizId);
       const response = await QuizClient.apiClient.delete(`/${quizId}`);
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error('Error deleting quiz:', error);
@@ -50,8 +49,7 @@ export default class QuizClient {
     try {
       console.log(quiz.id);
       const response = await QuizClient.apiClient.put(`/${quiz.id}`, quiz);
-      console.log(response.data);
-      return response.data;
+      return response;
     } catch (error) {
       console.error('Error updating quiz:', error);
       throw error;

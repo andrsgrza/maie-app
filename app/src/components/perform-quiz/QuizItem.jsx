@@ -2,11 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import './quiz-item.css';
 import { useNavigate } from 'react-router-dom';
 import { FaEdit, FaTrash, FaKey, FaDownload, FaCog } from 'react-icons/fa';
+import { useModal } from '../../context/ModalContext';
 
 const QuizItem = ({ quiz, isSelected, onSelect, redo, onDelete, editable, selectible }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const toggleRef = useRef(null);
+  const { configureConfirmModal, toggleConfirmModal  } = useModal();
   
   // Using useNavigate hook for navigation
   const navigate = useNavigate();
@@ -46,6 +48,63 @@ const QuizItem = ({ quiz, isSelected, onSelect, redo, onDelete, editable, select
     const differenceInTime = currentDate - lastDate;
     return Math.floor(differenceInTime / (1000 * 3600 * 24));
   };
+  const downloadQuiz = () => {
+    const quizJson = JSON.stringify(quiz, null, 2);
+    const blob = new Blob([quizJson], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${quiz.title.replace(/\s+/g, '_')}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+  
+
+  const handleRemoveClick = (e) => {
+    e.stopPropagation();
+    console.log("handling remove")
+    configureConfirmModal({
+      isOpen: true,
+      title: "Confirm quiz deletion",
+      message: "Are you sure you want to delete this quiz?",
+      onClose: () =>  toggleConfirmModal(),
+      buttonAClass: "cancel-button",
+      buttonBClass: "delete-button",
+      buttonAContent: "Cancel",
+      buttonBContent: "Delete",
+      onConfirm: () => {
+        try {
+          onDelete(quiz.id);
+          toggleConfirmModal();
+        } catch (error) {
+          console.error("Error deleting quiz:", error);
+        }
+      }
+    })
+    // e.stopPropagation();
+    // configureConfirmModal(
+    //   true,
+    //   "Confirm quiz deletion",
+    //   "Are you sure you want to delete this quiz?",
+    //   () => { console.log("Closing modal"); },
+    //   "cancel-button",
+    //   "delete-button",
+    //   "Cancel",
+    //   "Delete",
+    //   () => {
+    //     try {
+    //       onDelete(quiz.id);
+    //       toggleConfirmModal();
+    //     } catch (error) {
+    //       console.error("Error deleting quiz:", error);
+    //     }
+    //   },
+    //   true
+    // );
+    
+  };
 
   return (
     <div
@@ -83,10 +142,10 @@ const QuizItem = ({ quiz, isSelected, onSelect, redo, onDelete, editable, select
               <li className='edit-element' onClick={handleEdit}>
                 <FaEdit className="icon" /> Edit
               </li>
-              <li className='download-element' onClick={() => handleAction('download')}>
+              <li className='download-element' onClick={downloadQuiz}>
                 <FaDownload className="icon" /> Download
               </li>
-              <li className='delete-element' onClick={(e) => { e.stopPropagation(); onDelete(quiz.id); }}>
+              <li className='delete-element' onClick={handleRemoveClick}>
                 <FaTrash className="icon" /> Remove
               </li>
             </ul>

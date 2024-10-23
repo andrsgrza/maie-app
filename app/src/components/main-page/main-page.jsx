@@ -14,6 +14,7 @@ import { UserClient } from '../../api/user-client';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { BannerProvider } from '../../context/BannerContext';
+import { ModalProvider } from '../../context/ModalContext';
 
 
 export default function MainPage() {
@@ -94,7 +95,9 @@ function MainPageContent({ isMenuOpen, currentUser, setCurrentUser, toggleMenu }
         <>
             <div className="main-page">
                 {getNavigationMenu()}
-                <div className="content">   
+                <div className="content">
+                    <ModalProvider>
+                    
                     <TopBar enableStart={isMenuOpen} openSidebar={toggleMenu} showMenu={currentUser ? true : false} />
                     <div className="inner-content"> 
                         <BannerProvider>
@@ -111,6 +114,7 @@ function MainPageContent({ isMenuOpen, currentUser, setCurrentUser, toggleMenu }
                         </Routes>
                         </BannerProvider>                          
                     </div>
+                    </ ModalProvider>
                 </div>
             </div>
         </>
