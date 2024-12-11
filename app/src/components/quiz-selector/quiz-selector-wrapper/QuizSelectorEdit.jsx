@@ -19,17 +19,12 @@ export default function QuizSelectorEdit() {
     };
 
     const openImportModal = () => {
-        console.log("opening import modal")
-
         configureImportModal({
             isOpen: true,
             title: 'Import Quiz',
             onClose: () => toggleImportModal(),
-            //handleFileInput: handleFileInput,
             postImport: postImportQuiz,
-        }
-
-        );
+        });
         setIsDropdownOpen(false);        
     };
 
@@ -47,7 +42,8 @@ export default function QuizSelectorEdit() {
     }
 
     return (
-        <div className='quiz-selector-wrapper centered-container'>        
+        <div className='quiz-selector-wrapper centered-container'>   
+        {console.log("quizzes here: ", JSON.stringify(quizzes, null, 2))}     
             <QuizSelector
                 quizzes={quizzes}
                 setQuizzes={setQuizzes}

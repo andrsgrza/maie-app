@@ -1,0 +1,117 @@
+.role-column {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin-right: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  min-width: 30%;
+  box-sizing: border-box;
+}
+
+.role-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.remove-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #ff4d4f;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.remove-icon:disabled {
+  color: #ddd;  /* Disabled color */
+  cursor: not-allowed;
+}
+
+.user-list {
+  max-height: 200px;
+  overflow-y: auto;
+  padding: 10px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+}
+
+.user-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.add-user {
+    display: flex;
+    flex-direction: column;
+    position: relative; /* Ensure dropdown is positioned relative to the input */
+  }
+
+.add-user-button {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #007bff;
+}
+
+.user-input {
+    display: flex;
+    align-items: center;
+}
+  
+.user-input input {
+    flex: 1;
+    padding: 5px;
+    margin-right: 5px;
+}
+
+.add-user-confirm {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #007bff;
+  font-size: 1.5rem;
+}
+
+.user-dropdown {
+    position: absolute; /* Position dropdown right below the input */
+    top: 100%; /* Align directly below the input */
+    left: 0;
+    right: 0;
+    border: 1px solid #ddd;
+    max-height: 150px;
+    overflow-y: auto;
+    background: white;
+    list-style: none;
+    padding: 0;
+    margin: 5px 0;
+    z-index: 1000; /* Ensure dropdown is above other content */
+}
+
+.user-dropdown li {
+    padding: 5px;
+    cursor: pointer;
+}
+  
+.user-dropdown li:hover {
+    background-color: #f0f0f0;
+}
+
+.selected-users {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.selected-user {
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    padding: 5px 10px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}

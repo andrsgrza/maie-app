@@ -50,6 +50,28 @@ export const MESSAGES = {
                 TITLE: 'Quiz update failed!',
                 MESSAGE: 'Something went wrong.'
             },
+        },
+        FETCH_QUIZZES: {
+            200: {
+                TYPE: 'success',
+                TITLE: 'Quizzes retrieved successfully!',
+                MESSAGE: 'You can now view your quizzes.'
+            },
+            400: {
+                TYPE: 'error',
+                TITLE: 'Quizzes retrieval failed!',
+                MESSAGE: 'Something went wrong.'
+            },
+            404: {
+                TYPE: 'error',
+                TITLE: 'Quizzes retrieval failed!',
+                MESSAGE: 'No quizzes found.'
+            },
+            500: {
+                TYPE: 'error',
+                TITLE: 'Quizzes retrieval failed!',
+                MESSAGE: 'Something went wrong.'
+            },
         }
     },    
     ERROR: {

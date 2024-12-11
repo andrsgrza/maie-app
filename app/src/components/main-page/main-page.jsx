@@ -27,6 +27,7 @@ export default function MainPage() {
 
     return (
         <Router>
+            <button>Test</button>
             <MainPageContent 
                 isMenuOpen={isMenuOpen}
                 currentUser={currentUser}
@@ -97,7 +98,6 @@ function MainPageContent({ isMenuOpen, currentUser, setCurrentUser, toggleMenu }
                 {getNavigationMenu()}
                 <div className="content">
                     <ModalProvider>
-                    
                     <TopBar enableStart={isMenuOpen} openSidebar={toggleMenu} showMenu={currentUser ? true : false} />
                     <div className="inner-content"> 
                         <BannerProvider>
