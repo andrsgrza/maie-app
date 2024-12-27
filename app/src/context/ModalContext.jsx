@@ -16,7 +16,7 @@ export const ModalProvider = ({ children }) => {
 
     const [confirmModal, setConfirmModal] = useState(new ConfirmModal());
     const [importModal, setImportModal] = useState(new ImportModal());
-    const [handleEntitlementState, setHandleEntitlementState] = useState({ isOpen: false });
+    const [handleEntitlementState, setHandleEntitlementState] = useState({ isOpen: false, resourceId: null });
 
     const configureConfirmModal = (config) => {
         setConfirmModal(prevModal => ({ ...prevModal, ...config }));
@@ -47,6 +47,10 @@ export const ModalProvider = ({ children }) => {
         }));
     };
 
+    const configureHandleEntitlementModal = (config) => {
+        setHandleEntitlementState(prevModal => ({ ...prevModal, ...config }));
+    };
+
     return (
         <ModalContext.Provider value={{
                 configureConfirmModal,
@@ -54,6 +58,8 @@ export const ModalProvider = ({ children }) => {
                 configureImportModal,
                 toggleImportModal,
                 toggleHandleEntitlementModal,
+                configureHandleEntitlementModal,
+                handleEntitlementState
             }}>
             {children}
             {confirmModal.isOpen && <ConfirmModal {...confirmModal} />}

@@ -3,12 +3,13 @@ import './quiz-item.css';
 import { useNavigate } from 'react-router-dom';
 import { FaEdit, FaTrash, FaKey, FaDownload, FaCog } from 'react-icons/fa';
 import { useModal } from '../../context/ModalContext';
+import {formatRoleName} from '../../util/stringParser';
 
 const QuizItem = ({ quiz, isSelected, onSelect, onDelete, editable, selectible }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const toggleRef = useRef(null);
-  const { configureConfirmModal, toggleConfirmModal, toggleHandleEntitlementModal  } = useModal();
+  const { configureConfirmModal, toggleConfirmModal, toggleHandleEntitlementModal, configureHandleEntitlementModal  } = useModal();
   
   // Using useNavigate hook for navigation
   const navigate = useNavigate();
@@ -86,6 +87,9 @@ const QuizItem = ({ quiz, isSelected, onSelect, onDelete, editable, selectible }
   };
 
   const handleOpenEntitlementModal = () => {
+    configureHandleEntitlementModal({
+      resourceId: quiz.id,
+    });
     toggleHandleEntitlementModal();
   }
 
@@ -98,7 +102,7 @@ const QuizItem = ({ quiz, isSelected, onSelect, onDelete, editable, selectible }
         <h3>{quiz.title}</h3>
         <p>{quiz.metadata.description}</p>            
         {editable ? <p>Created on {quiz.metadata.creationDate}</p> : <p>Last performed {calculateDaysSinceLastPerformance(quiz.metadata.creationDate)} days ago</p>}
-        <p>Role: {quiz.entitlementRole}</p>            
+        <p>{formatRoleName(quiz.entitlementRole)}</p>            
       </div>
       {editable && <div className='quiz-item-actions'>
         <div className="dropdown-wrapper">

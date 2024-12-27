@@ -55,7 +55,7 @@ const QuizReport = ({ completedQuiz }) => {
                     </div>
                     <ul className="quiz-details">
                         {section.items.map((item, index) => (
-                            <li key={index} className={`quiz-item ${item.isAnswerCorrect ? 'correct' : 'incorrect'}`}>
+                            <li key={index} className={`report-item ${item.isAnswerCorrect ? 'correct' : 'incorrect'}`}>
                                 <p><strong>{item.question}</strong> </p>
                                 <p><strong>Your Answer:</strong> {item.userAnswer}</p>
                                 <p><strong>Correct Answer:</strong> {item.answer}</p>

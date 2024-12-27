@@ -27,7 +27,6 @@ export default function MainPage() {
 
     return (
         <Router>
-            <button>Test</button>
             <MainPageContent 
                 isMenuOpen={isMenuOpen}
                 currentUser={currentUser}
