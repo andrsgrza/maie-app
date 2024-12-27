@@ -97,7 +97,6 @@ function MainPageContent({ isMenuOpen, currentUser, setCurrentUser, toggleMenu }
                 {getNavigationMenu()}
                 <div className="content">
                     <ModalProvider>
-                    
                     <TopBar enableStart={isMenuOpen} openSidebar={toggleMenu} showMenu={currentUser ? true : false} />
                     <div className="inner-content"> 
                         <BannerProvider>

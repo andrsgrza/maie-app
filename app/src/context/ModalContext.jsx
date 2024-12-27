@@ -1,6 +1,7 @@
 import React, { createContext, useState, useContext } from 'react';
 import { ConfirmModal } from '../common/modal/ConfirmModal'
 import { ImportModal } from '../common/modal/ImportModal'
+import HandleEntitlementModal from '../common/modal/HandleEntitlementModal'
 
 // Create the context
 const ModalContext = createContext();
@@ -15,6 +16,7 @@ export const ModalProvider = ({ children }) => {
 
     const [confirmModal, setConfirmModal] = useState(new ConfirmModal());
     const [importModal, setImportModal] = useState(new ImportModal());
+    const [handleEntitlementState, setHandleEntitlementState] = useState({ isOpen: false, resourceId: null });
 
     const configureConfirmModal = (config) => {
         setConfirmModal(prevModal => ({ ...prevModal, ...config }));
@@ -38,6 +40,16 @@ export const ModalProvider = ({ children }) => {
             return newModal;
         });
     }
+    const toggleHandleEntitlementModal = () => {
+        setHandleEntitlementState(prevState => ({
+            ...prevState,
+            isOpen: !prevState.isOpen
+        }));
+    };
+
+    const configureHandleEntitlementModal = (config) => {
+        setHandleEntitlementState(prevModal => ({ ...prevModal, ...config }));
+    };
 
     return (
         <ModalContext.Provider value={{
@@ -45,10 +57,14 @@ export const ModalProvider = ({ children }) => {
                 toggleConfirmModal,
                 configureImportModal,
                 toggleImportModal,
+                toggleHandleEntitlementModal,
+                configureHandleEntitlementModal,
+                handleEntitlementState
             }}>
             {children}
             {confirmModal.isOpen && <ConfirmModal {...confirmModal} />}
             {importModal.isOpen && <ImportModal {...importModal} />}
+            {handleEntitlementState.isOpen && <HandleEntitlementModal toggleModal={toggleHandleEntitlementModal} />}
         </ModalContext.Provider>
     );
     

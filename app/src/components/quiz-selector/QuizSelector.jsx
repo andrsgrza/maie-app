@@ -38,6 +38,12 @@ const QuizSelector = ({quizzes, setQuizzes, onSelected, selectible, editable, is
             window.removeEventListener('keydown', handleKeyDown);
         };
     }, [selectedQuizzes]);
+
+    useEffect(() => {
+        if (error === 404) {
+            console.log('No quizzes found', error);
+        }
+    }, [error]);
     
 
     const handleSelectQuiz = (selectedQuiz) => {
@@ -64,31 +70,39 @@ const QuizSelector = ({quizzes, setQuizzes, onSelected, selectible, editable, is
         }
     };
 
-
+    const getContent = () => {
+        if (quizzes.length === 0) {
+            return (<h3>Try creating new quizzes, importing quizzes or requesting access for quizzes to other users</h3>);
+        }
+        return (
+            <div className="quiz-selector">
+                {quizzes.map((quiz) => (
+                    <QuizItem
+                        key={quiz['id']}
+                        quiz={quiz}
+                        selectible={selectible}
+                        editable={editable}
+                        onSelect={handleSelectQuiz}
+                        onDelete={onDeleteQuiz}
+                    />
+                ))}
+            </div>
+        );
+    };
+    
     return (
         <div className="quiz-selector"> 
-            {isLoading ? <pre>Loading</pre> : (
-                quizzes.map((quiz) => {
-                    return (
-                        <React.Fragment key={quiz['id']}>                        
-                            <QuizItem
-                                key={quiz['id']}
-                                quiz={quiz}
-                                selectible={selectible}
-                                editable={editable}
-                                isSelected={selectedQuizzes.some(selectedQuiz => selectedQuiz['id'] === quiz['id'])}
-                                onSelect={() => handleSelectQuiz(quiz)}
-                                redo={false}
-                                onDelete={onDeleteQuiz}
-                            />
-                        </React.Fragment>
-                    );
-                })
+            {isLoading & <pre>Loading</pre> ? getContent() : (
+                <div className="quiz-selector">
+                    {getContent()}
+                </div>
             )}
-            {selectible && <button className="basic-button"
-                    onClick={() => onSelected(selectedQuizzes)}
-                    disabled={!startTrainingEnabled}>
-                Start Training
+            {selectible &&
+            <button
+                className="basic-button"
+                onClick={() => onSelected(selectedQuizzes)}
+                disabled={!startTrainingEnabled}>
+                    Start Training
             </button>}
         </div>
     );
