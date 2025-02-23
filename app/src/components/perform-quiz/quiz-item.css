@@ -1,308 +1,239 @@
-
 .quiz-item {
-    border: 1px solid #ddd;
-    padding: 1rem;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    flex-direction: row;
-    width: auto;
-    position: relative;
+  border: 1px solid #ddd;
+  padding: 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: row;
+  width: auto;
+  position: relative;
+  background-color: white;
 }
 
 .quiz-item h3 {
-    margin: 0 0 0.5rem 0;
-    color: #000000; /* Adjust based on your app's color scheme */
+  margin: 0 0 0.5rem 0;
+  color: #000000; /* Adjust based on your app's color scheme */
 }
 
 .quiz-item p {
-    margin: 0.25rem 0;
-    color: #000000;
+  margin: 0.25rem 0;
+  color: #000000;
 }
 
 .quiz-item-selectible:hover {
-    background-color: #f0f8ff; /* Adjust based on your app's color scheme */
-    transform: translateY(-2px);
+  background-color: #f0f8ff; /* Adjust based on your app's color scheme */
+  transform: translateY(-2px);
+  cursor: pointer;
 }
 
 .quiz-item.selected {
-    background-color: #e6f7ff; /* Adjust based on your app's color scheme */
-    border-color: #007bff;
+  background-color: #e6f7ff; /* Adjust based on your app's color scheme */
+  border-color: #007bff;
 }
 
-/* Style for redo items */
 .quiz-item.redo {
-    background-color: #ddd; /* Adjust based on your app's color scheme */    
-    border: 1px solid #c9c9c9;
-    display: inline-block;
-    
+  background-color: #ddd; /* Adjust based on your app's color scheme */
+  border: 1px solid #c9c9c9;
+  display: inline-block;
 }
-.quiz-item.redo h3,
-.quiz-item.redo p {
-    margin: 0 0 0.5rem 0;
-    color: #000000;
-}
+
 .quiz-item.redo:hover {
-    background-color: #ffe9e9; /* Adjust based on your app's color scheme */
-    transform: translateY(-2px);
+  background-color: #ffe9e9; /* Adjust based on your app's color scheme */
+  transform: translateY(-2px);
 }
 
-/* Style for selected redo items */
 .quiz-item.selected.redo {
-    background-color: #ffd7d7; /* Adjust based on your app's color scheme */
-    border-color: #ff4d4d;
-}
-.quiz-item-header {
-    width: 100%;
+  background-color: #ffd7d7; /* Adjust based on your app's color scheme */
+  border-color: #ff4d4d;
 }
 
+.quiz-item-header {
+  width: 100%;
+}
 
 .perform-quiz {
-    padding: 20px;
-    max-width: 600px;
-    margin: 0 auto;
-    font-family: Arial, sans-serif;
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
 }
 
 .question-section {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .answer-section {
-    margin-top: 10px;
-}
-
-h3 {
-    margin: 0;
-    padding: 10px 0;
+  margin-top: 10px;
 }
 
 input[type="text"] {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 button,
 .button-link {
-    margin-top: 10px;
-    padding: 10px;
-    background-color: black;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
+  margin-top: 10px;
+  padding: 10px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
 }
 
 button.disabled {
-    background-color: grey;
-    cursor: not-allowed;
+  background-color: grey;
+  cursor: not-allowed;
 }
 
 button:hover:not(.disabled) {
-    background-color: #333;
+  background-color: #333;
 }
 
 .button-group {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
 }
 
 .mark-button {
-    flex: 1;
-    padding: 10px;
-    margin: 0;
-    border: 1px solid #ccc;
-    background-color: #f0f0f0;
-    cursor: pointer;
-    text-align: center;
+  flex: 1;
+  padding: 10px;
+  margin: 0;
+  border: 1px solid #ccc;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  text-align: center;
 }
 
 .mark-button.selected {
-    background-color: #d0e0f0;
+  background-color: #d0e0f0;
 }
 
 .mark-button:first-of-type {
-    border-right: none;
+  border-right: none;
 }
 
 .mark-button:hover {
-    background-color: #e0e0e0;
+  background-color: #e0e0e0;
 }
 
 ul {
-    list-style-type: none;
-    padding: 0;
+  list-style-type: none;
+  padding: 0;
 }
 
 li {
-    margin: 5px 0;
+  margin: 5px 0;
 }
 
 h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
+  font-size: 24px;
+  margin-bottom: 20px;
 }
 
 h3 {
-    font-size: 20px;
+  font-size: 20px;
 }
 
 p {
-    font-size: 16px;
-    margin: 5px 0;
+  font-size: 16px;
+  margin: 5px 0;
 }
 
 input[type="text"]::placeholder {
-    color: #999;
+  color: #999;
 }
 
 button:focus,
 input[type="text"]:focus,
 .button-link:focus {
-    outline: none;
-    border-color: #666;
+  outline: none;
+  border-color: #666;
 }
 
 .disabled {
-    background-color: grey;
-    cursor: not-allowed;
+  background-color: grey;
+  cursor: not-allowed;
 }
 
-.disabled:hover {
-    background-color: grey;
-}
-/* QuizItem styles (existing ones) */
-.quiz-item {
-    border: 1px solid #ddd;
-    padding: 1rem;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.quiz-item h3 {
-    margin: 0 0 0.5rem 0;
-    color: #000000; /* Adjust based on your app's color scheme */
-}
-
-.quiz-item p {
-    margin: 0.25rem 0;
-    color: #000000;
-}
-
-/* Action buttons for editing and deleting the quiz */
-.quiz-item-actions {
-    display: flex;
-    align-items: top;      /* Vertically align the buttons */
-    gap: 10px;     
-    justify-content: flex-end;
-    margin-top: 0px;
-}
-
-.quiz-item-actions .edit-button,
-.quiz-item-actions .delete-button{
-    background: none;
-    border: none;
-    color: rgb(0, 0, 0);
-    cursor: pointer;
-    font-size: 1.2rem;
-    transition: color 0.3s ease;
-    margin-left: 10px;
-    height: min-content;    
-}
-.quiz-item-actions .delete-button{
-    margin-top: 13px;
-}
-.quiz-item-actions .edit-button:hover {
-    color: #007bff;
-}
-
-.quiz-item-actions .delete-button:hover {
-    color: red;
-}
-/* Wrapper for the More button and dropdown */
 .dropdown-wrapper {
-    position: relative; /* Relative positioning allows the dropdown menu to be positioned absolutely within this wrapper */
+  position: relative; /* Relative positioning allows the dropdown menu to be positioned absolutely within this wrapper */
 }
 
-/* Style for the dropdown menu */
 .dropdown-menu2 {
-    top: 10%; /* Places the dropdown right below the button */
-    position: absolute;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 0.5rem;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-    z-index: 1000; /* Ensures the dropdown is above other elements */
-    width: max-content; /* Adjust width as needed */
-    list-style: none;
-}
-.dropdown-menu2 a {
-    color: #333; /* Replace with your preferred color */
-    text-decoration: none; /* Optional, to remove underline */
+  top: 10%; /* Places the dropdown right below the button */
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.5rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  z-index: 1000; /* Ensures the dropdown is above other elements */
+  width: max-content; /* Adjust width as needed */
+  list-style: none;
 }
 
-.dropdown-menu2 a:visited {
-    color: #333; /* Same color as normal links, or choose another color */
+.dropdown-menu2 a {
+  color: #333; /* Replace with your preferred color */
+  text-decoration: none; /* Optional, to remove underline */
 }
+
 .dropdown-menu2 a:hover {
-    color: #114ab3; /* Same color as normal links, or choose another color */
+  color: #114ab3; /* Same color as normal links, or choose another color */
 }
-/* Dropdown menu items */
+
 .dropdown-menu2 li {
-    padding: 0.5rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  padding: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
+
 .dropdown-menu2 li:hover {
-    background-color: #f0f0f0;
+  background-color: #f0f0f0;
 }
+
 .dropdown-menu2 li.delete-element:hover {
-    color: #ca4848;
+  color: #ca4848;
 }
 
 .dropdown-menu2 li.entitlement-element:hover {
-    color: #8f7d2b;
+  color: #8f7d2b;
 }
+
 .dropdown-menu2 li.download-element:hover {
-    color: #601881;
+  color: #601881;
 }
+
 .dropdown-menu2 li.edit-element:hover {
-    color: #1a317e;
+  color: #1a317e;
 }
-.dropdown-menu2 li.edit-element:hover,
-.dropdown-menu2 li.edit-element:hover a {
-    color: rgb(15, 28, 212);
-}
-/* Style for the dropdown toggle button */
+
 .dropdown-toggle {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1.3rem;
-    padding: 0.25rem;
-    color: black;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.3rem;
+  padding: 0.25rem;
+  color: black;
 }
 
 .dropdown-toggle:hover {
-    color: #007bff;
+  color: #007bff;
 }
 
-/* Hide the dropdown when it's not open */
 .dropdown-menu {
-    display: none;
+  display: none;
 }
 
 .dropdown-wrapper .dropdown-menu {
-    display: block;
+  display: block;
 }
