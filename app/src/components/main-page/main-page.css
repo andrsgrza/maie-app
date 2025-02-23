@@ -1,251 +1,242 @@
 body {
-    margin: 0;
-    font-family: 'Playfair Display', serif;
-    background-color: #f0f2f5;
+  margin: 0;
+  font-family: "Playfair Display", serif;
+  background-color: #f0f2f5;
 }
 
 .main-page {
-    display: flex;
-    height: 100vh;
-    background-color: white;
+  display: flex;
+  height: 100vh;
+  background-color: white;
 }
 
 .left-menu {
-    width: 20%;
-    background-color: black; /* Change the sidebar color back to black */
-    color: white;
-    transition: width 0.3s;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /* padding-top: 20px; */
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    position: relative;
-    font-family: 'Arial', sans-serif;
+  width: min-content;
+  background-color: black; /* Change the sidebar color back to black */
+  color: white;
+  transition: width 0.3s;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* padding-top: 20px; */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  position: relative;
+  font-family: "Arial", sans-serif;
 }
 .left-menu {
-    width: 20%;
-    background-color: black; /* Change the sidebar color back to black */
-    color: white;
-    transition: width 0.3s;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /* padding-top: 20px; */
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    position: relative;
-    font-family: 'Arial', sans-serif;
+  width: 20%;
+  background-color: black; /* Change the sidebar color back to black */
+  color: white;
+  transition: width 0.3s;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* padding-top: 20px; */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  position: relative;
+  font-family: "Arial", sans-serif;
 }
-.left-menu a{
-    color: white;
-    text-decoration: none;
-    font-size: 1.2rem;
-    padding: 10px;
-    display: block;
-    transition: background-color 0.3s;
-    width: 100%;
-    border-radius: 5px;
+.left-menu a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+  padding: 10px;
+  display: block;
+  transition: background-color 0.3s;
+  border-radius: 5px;
 }
-
 
 .left-menu.collapsed {
-    width: 0;
+  width: 0;
 }
 
 .menu-toggle {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 1.5rem;
-    cursor: pointer;
-    padding: 10px;
-    text-align: center;
-    z-index: 1000; /* Ensure the button is always on top */
-    transition: color 0.3s;
-    height: fit-content;
-    width: fit-content;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 10px;
+  text-align: center;
+  z-index: 1000; /* Ensure the button is always on top */
+  transition: color 0.3s;
+  height: fit-content;
+  width: fit-content;
 }
 
 .menu-toggle.menu-open {
-    position: relative;
-    right: auto;
-    color: black;
+  position: relative;
+  right: auto;
+  color: black;
 }
 
 .menu-toggle.menu-collapsed {
-    position: relative;
-    color: black;
+  position: relative;
+  color: black;
 }
 
-
 .logo-container {
-    margin: 10px;
+  margin: 10px;
 }
 
 .logo {
-    height: 99%;
-    max-width: 100%;
+  height: 99%;
+  max-width: 100%;
 }
 
 .left-menu nav {
-    width: 100%;
+  width: 100%;
 }
 
 .left-menu nav ul {
-    list-style: none;
-    padding: 0;
-    width: 100%;
-    text-align: left;
-    margin-top: 0;
+  list-style: none;
+  padding: 0;
+  width: 100%;
+  text-align: left;
+  margin-top: 0;
+  min-width: 200px;
 }
 
 .left-menu nav ul li {
-    margin: 2px 0;
+  margin: 2px 0;
 }
 
 .left-menu nav ul li a {
-    color: white;
-    text-decoration: none;
-    display: block;
-    padding: 10px 20px;
-    transition: background-color 0.3s;
+  color: white;
+  text-decoration: none;
+  display: block;
+  padding: 10px 20px;
+  transition: background-color 0.3s;
 }
 
 .left-menu nav ul li a:hover {
-    background-color: #444; /* Slightly different hover color */
+  background-color: #444; /* Slightly different hover color */
 }
 
 .content {
-    flex-grow: 1;
-    background-color: white;
-    overflow-y: auto;
-    transition: margin-left 0.3s;
+  flex-grow: 1;
+  background-color: white;
+  overflow-y: auto;
+  transition: margin-left 0.3s;
 }
 .inner-content {
-    margin-left: 10px;
-    transition: margin-left 0.3s;
+  transition: margin-left 0.3s;
 }
 
 .left-menu.collapsed ~ .content {
-    margin-left: 0;
+  margin-left: 0;
 }
 h2 {
-    font-family: 'Arial', sans-serif;
-    font-weight: 600;
-    color: #333;
-  }
+  font-family: "Arial", sans-serif;
+  font-weight: 600;
+  color: #333;
+}
 .sidebar-top-button-container {
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
-    justify-content: space-between; /* This ensures the buttons are at the extremes */
-    width: 100%;
-    padding: 10px 20px, 10px 20px;
-} 
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 5px 10px; /* Reduced padding for better alignment */
+  box-sizing: border-box;
+}
 
 .sidebar-button {
-    padding: 10px 20px 10px 20px;
-    border-radius: 5px;
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    cursor: pointer;
-    color: white;
-    border: none;    
-  }
-  ______
-  .sidebar-login-menu {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%; /* Make it take the full height of the sidebar */
-    padding: 20px;
-    background-color: #f0f0f0;
-    text-align: center;
-  }
-  
-  .sidebar-login-menu h2 {
-    margin-bottom: 20px;
-    font-size: 24px;
-    color: #ffffff;
-  }
-  
-  .sidebar-login-menu p {
-    margin-bottom: 30px;
-    font-size: 16px;
-    color: #ffffff;
-  }
-  
-  .sidebar-login-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .sidebar-login-button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-size: 16px;
-    cursor: pointer;
-    text-align: center;
-    margin: auto;
-  }
-  
-  .sidebar-button:hover {
-    background-color: #0056b3;
-  }
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  height: 35px;
+  width: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  margin-top: 0px;
+}
+
+______ .sidebar-login-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%; /* Make it take the full height of the sidebar */
+  padding: 20px;
+  background-color: #f0f0f0;
+  text-align: center;
+}
+
+.sidebar-login-menu h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #ffffff;
+}
+
+.sidebar-login-menu p {
+  margin-bottom: 30px;
+  font-size: 16px;
+  color: #ffffff;
+}
+
+.sidebar-login-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sidebar-login-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+  margin: auto;
+}
+
+.sidebar-button:hover {
+  background-color: #0056b3;
+}
 
 /* Responsive design */
 @media (max-width: 768px) {
-    .left-menu {
-        width: 150px;
-    }
+  .left-menu {
+    width: 150px;
+  }
 
-    .left-menu.collapsed {
-        width: 0;
-    }
+  .left-menu.collapsed {
+    width: 0;
+  }
 
-    .logo {
-        height: 60px; /* Adjust for smaller screens */
-    }
+  .logo {
+    height: 60px; /* Adjust for smaller screens */
+  }
 
-    .content {
-        margin-left: 150px;
-    }
-
-    .left-menu.collapsed ~ .content {
-        margin-left: 0;
-    }
+  .left-menu.collapsed ~ .content {
+    margin-left: 0;
+  }
 }
 
 @media (max-width: 480px) {
-    .logo {
-        height: 40px; /* Adjust for very small screens */
-    }
+  .logo {
+    height: 40px; /* Adjust for very small screens */
+  }
 
-    .left-menu {
-        width: 100px;
-    }
+  .left-menu {
+    width: 100px;
+  }
 
-    .left-menu.collapsed {
-        width: 0;
-    }
+  .left-menu.collapsed {
+    width: 0;
+  }
 
-    .content {
-        margin-left: 100px;
-    }
-
-    .left-menu.collapsed ~ .content {
-        margin-left: 0;
-    }
-
-    
-    
+  .left-menu.collapsed ~ .content {
+    margin-left: 0;
+  }
 }

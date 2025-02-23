@@ -2,12 +2,12 @@ var fs = require("fs");
 const path = require("path");
 
 // Define the path to your JSON file
-const jsonFilePath = path.join(__dirname, 'yourfile.json');
+const jsonFilePath = path.join(__dirname, "yourfile.json");
 
 // Function to read JSON file
 const readJsonFile = (filePath) => {
   return new Promise((resolve, reject) => {
-    fs.readFile(filePath, 'utf8', (err, data) => {
+    fs.readFile(filePath, "utf8", (err, data) => {
       if (err) {
         return reject(err);
       }
@@ -25,7 +25,7 @@ const readJsonFile = (filePath) => {
 const writeJsonFile = (filePath, data) => {
   return new Promise((resolve, reject) => {
     const jsonString = JSON.stringify(data, null, 2); // Pretty-print JSON with 2 spaces
-    fs.writeFile(filePath, jsonString, 'utf8', (err) => {
+    fs.writeFile(filePath, jsonString, "utf8", (err) => {
       if (err) {
         return reject(err);
       }
@@ -44,8 +44,8 @@ const readFilesInDirectory = (dirPath) => {
 
       // Filter out directories, if needed
       const filePaths = files
-        .filter(file => fs.lstatSync(path.join(dirPath, file)).isFile())
-        .map(file => path.join(dirPath, file));
+        .filter((file) => fs.lstatSync(path.join(dirPath, file)).isFile())
+        .map((file) => path.join(dirPath, file));
 
       resolve(filePaths);
     });
@@ -56,15 +56,12 @@ const readFilesInDirectory = (dirPath) => {
 const updateJsonFile = async (filePath) => {
   try {
     const data = await readJsonFile(filePath);
-    
+
     // Modify the JSON data as needed
     data.newKey = "newValue";
 
     await writeJsonFile(filePath, data);
-    console.log('JSON file updated successfully');
-  } catch (error) {
-    console.error('Error updating JSON file:', error);
-  }
+  } catch (error) {}
 };
 
 // Call the update function
@@ -74,5 +71,5 @@ module.exports = {
   readJsonFile,
   writeJsonFile,
   readFilesInDirectory,
-  updateJsonFile
+  updateJsonFile,
 };

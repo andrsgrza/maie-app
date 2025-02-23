@@ -1,0 +1,116 @@
+/* Sidebar Container */
+.left-menu {
+  width: max-content;
+  background-color: black;
+  color: white;
+  transition: width 0.3s;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  position: relative;
+  font-family: "Arial", sans-serif;
+  height: 100vh;
+}
+
+.left-menu.collapsed {
+  width: 0;
+}
+
+/* Sidebar Top Buttons */
+.sidebar-top-button-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 5px 10px; /* Reduced padding for better alignment */
+  box-sizing: border-box;
+}
+
+/* Sidebar Login Menu */
+.sidebar-login-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 20px;
+  text-align: center;
+}
+
+.sidebar-login-menu h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #ffffff;
+}
+
+.sidebar-login-menu p {
+  margin-bottom: 30px;
+  font-size: 16px;
+  color: #ffffff;
+}
+
+/* Sidebar Login Buttons */
+.sidebar-login-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 80%; /* Adjusted for consistent alignment */
+  max-width: 250px;
+  box-sizing: border-box;
+}
+
+.sidebar-login-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease;
+  width: 100%; /* Ensures consistent width */
+  box-sizing: border-box;
+}
+
+.sidebar-login-button:hover {
+  background-color: #45a049;
+}
+
+/* Sidebar Links */
+.left-menu a {
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  padding: 10px;
+  display: block;
+  border-radius: 5px;
+}
+
+.left-menu a:hover {
+  background-color: #444;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .left-menu {
+    width: 150px;
+  }
+
+  .left-menu.collapsed {
+    width: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .left-menu {
+    width: 100px;
+  }
+
+  .left-menu.collapsed {
+    width: 0;
+  }
+}

@@ -1,6 +1,6 @@
-
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
+import "./sidebar.css";
 
 const SidebarMenu = () => {
   return (
@@ -8,8 +8,12 @@ const SidebarMenu = () => {
       <h2>Welcome</h2>
       <p>Please log in or sign up to continue.</p>
       <div className="sidebar-login-buttons">
-        <Link to="/login" className="sidebar-login-button">Login</Link>
-        <Link to="/signup" className="sidebar-login-button">Sign Up</Link>
+        <Link to="/login" className="sidebar-login-button">
+          Login
+        </Link>
+        <Link to="/signup" className="sidebar-login-button">
+          Sign Up
+        </Link>
       </div>
     </div>
   );

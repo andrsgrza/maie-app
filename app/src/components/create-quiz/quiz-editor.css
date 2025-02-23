@@ -1,13 +1,78 @@
-.input-quiz-meta{
+.input-quiz-meta {
+  textarea {
     width: calc(100% - 22px);
-    textarea {
-        width: calc(100% - 22px);
-        padding: 10px;
-        margin: 0 auto 20px auto;
-        font-size: 1rem;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        resize: none;
-    }
-    
-} 
+    padding: 10px;
+    margin: 0 auto 20px auto;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: none;
+  }
+}
+/* General Container */
+.quiz-meta-container {
+  width: 100%;
+  max-width: 1200px;
+  padding: 20px;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+
+/* Title and Description */
+.quiz-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.description-wrapper {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.description-wrapper textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: none;
+  font-size: 1rem;
+  background-color: #fff;
+}
+
+/* Section List */
+.section-list-wrapper {
+  max-width: 1200px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Section List */
+.section-list {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+/* Save Quiz Container */
+.save-quiz-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.save-quiz-button {
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.save-quiz-button:hover {
+  background-color: #218838;
+}
