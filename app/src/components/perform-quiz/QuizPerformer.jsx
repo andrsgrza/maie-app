@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import QuizSelectorPerform from "../quiz-selector/quiz-selector-wrapper/QuizSelectorPerform";
 import PerformQuiz from "./PerformQuiz";
 import QuizReport from "../report/QuizReport";
-import "./quiz-performer.css";
+import "./PerformQuiz.css";
 
 export default function QuizPerformer() {
   const [selectedQuizzes, setSelectedQuizzes] = useState([]);
@@ -38,8 +38,6 @@ export default function QuizPerformer() {
     setAllQuizzesCompleted(false);
   };
 
-  console.log("first");
-
   return (
     <div className="quiz-performer centered-container">
       {selectedQuizzes.length === 0 && (
@@ -50,7 +48,7 @@ export default function QuizPerformer() {
       {selectedQuizzes.length > 0 &&
         currentQuizIndex < selectedQuizzes.length &&
         selectedQuizzes.map((quiz, index) => (
-          <div key={`perform-quiz-${index}`}>
+          <div key={`perform-quiz-${index}`} style={{ display: "contents" }}>
             {currentQuizIndex === index ? (
               <PerformQuiz quizId={quiz} onComplete={handleSubmitQuiz} />
             ) : null}

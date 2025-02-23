@@ -53,7 +53,6 @@
 
 .perform-quiz {
   padding: 20px;
-  max-width: 600px;
   margin: 0 auto;
   font-family: Arial, sans-serif;
 }
@@ -116,10 +115,6 @@ button:hover:not(.disabled) {
   background-color: #d0e0f0;
 }
 
-.mark-button:first-of-type {
-  border-right: none;
-}
-
 .mark-button:hover {
   background-color: #e0e0e0;
 }
@@ -168,16 +163,25 @@ input[type="text"]:focus,
 }
 
 .dropdown-menu2 {
-  top: 10%; /* Places the dropdown right below the button */
+  top: 100%;
+  left: 0;
   position: absolute;
   background-color: white;
   border: 1px solid #ddd;
   border-radius: 4px;
   padding: 0.5rem;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-  z-index: 1000; /* Ensures the dropdown is above other elements */
-  width: max-content; /* Adjust width as needed */
+  z-index: 1000;
+  width: max-content;
   list-style: none;
+  transition: transform 0.2s ease;
+  transform-origin: top;
+}
+
+.dropdown-menu2.dropdown-align-right {
+  left: auto;
+  right: 0;
+  transform-origin: top right;
 }
 
 .dropdown-menu2 a {

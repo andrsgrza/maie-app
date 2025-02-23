@@ -1,0 +1,69 @@
+/* Styles for Section.jsx */
+.section {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  padding: 15px;
+  background-color: #ffffff;
+  box-sizing: border-box;
+}
+.section-title {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.item-list {
+  margin-top: 10px;
+}
+/* Styles for Section.jsx */
+.section {
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  padding: 15px;
+  background-color: #ffffff;
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.section-actions button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #555;
+}
+
+.section-actions button:hover {
+  color: #ff5c5c;
+}
+
+.item-list {
+  margin-top: 10px;
+}
+
+.add-item-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-item-button:hover {
+  background-color: #45a049;
+}

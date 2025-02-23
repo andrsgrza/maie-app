@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import "./perform-quiz.css";
+import "./PerformQuiz.css";
 import QuizClient from "../../api/quiz-client";
 
 export default function PerformQuiz({ quizId, onComplete }) {
@@ -11,6 +11,7 @@ export default function PerformQuiz({ quizId, onComplete }) {
   const [isAnswerCorrect, setIsAnswerCorrect] = useState(null);
   const [isMarked, setIsMarked] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  // const [canGoNext, setCanGoNext] = useState(false);
   const [completedQuiz, setCompletedQuiz] = useState(null);
 
   const answerInputRef = useRef(null);
@@ -31,7 +32,6 @@ export default function PerformQuiz({ quizId, onComplete }) {
 
   useEffect(() => {
     const handleGlobalKeyDown = (event) => {
-      console.log("global", event);
       if (showAnswer) {
         if (event.key === "ArrowLeft" || event.key.toLowerCase() === "c") {
           handleMarkAnswer(true);
@@ -42,14 +42,9 @@ export default function PerformQuiz({ quizId, onComplete }) {
           handleMarkAnswer(false);
         }
       }
-      console.log(
-        "global event is isntaine opf OF OBJECT",
-        event instanceof Object
-      );
       if (event.key === "Enter" && !event.shiftKey) {
         event.preventDefault(); // Prevent default behavior
         if (isMarked) {
-          console.log("MARKESD");
           if (isLastQuestionInSection()) {
             if (isLastSection()) {
               handleSubmitQuiz();
@@ -60,7 +55,6 @@ export default function PerformQuiz({ quizId, onComplete }) {
             handleNextQuestion();
           }
         } else if (userAnswer.trim() !== "") {
-          console.log("ANSWER", userAnswer.trim());
           handleSubmitAnswer();
         }
       }
@@ -72,20 +66,12 @@ export default function PerformQuiz({ quizId, onComplete }) {
   }, [showAnswer, userAnswer, isMarked]);
 
   const handleKeyDown = (event) => {
-    console.log("TOP", event);
-    console.log("top event in instance of OF OBJECT", event instanceof Object);
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault(); // Prevent default behavior
       const answer = answerInputRef.current.value.trim(); // Trim to handle spaces
-      console.log(
-        "VALUE",
-        answer ? "not undefined" : "is undefined",
-        answerInputRef.current
-      );
       if (userAnswer.trim() !== "") {
         handleSubmitAnswer();
       } else {
-        console.log("Textarea is empty, not submitting answer.");
       }
     }
   };
@@ -95,9 +81,7 @@ export default function PerformQuiz({ quizId, onComplete }) {
       const quiz = await QuizClient.getQuizById(quizId);
       setCurrentQuiz(quiz);
       setIsLoaded(true);
-    } catch (error) {
-      console.error("There was an error fetching the required quiz", error);
-    }
+    } catch (error) {}
   };
 
   const restartQuiz = () => {
@@ -151,7 +135,6 @@ export default function PerformQuiz({ quizId, onComplete }) {
   };
 
   const handleSubmitAnswer = () => {
-    console.log("Submitting");
     setShowAnswer(true);
   };
 
@@ -192,90 +175,82 @@ export default function PerformQuiz({ quizId, onComplete }) {
   };
 
   return (
-    <div className="perform-quiz">
+    <div className="perform-quiz-container">
       {isLoaded ? (
         <>
-          <h2>{currentQuiz.title}</h2>
-          <h3 className="section-title">
-            {currentQuiz.sections[currentSectionIndex].title}
-          </h3>
-          <div className="question-section">
-            <h3>
-              {
-                currentQuiz.sections[currentSectionIndex].items[
-                  currentQuestionIndex
-                ].question
-              }
+          <h2 className="quiz-title">{currentQuiz.title}</h2>
+          <div className="section-container">
+            <h3 className="section-title">
+              {currentQuiz.sections[currentSectionIndex].title}
             </h3>
-            <textarea
-              name="answer-input"
-              placeholder="Write here your answer"
-              value={userAnswer}
-              onChange={(e) => setUserAnswer(e.target.value)}
-              onKeyDown={handleKeyDown}
-              ref={answerInputRef}
-              disabled={showAnswer}
-            />
-            {!showAnswer && (
-              <div>
-                <button
-                  onClick={handleSubmitAnswer}
-                  disabled={!userAnswer.trim()}
-                  className={!userAnswer.trim() ? "disabled" : ""}
-                >
-                  Submit
-                </button>
-              </div>
-            )}
-            {showAnswer && (
-              <div className="answer-section">
-                <h4>
-                  Correct Answer:<br></br>
-                  <br></br>
-                  {
-                    currentQuiz.sections[currentSectionIndex].items[
-                      currentQuestionIndex
-                    ].answer
-                  }
-                </h4>
+            <div className="question-section">
+              <h3 className="question-text">
+                {
+                  currentQuiz.sections[currentSectionIndex].items[
+                    currentQuestionIndex
+                  ].question
+                }
+              </h3>
+              <textarea
+                className="answer-input"
+                placeholder="Write here your answer"
+                value={userAnswer}
+                onChange={(e) => setUserAnswer(e.target.value)}
+                ref={answerInputRef}
+                disabled={showAnswer}
+              />
+              {!showAnswer && (
                 <div className="button-group">
                   <button
-                    onClick={() => handleMarkAnswer(true)}
-                    className={`mark-button ${
-                      isAnswerCorrect === true ? "selected" : ""
-                    }`}
+                    className="quiz-button"
+                    onClick={handleSubmitAnswer}
+                    disabled={!userAnswer.trim()}
                   >
-                    Correct
+                    Submit
                   </button>
-                  <button
-                    onClick={() => handleMarkAnswer(false)}
-                    className={`mark-button ${
-                      isAnswerCorrect === false ? "selected" : ""
-                    }`}
+                  {/* <button
+                    className="quiz-button"
+                    disabled={!canGoNext}
+                    onClick={() =>
+                      setCurrentQuestionIndex(currentQuestionIndex + 1)
+                    }
                   >
-                    Incorrect
-                  </button>
+                    Next Question
+                  </button> */}
                 </div>
-              </div>
-            )}
+              )}
+              {showAnswer && (
+                <div className="answer-section">
+                  <h4>Correct Answer:</h4>
+                  <p>
+                    {
+                      currentQuiz.sections[currentSectionIndex].items[
+                        currentQuestionIndex
+                      ].answer
+                    }
+                  </p>
+                  <div className="button-group">
+                    <button
+                      className={`mark-button ${
+                        isAnswerCorrect === true ? "selected correct" : ""
+                      }`}
+                      onClick={() => handleMarkAnswer(true)}
+                    >
+                      Correct
+                    </button>
+                    <button
+                      className={`mark-button ${
+                        isAnswerCorrect === false ? "selected incorrect" : ""
+                      }`}
+                      onClick={() => handleMarkAnswer(false)}
+                    >
+                      Incorrect
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
-          {!isLastQuestionInSection() ? (
-            <button
-              onClick={handleNextQuestion}
-              disabled={!isMarked}
-              className={!isMarked ? "disabled" : ""}
-            >
-              Next Question
-            </button>
-          ) : (
-            <button
-              onClick={isLastSection() ? handleSubmitQuiz : handleNextSection}
-              disabled={!isMarked}
-              className={!isMarked ? "disabled" : ""}
-            >
-              {isLastSection() ? "Submit Quiz" : "Next Section"}
-            </button>
-          )}
         </>
       ) : (
         <div>Loading...</div>

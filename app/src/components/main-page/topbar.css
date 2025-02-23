@@ -1,92 +1,120 @@
 /* Top Bar Styles */
 .topbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px, 10px 20px;
-    background-color: #000000;
-    color: white;
-  }
-  
-  .topbar a {
-    color: white;
-    text-decoration: none;
-    margin-right: 15px;
-  }
-  
-  .topbar-left a {
-    font-size: 18px;
-    font-weight: bold;
-  }
-  
-  .topbar-right {
-    display: flex;
-    align-items: center;
-  }
-  
-  .topbar-button {
-    background-color: #4CAF50;
-    padding: 10px 20px;
-    border-radius: 5px;
-    margin-left: 10px;
-    cursor: pointer;
-    color: white;
-    border: none;  
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
-  
-  .topbar-button:hover {
-    background-color: #45a049;
-  }
-  
-  .user-profile {
-    position: relative;
-  }
-  
-  .user-button {
-    background-color: #333;
-    border: none;
-    color: white;
-    cursor: pointer;
-    font-size: 16px;
-    margin: 10px;
-    margin-right: 15px;
-  }
-  
-  .user-menu {
-    position: absolute;
-    right: 0;
-    top: 40px;
-    background-color: white;
-    color: black;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    width: 150px;
-  }
-  
-  .user-menu ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .user-menu li {
-    padding: 10px 20px;
-    cursor: pointer;
-  }
-  
-  .user-menu li:hover {
-    background-color: #f0f0f0;
-  }
-  
-  .user-menu li a {
-    color: black;
-    text-decoration: none;
-  }
-  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 10px;
+  background-color: #000000;
+  color: white;
+  height: 50px; /* Adjusted height */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 10;
+}
+
+.topbar-sidebar {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.topbar-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  text-align: center;
+  height: 100%;
+}
+
+.home-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .home-icon {
-  height: 55px; /* Adjust the height as necessary */
-  width: auto;  /* Keep the aspect ratio of the image */
+  height: 40px;
+  width: auto;
+}
+
+/* Right Section - Login/Signup/Profile */
+.topbar-right {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.topbar-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 5px 15px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  margin-left: 10px;
+  height: 30px;
+  line-height: 15px;
+}
+
+.topbar-button:hover {
+  background-color: #45a049;
+}
+
+.user-profile {
+  position: relative;
+}
+
+.user-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #333;
+  color: white;
+  border: none;
+  padding: 0 15px;
+  height: 35px;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+  margin-top: 0px;
+}
+
+.user-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.user-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.user-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.user-menu li {
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  color: black;
+}
+
+.user-menu li:hover {
+  background-color: #f0f0f0;
 }
