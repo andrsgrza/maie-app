@@ -15,19 +15,29 @@ export const BannerProvider = ({ children }) => {
 
   // Function to add a new banner
   // Function to add a new banner
-  const addBanner = (type, title, message) => {
+  const addBanner = (type, title, message, duration = 3000) => {
     setCounter((prevCounter) => {
       const id = prevCounter + 1; // Increment counter for each banner
       setBanners((prevBanners) => [
         ...prevBanners,
         { id, type, title, message },
       ]);
+
+      // Set a timeout to remove the banner after the specified duration
+      setTimeout(() => {
+        removeBanner(id);
+      }, duration);
+
       return id; // Update the counter state
     });
   };
 
   // Function to remove a banner by ID
-  const removeBanner = (id) => {};
+  const removeBanner = (id) => {
+    setBanners((prevBanners) =>
+      prevBanners.filter((banner) => banner.id !== id)
+    );
+  };
 
   return (
     <BannerContext.Provider value={{ addBanner, removeBanner }}>
