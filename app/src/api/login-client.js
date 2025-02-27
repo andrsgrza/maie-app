@@ -1,9 +1,10 @@
 import axios from "axios";
+import { HOST_ENDPOINTS } from "../common/constants";
 
 export class LoginClient {
   // Create an Axios instance with the base URL and credentials configuration
   static apiClient = axios.create({
-    baseURL: "http://localhost:8080", // Base URL for the backend
+    baseURL: `${process.env.LOGIN_HOST_PATH}/${HOST_ENDPOINTS.LOGIN}`, // Base URL for the backend
     withCredentials: true, // Include cookies in requests
   });
 
@@ -24,7 +25,7 @@ export class LoginClient {
   // Login request: authenticate with username and password
   static async requestLogin(username, password) {
     try {
-      const response = await this.apiClient.post("/api/auth/login", {
+      const response = await this.apiClient.post("login", {
         username,
         password,
       });
@@ -40,7 +41,7 @@ export class LoginClient {
   // Sign-up request: register a new user
   static async requestSignUp(username, password, email, telephone) {
     try {
-      const response = await this.apiClient.post("/api/auth/register", {
+      const response = await this.apiClient.post("register", {
         username,
         password,
         email,
@@ -57,7 +58,7 @@ export class LoginClient {
 
   static async requestLogout() {
     try {
-      const response = await this.apiClient.post("/api/auth/logout");
+      const response = await this.apiClient.post("logout");
       return { status: response.status, data: response.data };
     } catch (error) {
       return {

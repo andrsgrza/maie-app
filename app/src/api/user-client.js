@@ -1,14 +1,15 @@
 import axios from "axios";
+import { HOST_ENDPOINTS } from "../common/constants";
 
 export class UserClient {
   static apiClient = axios.create({
-    baseURL: "http://localhost:8080", // Base URL for the backend
+    baseURL: `${process.env.LOGIN_HOST_PATH}/${HOST_ENDPOINTS.USER}`, // Base URL for the backend
     withCredentials: true, // Include cookies in requests
   });
 
   static async getUser(userId) {
     try {
-      const response = await axios.get("/api/user", {
+      const response = await axios.get("", {
         userId,
       });
       return response;
@@ -18,7 +19,7 @@ export class UserClient {
   }
   static async whoAmI() {
     try {
-      const response = await this.apiClient.get("/api/user/whoAmI");
+      const response = await this.apiClient.get("whoAmI");
       return { status: response.status, data: response.data };
     } catch (error) {
       error.stack = "removed";
@@ -31,7 +32,7 @@ export class UserClient {
 
   static async fetchUsernames(userIds) {
     try {
-      const response = await axios.post("/api/user/batch", userIds);
+      const response = await axios.post("batch", userIds);
       return response.data; // Returns a map { userId: username }
     } catch (error) {
       return {}; // Fallback to an empty map
@@ -40,7 +41,7 @@ export class UserClient {
 
   static async searchUsers(query) {
     try {
-      const response = await this.apiClient.get(`/api/user/search`, {
+      const response = await this.apiClient.get("search", {
         params: { query },
       });
       return response.data;
