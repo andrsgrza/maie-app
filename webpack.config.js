@@ -41,6 +41,12 @@ module.exports = {
     new Dotenv({
       path: isProduction ? false : "./.env",
     }),
+    new webpack.DefinePlugin({
+      "process.env.LOGIN_HOST_PATH": JSON.stringify(
+        process.env.LOGIN_HOST_PATH
+      ),
+      "process.env.QUIZ_HOST_PATH": JSON.stringify(process.env.QUIZ_HOST_PATH),
+    }),
     new HtmlWebpackPlugin({ template: "app/src/index.html" }),
     new CopyWebpackPlugin({
       patterns: [
