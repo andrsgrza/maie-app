@@ -17,7 +17,7 @@ import { BannerProvider } from "../../context/BannerContext";
 import { ModalProvider } from "../../context/ModalContext";
 
 export default function MainPage() {
-  const [isMenuOpen, setIsMenuOpen] = useState(true);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
 
   const toggleMenu = () => {
