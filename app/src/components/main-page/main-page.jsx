@@ -109,7 +109,8 @@ function MainPageContent({
       <div className="main-page">
         {getNavigationMenu()}
         <div className="content">
-          <p> env {process.env.LOGIN_HOST_PATH}</p>
+          {/* <p> env {process.env.LOGIN_HOST_PATH}</p>
+          <p> env {process.env.QUIZ_HOST_PATH}</p> */}
           <ModalProvider>
             <TopBar
               enableStart={isMenuOpen}
