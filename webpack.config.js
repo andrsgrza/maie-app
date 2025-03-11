@@ -2,6 +2,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
+const webpack = require("webpack");
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -46,15 +47,18 @@ module.exports = {
         },
       ],
     }),
+    new webpack.DefinePlugin({
+      "process.env.LOGIN_HOST_PATH": JSON.stringify(
+        process.env.LOGIN_HOST_PATH || ""
+      ),
+      "process.env.QUIZ_HOST_PATH": JSON.stringify(
+        process.env.QUIZ_HOST_PATH || ""
+      ),
+    }),
   ],
+
   devServer: {
     historyApiFallback: true,
     port: 8082,
   },
-  // devtool:
-  //   process.env.NODE_ENV === "production" ? "source-map" : "eval-source-map",
-  // optimization: {
-  //   minimize: process.env.NODE_ENV === "production", // Only minimize in production
-  //   minimizer: [new TerserPlugin()],
-  // },
 };
