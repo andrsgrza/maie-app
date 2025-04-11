@@ -24,6 +24,10 @@ export class LoginClient {
 
   // Login request: authenticate with username and password
   static async requestLogin(username, password) {
+    console.log(
+      "requestLogin",
+      `${process.env.LOGIN_HOST_PATH}/${HOST_ENDPOINTS.LOGIN}`
+    );
     try {
       const response = await this.apiClient.post("login", {
         username,

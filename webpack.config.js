@@ -1,8 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
-const webpack = require("webpack");
+const Dotenv = require("dotenv-webpack");
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -38,6 +37,9 @@ module.exports = {
   mode: isProduction ? "production" : "development",
 
   plugins: [
+    new Dotenv({
+      path: isProduction ? false : "./.env",
+    }),
     new HtmlWebpackPlugin({ template: "app/src/index.html" }),
     new CopyWebpackPlugin({
       patterns: [
@@ -46,14 +48,6 @@ module.exports = {
           to: "resources/",
         },
       ],
-    }),
-    new webpack.DefinePlugin({
-      "process.env.LOGIN_HOST_PATH": JSON.stringify(
-        process.env.LOGIN_HOST_PATH || ""
-      ),
-      "process.env.QUIZ_HOST_PATH": JSON.stringify(
-        process.env.QUIZ_HOST_PATH || ""
-      ),
     }),
   ],
 
