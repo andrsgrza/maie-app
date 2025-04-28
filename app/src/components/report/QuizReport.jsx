@@ -20,12 +20,14 @@ const QuizReport = ({ completedQuiz }) => {
   const incorrectAnswers = totalQuestions - correctAnswers;
 
   const [activated, setActivated] = useState(false);
+  const [redoSaved, setRedoSaved] = useState(false);
   const handleSaveRedoQuiz = async () => {
     const quizCopy = JSON.parse(JSON.stringify(completedQuiz));
     const redoQuiz = cleanQuizData(quizCopy);
-    redoQuiz.title = `${title} Redo`;
+    redoQuiz.title = `${title} - redo`;
     const savedQuiz = await QuizClient.postQuiz(redoQuiz);
     const userId = await UserClient.whoAmI();
+    setRedoSaved(true);
     setActivated(true);
   };
 
@@ -92,9 +94,18 @@ const QuizReport = ({ completedQuiz }) => {
           </ul>
         </div>
       ))}
-      <button className="basic-button" onClick={handleSaveRedoQuiz}>
-        Save ReDo Quiz
+      <button
+        className="basic-button"
+        onClick={handleSaveRedoQuiz}
+        disabled={redoSaved}
+      >
+        Save wrong answers quiz
       </button>
+      {redoSaved && (
+        <div className="redo-quiz-saved-message">
+          <p>Quiz '{title} - redo' succesfully saved</p>
+        </div>
+      )}
       {/* {activated && (
         <p>
           <pre>{JSON.stringify(completedQuiz, null, 2)}</pre>

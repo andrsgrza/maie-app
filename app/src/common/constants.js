@@ -91,8 +91,8 @@ export const MESSAGES = {
   },
 };
 export const HOST_ENDPOINTS = {
-  USER: "api/user",
-  LOGIN: "api/auth",
-  QUIZZES: "api/quizzes",
-  RESOURCE_ENTITLEMENT: "api/resource-entitlement",
+  USER: "identity/user",
+  LOGIN: "identity/auth",
+  QUIZZES: "quiz/quizzes",
+  RESOURCE_ENTITLEMENT: "quiz/resource-entitlement",
 };

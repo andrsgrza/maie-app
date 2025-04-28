@@ -42,10 +42,7 @@ export default function QuizCreator() {
   const handleQuizDescriptionChange = (event) => {
     setForgedQuiz((prevState) => ({
       ...prevState,
-      metadata: {
-        ...prevState.metadata,
-        description: event.target.value,
-      },
+      description: event.target.value,
     }));
   };
 
@@ -156,7 +153,7 @@ export default function QuizCreator() {
             name="description"
             placeholder="Provide a description for the quiz"
             onChange={handleQuizDescriptionChange}
-            value={forgedQuiz.metadata?.description}
+            value={forgedQuiz.description}
           />
         </label>
       </div>

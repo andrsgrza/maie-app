@@ -38,7 +38,7 @@ module.exports = {
 
   plugins: [
     new Dotenv({
-      path: isProduction ? false : "./.env",
+      path: isProduction ? "./.env.production" : "./.env",
     }),
     new HtmlWebpackPlugin({ template: "app/src/index.html" }),
     new CopyWebpackPlugin({

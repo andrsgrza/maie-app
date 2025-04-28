@@ -3,7 +3,7 @@ import { HOST_ENDPOINTS } from "../common/constants";
 
 export class UserClient {
   static apiClient = axios.create({
-    baseURL: `${process.env.LOGIN_HOST_PATH}/${HOST_ENDPOINTS.USER}`, // Base URL for the backend
+    baseURL: `${process.env.LOGIN_HOST_PATH}/${HOST_ENDPOINTS.USER}`,
     withCredentials: true, // Include cookies in requests
   });
 

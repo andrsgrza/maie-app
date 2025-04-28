@@ -13,7 +13,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "NODE_ENV=development webpack serve --open",
     "build": "NODE_ENV=production webpack",
-    "dev": "webpack serve"
+    "dev": "webpack serve",
+    "deploy": "scripts/deploy.sh"
   },
   "keywords": [],
   "author": "",

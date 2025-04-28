@@ -16,34 +16,33 @@ export default function ItemList({
 }) {
   return (
     <div className="item-list">
-      {items.map((item, index) => (
-        <>
-          {!item.editMode ? (
-            <ItemBox
-              key={index}
-              item={item}
-              index={index}
-              deleteItem={deleteItem}
-              updateItem={updateItem}
-              onEdit={handleEditModeToggle}
-            />
-          ) : (
-            <InputItem
-              key={index + 1}
-              index={index}
-              item={item}
-              addItem={addItem}
-              updateItem={updateItem}
-              onCancel={handleEditModeToggle}
-              keepOpen={keepOpen}
-              setKeepOpen={setKeepOpen}
-              first={false}
-              edit={true}
-              hasSubmitted={hasSubmitted}
-            />
-          )}
-        </>
-      ))}
+      {items.map((item, index) => {
+        const uniqueKey = item.id || index;
+        return !item.editMode ? (
+          <ItemBox
+            key={uniqueKey}
+            item={item}
+            index={index}
+            deleteItem={deleteItem}
+            updateItem={updateItem}
+            onEdit={handleEditModeToggle}
+          />
+        ) : (
+          <InputItem
+            key={`${uniqueKey}-edit`}
+            index={index}
+            item={item}
+            addItem={addItem}
+            updateItem={updateItem}
+            onCancel={handleEditModeToggle}
+            keepOpen={keepOpen}
+            setKeepOpen={setKeepOpen}
+            first={false}
+            edit={true}
+            hasSubmitted={hasSubmitted}
+          />
+        );
+      })}
       {isAddingItem && (
         <>
           <InputItem

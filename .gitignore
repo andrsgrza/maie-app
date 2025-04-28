@@ -3,4 +3,5 @@ DS_Store
 .DS_Store
 dist
 launch.json
-.env
+.env*
+certs/
