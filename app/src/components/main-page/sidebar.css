@@ -97,7 +97,7 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .left-menu {
-    width: 150px;
+    width: 200px; /* Antes 150px */
   }
 
   .left-menu.collapsed {
@@ -107,7 +107,7 @@
 
 @media (max-width: 480px) {
   .left-menu {
-    width: 100px;
+    width: 180px; /* Antes 100px */
   }
 
   .left-menu.collapsed {

@@ -2,9 +2,8 @@ import axios from "axios";
 import { HOST_ENDPOINTS } from "../common/constants";
 
 export class LoginClient {
-  // Create an Axios instance with the base URL and credentials configuration
   static apiClient = axios.create({
-    baseURL: `${process.env.LOGIN_HOST_PATH}/${HOST_ENDPOINTS.LOGIN}`, // Base URL for the backend
+    baseURL: `${process.env.LOGIN_HOST_PATH}/${HOST_ENDPOINTS.LOGIN}`,
     withCredentials: true, // Include cookies in requests
   });
 
@@ -24,10 +23,6 @@ export class LoginClient {
 
   // Login request: authenticate with username and password
   static async requestLogin(username, password) {
-    console.log(
-      "requestLogin",
-      `${process.env.LOGIN_HOST_PATH}/${HOST_ENDPOINTS.LOGIN}`
-    );
     try {
       const response = await this.apiClient.post("login", {
         username,

@@ -52,22 +52,11 @@ export class ImportModal extends BaseModal {
       if (!parsedDocument.title) {
         validationErrors.push("The document is missing the 'title' field.");
       }
-
-      if (!parsedDocument.metadata) {
-        validationErrors.push("The document is missing the 'metadata' field.");
-      } else {
-        if (!parsedDocument.metadata.description) {
-          validationErrors.push(
-            "The 'metadata' object is missing the 'description' field."
-          );
-        }
-        if (!parsedDocument.metadata.creationDate) {
-          validationErrors.push(
-            "The 'metadata' object is missing the 'creationDate' field."
-          );
-        }
+      if (!parsedDocument.description) {
+        validationErrors.push(
+          "The document is missing the 'description' field."
+        );
       }
-
       if (!parsedDocument.sections) {
         validationErrors.push("The document is missing the 'sections' field.");
       } else if (!Array.isArray(parsedDocument.sections)) {

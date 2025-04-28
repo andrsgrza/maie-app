@@ -8,6 +8,8 @@ import Login from "../login/LoginForm";
 import RegistryForm from "../login/RegistryForm";
 import TopBar from "./TopBar";
 import SidebarMenu from "./SidebarLoginMenu";
+import HomeGuest from "./home-page/HomeGuest";
+import HomeUser from "./home-page/HomeUser";
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
 import { UserClient } from "../../api/user-client";
@@ -15,19 +17,31 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { BannerProvider } from "../../context/BannerContext";
 import { ModalProvider } from "../../context/ModalContext";
+import { useLocation } from "react-router-dom";
 
 export default function MainPage() {
-  const [isMenuOpen, setIsMenuOpen] = useState(true);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+  const ScrollToTop = () => {
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, [pathname]);
+
+    return null;
+  };
 
   return (
     <Router>
+      <ScrollToTop />
       <MainPageContent
         isMenuOpen={isMenuOpen}
+        setIsMenuOpen={setIsMenuOpen}
         currentUser={currentUser}
         setCurrentUser={setCurrentUser}
         toggleMenu={toggleMenu}
@@ -38,12 +52,17 @@ export default function MainPage() {
 
 function MainPageContent({
   isMenuOpen,
+  setIsMenuOpen,
   currentUser,
   setCurrentUser,
   toggleMenu,
 }) {
   const navigate = useNavigate();
   const { authenticate, unauthenticate, isAuthenticated } = useAuth();
+
+  const handleClickOnSidebar = () => {
+    setIsMenuOpen(false);
+  };
 
   useEffect(() => {
     const verifyAuth = async () => {
@@ -67,11 +86,7 @@ function MainPageContent({
   }, [navigate, setCurrentUser]);
 
   const Home = () =>
-    currentUser ? (
-      <h2>Welcome {currentUser.username}</h2>
-    ) : (
-      <h2>Welcome. Login or register to start learning</h2>
-    );
+    currentUser ? <HomeUser username={currentUser.username} /> : <HomeGuest />;
   const Profile = () => <h2>User Profile Page</h2>;
   const Error = () => <h2>There was en error</h2>;
 
@@ -91,15 +106,19 @@ function MainPageContent({
         <nav>
           <ul>
             <li>
-              <Link to="/my-quizzes">My Trainings</Link>
+              <Link to="/my-quizzes" onClick={handleClickOnSidebar}>
+                My Trainings{" "}
+              </Link>
             </li>
             <li>
-              <Link to="/perform-quiz">Arena</Link>
+              <Link to="/perform-quiz" onClick={handleClickOnSidebar}>
+                Arena
+              </Link>
             </li>
           </ul>
         </nav>
       ) : (
-        <SidebarMenu />
+        <SidebarMenu onLinkClick={handleClickOnSidebar} />
       )}
     </div>
   );
