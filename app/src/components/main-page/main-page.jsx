@@ -153,8 +153,14 @@ function MainPageContent({
                       </PublicRoute>
                     }
                   />
-                  {/* <Route path="/my-quizzes" element={<PrivateRoute><QuizSelectorEdit /></PrivateRoute>} /> */}
-                  <Route path="/my-quizzes" element={<QuizSelectorEdit />} />
+                  <Route
+                    path="/my-quizzes"
+                    element={
+                      <PrivateRoute>
+                        <QuizSelectorEdit />
+                      </PrivateRoute>
+                    }
+                  />
                   <Route
                     path="/profile"
                     element={
