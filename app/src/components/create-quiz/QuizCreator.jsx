@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import SectionList from "./SectionList";
 import { BackButton } from "../../common/BackButton";
 import QuizClient from "../../api/quiz-client";
@@ -14,6 +14,11 @@ export default function QuizCreator() {
   const [saveMessage, setSaveMessage] = useState({ text: "", type: "" });
   const [highlightedSections, setHighlightedSections] = useState([]);
   const [forgedQuiz, setForgedQuiz] = useState(protoQuiz);
+  const [autosaveEnabled, setAutosaveEnabled] = useState(true);
+
+  const hasMounted = useRef(false); // Ref to track if component has mounted
+  const isSettingPreloadedQuiz = useRef(false); // Ref to track if setting preloadedQuiz
+  const previousQuizState = useRef(forgedQuiz);
   const { addBanner } = useBanner();
   const location = useLocation();
 
@@ -24,6 +29,45 @@ export default function QuizCreator() {
 
   useEffect(() => {
     if (preloadedQuiz) {
+      isSettingPreloadedQuiz.current = true; // Set to true when setting preloadedQuiz
+      setForgedQuiz(preloadedQuiz);
+    }
+  }, [preloadedQuiz]);
+
+  useEffect(() => {
+    if (hasMounted.current) {
+      // Check if component has mounted
+      // Check if the relevant properties have changed
+      const hasChanges = forgedQuiz.sections.some((section, sectionIndex) => {
+        const previousItems =
+          previousQuizState.current.sections[sectionIndex]?.items || [];
+        return section.items.some((item, itemIndex) => {
+          const previousItem = previousItems[itemIndex];
+          // Check if the previous item exists and compare properties
+          return (
+            !previousItem ||
+            previousItem.question !== item.question ||
+            previousItem.answer !== item.answer
+          );
+        });
+      });
+
+      if (autosaveEnabled && !isSettingPreloadedQuiz.current && hasChanges) {
+        handleSaveQuiz();
+      }
+    } else {
+      hasMounted.current = true; // Set to true after first render
+    }
+
+    // Update the previous quiz state to the current state
+    previousQuizState.current = forgedQuiz;
+
+    isSettingPreloadedQuiz.current = false; // Reset after the effect runs
+  }, [forgedQuiz]);
+
+  useEffect(() => {
+    if (preloadedQuiz) {
+      isSettingPreloadedQuiz.current = true; // Set to true when setting preloadedQuiz
       setForgedQuiz(preloadedQuiz);
     }
   }, [preloadedQuiz]);
@@ -119,10 +163,13 @@ export default function QuizCreator() {
       } catch (error) {
         setSaveMessage({ text: "Error saving quiz.", type: "error" });
       }
-
-      navigate("/my-quizzes");
     }
     setHighlightedSections([]);
+  };
+
+  const handleSaveAndExit = () => {
+    handleSaveQuiz();
+    navigate("/my-quizzes");
   };
 
   return (
@@ -168,17 +215,33 @@ export default function QuizCreator() {
           edit={edit}
         />
       </div>
+      <div className="controls-container">
+        <div className="autosave-toggle">
+          <label className="switch">
+            <input
+              type="checkbox"
+              checked={autosaveEnabled}
+              onChange={() => setAutosaveEnabled(!autosaveEnabled)}
+            />
+            <span className="slider round"></span>
+          </label>
+          <span className="toggle-label">Autosave</span>
+        </div>
 
-      <div className="save-quiz-container">
-        {saveMessage.text && (
-          <p className={`save-message ${saveMessage.type}`}>
-            {saveMessage.text}
-          </p>
-        )}
-        <BackButton />
-        <button className="save-quiz-button" onClick={handleSaveQuiz}>
-          Save Quiz
-        </button>
+        <div className="save-quiz-container">
+          {saveMessage.text && (
+            <p className={`save-message ${saveMessage.type}`}>
+              {saveMessage.text}
+            </p>
+          )}
+          <BackButton />
+          <button className="save-quiz-button" onClick={handleSaveQuiz}>
+            Save Quiz
+          </button>
+          <button className="save-quiz-button" onClick={handleSaveAndExit}>
+            Save and Exit
+          </button>
+        </div>
       </div>
     </div>
   );
