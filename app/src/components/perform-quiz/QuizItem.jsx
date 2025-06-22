@@ -131,7 +131,7 @@ const QuizItem = ({
       className={`quiz-item ${isSelected ? "selected" : ""}  ${
         selectible ? "quiz-item-selectible" : ""
       }`}
-      onClick={() => (quiz.redo ? onSelect(quiz.id) : onSelect(quiz.id))}
+      onClick={() => (quiz.redo ? onSelect(quiz) : onSelect(quiz))}
     >
       <div className="quiz-item-header">
         <h3>{quiz.title}</h3>

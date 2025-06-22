@@ -135,12 +135,6 @@ input:checked + .slider:before {
   transform: translateX(26px); /* Move the knob to the right */
 }
 
-/* Optional: Add a label for the toggle */
-.toggle-label {
-  margin-left: 10px;
-  font-size: 1rem; /* Adjust font size as needed */
-  color: #333; /* Text color */
-}
 .autosave-toggle {
   display: flex;
   align-items: center; /* Center toggle and label vertically */

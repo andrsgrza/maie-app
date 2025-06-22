@@ -1,0 +1,26 @@
+.button-bar {
+  position: fixed; /* Fix the position to the bottom */
+  bottom: 0; /* Align to the bottom of the viewport */
+  left: 0; /* Align to the left */
+  right: 0; /* Align to the right */
+  background-color: #fff; /* Background color */
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow for depth */
+  display: flex; /* Use flexbox for layout */
+  justify-content: space-around; /* Space buttons evenly */
+  padding: 10px; /* Padding around the buttons */
+  z-index: 1000; /* Ensure it appears above other content */
+}
+
+.button-bar-button {
+  background-color: #4caf50; /* Button background color */
+  color: white; /* Button text color */
+  border: none; /* Remove border */
+  border-radius: 5px; /* Rounded corners */
+  padding: 10px 20px; /* Padding inside the button */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s; /* Smooth background transition */
+}
+
+.button-bar-button:hover {
+  background-color: #45a049; /* Darker green on hover */
+}

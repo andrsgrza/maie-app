@@ -378,3 +378,11 @@ body {
     font-size: 14px;
   }
 }
+
+.toggle-label {
+  margin-left: 10px;
+  margin-top: 1%;
+  font-family: "YourAppFont", sans-serif;
+  font-size: 1rem; /* Adjust font size as needed */
+  color: #333; /* Text color */
+}
