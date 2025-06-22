@@ -114,7 +114,6 @@ export default function QuizPerformer() {
               />
             ))}
             <ButtonBar buttons={buttons} />
-            <p>{trainingSubmittable ? "yes" : "no"}</p>
           </>
         )}
       </div>
