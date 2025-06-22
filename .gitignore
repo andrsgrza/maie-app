@@ -5,3 +5,4 @@ dist
 launch.json
 .env*
 certs/
+.vscode/*

@@ -14,7 +14,11 @@ module.exports = {
   },
   module: {
     rules: [
-      { test: /\.(js|jsx)$/, use: "babel-loader" },
+      {
+        test: /\.(js|jsx)$/,
+        use: "babel-loader",
+        include: path.resolve(__dirname, "app/src"),
+      },
       { test: /\.css$/, use: ["style-loader", "css-loader"] },
       {
         test: /\.(png|jpe?g|gif|svg)$/,
@@ -55,4 +59,5 @@ module.exports = {
     historyApiFallback: true,
     port: 8082,
   },
+  devtool: "cheap-module-source-map",
 };
