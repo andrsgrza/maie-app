@@ -5,7 +5,6 @@ import QuizClient from "../../api/quiz-client";
 import { useLocation } from "react-router-dom";
 import protoQuiz from "../../../resources/proto-quiz.json";
 import "./quiz-editor.css";
-import "./QuizCreator.css";
 import { useNavigate } from "react-router-dom";
 import { useBanner } from "../../context/BannerContext";
 import { MESSAGES } from "../../common/constants";
@@ -175,7 +174,7 @@ export default function QuizCreator() {
   };
 
   return (
-    <div className="quiz-creator with-bottom-bar">
+    <div className="quiz-creator">
       <div className="centered-container">
         {isEditingQuizTitle ? (
           <input
@@ -220,7 +219,7 @@ export default function QuizCreator() {
       <ButtonBar
         leftItems={[
           {
-            contentType: "switch",
+            contentType: "toggle",
             label: "Autosave",
             checked: autosaveEnabled,
             onChange: () => setAutosaveEnabled(!autosaveEnabled),
@@ -228,7 +227,7 @@ export default function QuizCreator() {
           ...(saveMessage.text
             ? [
                 {
-                  contentType: "message",
+                  type: "message",
                   text: saveMessage.text,
                   messageType: saveMessage.type,
                 },
@@ -237,17 +236,17 @@ export default function QuizCreator() {
         ]}
         rightItems={[
           {
-            contentType: "button",
+            type: "button",
             label: "Back",
             onClick: () => navigate(-1),
           },
           {
-            contentType: "button",
-            label: "Save Quiz",
+            type: "button",
+            label: "Save",
             onClick: handleSaveQuiz,
           },
           {
-            contentType: "button",
+            type: "button",
             label: "Save and Exit",
             onClick: handleSaveAndExit,
           },

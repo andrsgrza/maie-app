@@ -9,7 +9,7 @@ export default function HomeUser({ username }) {
       <p>Continue your journey or challenge yourself in the Arena.</p>
       <div className="user-buttons">
         <Link to="/my-quizzes" className="btn-primary">
-          My Trainings
+          Quizzes
         </Link>
         <Link to="/perform-quiz" className="btn-secondary">
           Arena

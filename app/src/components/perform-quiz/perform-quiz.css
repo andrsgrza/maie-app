@@ -36,6 +36,7 @@ body {
   flex-direction: column; /* Stack children vertically */
   align-items: center; /* Center children horizontally */
   width: 100%; /* Full width of the parent */
+  padding-bottom: calc(10px + 1rem);
 }
 
 /* Text Area */
@@ -96,4 +97,7 @@ body {
 .mark-button.selected.incorrect {
   background-color: #ff5c5c;
   color: white;
+}
+.quiz-report-container {
+  padding-bottom: calc(10px + 1rem);
 }

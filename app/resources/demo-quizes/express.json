@@ -1,151 +1,151 @@
 {
-    "title": "Express Module",
-    "metadata": {
-      "author": "agarza",
-      "description": "This is another demo quiz",
-      "creationDate": "2024-06-15"
+  "title": "Express Module",
+  "metadata": {
+    "author": "agarza",
+    "description": "This is another demo quiz",
+    "creationDate": "2024-06-15"
+  },
+  "sections": [
+    {
+      "title": "Express basic setup",
+      "items": [
+        {
+          "question": "What do you need to install express¡",
+          "answer": "What do you need to install express¡"
+        },
+        {
+          "question": "How do you import the the Express module",
+          "answer": "With Node's require() function, used to include modules in Node.js: const express = require('express');"
+        },
+        {
+          "question": "How can you create an instance of an Express application?",
+          "answer": "Once you have imported the Node's express module, using the express() funciton which returns an Express application object: const app = express();"
+        },
+        {
+          "question": "After you have instanciated an Express application, what do you need to do?",
+          "answer": "Set the port number on which the server will listen for incoming requests: const port = 3000;"
+        },
+        {
+          "question": "How can you define are out for a specific URL using for handling GET requests to that specific URL?",
+          "answer": "By ussing the Express Application object instance's get method, pasing the URL as frist argument and the callback function (with two parameters: req and res), which will be executed when the GET request is received at that specific URL: app.get('/', (req,res) => {res.send(\"Hello World\");}); Typically used to rerieve data from the request and/or respond to the request"
+        },
+        {
+          "question": "How can you start the server and make it listen for incoming request on the specified port? (port is sitred in a port variable)",
+          "answer": "By using the Express Application object instace's liste method, passing the port as first argument and the callback function as second parameter. The callback function gets executed once the server sarts listening."
+        },
+        {
+          "question": "Once a you express application is set up, how can you run the server?",
+          "answer": "By running node app.js"
+        }
+      ]
     },
-    "sections": [
-      {
-        "title": "Express basic setup",
-        "items": [
-          {
-            "question": "What do you need to install express¡",
-            "answer": "What do you need to install express¡"
-          },
-          {
-            "question": "How do you import the the Express module",
-            "answer": "With Node's require() function, used to include modules in Node.js: const express = require('express');"
-          },
-          {
-            "question": "How can you create an instance of an Express application?",
-            "answer": "Once you have imported the Node's express module, using the express() funciton which returns an Express application object: const app = express();"
-          },
-          {
-            "question": "After you have instanciated an Express application, what do you need to do?",
-            "answer": "Set the port number on which the server will listen for incoming requests: const port = 3000;"
-          },
-          {
-            "question": "How can you define are out for a specific URL using for handling GET requests to that specific URL?",
-            "answer": "By ussing the Express Application object instance's get method, pasing the URL as frist argument and the callback function (with two parameters: req and res), which will be executed when the GET request is received at that specific URL: app.get('/', (req,res) => {res.send(\"Hello World\");}); Typically used to rerieve data from the request and/or respond to the request"
-          },
-          {
-            "question": "How can you start the server and make it listen for incoming request on the specified port? (port is sitred in a port variable)",
-            "answer": "By using the Express Application object instace's liste method, passing the port as first argument and the callback function as second parameter. The callback function gets executed once the server sarts listening."
-          },
-          {
-            "question": "Once a you express application is set up, how can you run the server?",
-            "answer": "By running node app.js"
-          }
-        ]
-      },
-      {
-        "title": "Core Concepts and Features - Routing",
-        "items": [
-          {
-            "question": "What is routing used for?",
-            "answer": "Used to determine how an application responds to a client request to a particular endpoint."
-          },
-          {
-            "question": "How do you perform basic routing? ",
-            "answer": "By using an Express Application instance's get, post, etc. methods. Passing the endpoint's URL as first parameter and a callback funciton (with res, req parameters) as second parameter. app.get('/', (req, res) => {   res.send('Hello World!'); });  app.post('/submit', (req, res) => {   res.send('Form Submitted!'); });"
-          },
-          {
-            "question": "When passing the endpoint's URL to an Express Applicaiton instance's method, how do you define the request parameters in the URL?",
-            "answer": "When passing the endpoint's URL to an Express Applicaiton instance's method, how do you define route parameters in the URL?"
-          },
-          {
-            "question": "Once you have defined the route parameters in the edpoint's URL, how can you access them on the callback function",
-            "answer": "Once you have defined the route parameters in the edpoint's URL, how can you access it on the callback function"
-          },
-          {
-            "question": "How can you access query parameters of the request on a callback function?",
-            "answer": "Though the req object. The query parameters are defined in the 'q' element in the 'query' element of the req parameter."
-          }
-        ]
-      },
-      {
-        "title": "Core Concepts and Features - Middleware",
-        "items": [
-          {
-            "question": "What are middleware functions?",
-            "answer": "What are middleware functions?"
-          },
-          {
-            "question": "What defines application-level middleware?",
-            "answer": "Is bouind to an instance of the app object using \"app.use\" or \"app.METHOD()' where METHOD is the HTTP method. These middleware functions are executed for every request to the app.const express = require('express'); const app = express(); const port = 3000;  // Application-level middleware app.use((req, res, next) => {   console.log('Time:', Date.now());   next(); // Pass control to the next middleware function });  app.get('/', (req, res) => {   res.send('Hello World!'); });  app.listen(port, () => {   console.log(`Server running at http://localhost:${port}/`); });"
-          },
-          {
-            "question": "What defiens route-level middleware?",
-            "answer": "Is bound to a specific route and executed only for that route. You can add onre more more middleware functions to a route: const express = require('express'); const app = express(); const port = 3000;  // Route-level middleware const logRequest = (req, res, next) => {   console.log(`Request Type: ${req.method}`);   next(); };  app.get('/user/:id', logRequest, (req, res) => {   res.send(`User ID: ${req.params.id}`); });  app.listen(port, () => {   console.log(`Server running at http://localhost:${port}/`); });"
-          },
-          {
-            "question": "What defines built-in- middleware?",
-            "answer": "Built in middleware functions that are provided by Express"
-          },
-          {
-            "question": "Provide 3 examples of built-in middleware functions and what are they for.",
-            "answer": "expres.json: Parses incoming requests with JSON payloads. expres.urlencoded(): parses incoming requess with URL-encoded payloads. express.static(): Serves static files from a specified directory"
-          },
-          {
-            "question": "Provide an example of usafe of express's json() and urlencoded methods.",
-            "answer": "const express = require('express'); const app = express(); const port = 3000;  // Built-in middleware app.use(express.json()); // To parse JSON payloads app.use(express.urlencoded({ extended: true })); // To parse URL-encoded payloads  app.post('/submit', (req, res) => {   res.send(`Received name: ${req.body.name}`); });  app.listen(port, () => {   console.log(`Server running at http://localhost:${port}/`); });"
-          },
-          {
-            "question": "What are static files in express?",
-            "answer": "Files that clients downlad as they are from the server. These include HTML files, CSS, JavaScript files, images, etc. Express provides a built-in middleware function: express.static() to serve these files"
-          },
-          {
-            "question": "Describe what is happeningn in this example: const express = require('express'); const app = express(); const port = 3000;  // Serving static files app.use(express.static('public'));  app.listen(port, () => {   console.log(`Server running at http://localhost:${port}/`); });",
-            "answer": "All files in the 'public' directory are served as static files. For isntance, if there is and \"index.html\" file in the public directoruy, it can be accessed via 'http://localhost:3000/indexhtml'"
-          },
-          {
-            "question": "What are Templating Engines for? How can you use them with express?",
-            "answer": "Allow you to generate dynamic HTML on the server side. Express supports many templating engines such as Pug, EHS and Handlebars"
-          }
-        ]
-      },
-      {
-        "title": "Handling Forms and JSON Data",
-        "items": [
-          {
-            "question": "How can you set up express.json middleware to your Express app?",
-            "answer": "How can you set up express.json middleware to your Express app?"
-          },
-          {
-            "question": "How can you create a route to handle JSON data in incomming requests?",
-            "answer": "After settin up exxpress.json middleware to your Express App. By extarcting the data from teh request and accessing Node's JSON module using one of its methods, for example . strignify(data): app.post('/json', (req, res) => {   const data = req.body;   res.send(`Received JSON data: ${JSON.stringify(data)}`); });  app.listen(port, () => {   console.log(`Server running at http://localhost:${port}/`); });"
-          },
-          {
-            "question": "How can you send JSONData with a client?",
-            "answer": "Once you have created a route to handle JSON data in incomming requestes in your Express App, bYou can use tools like 'curl' or Postman to send JSON data to your server: curl -X POST http://localhost:3000/json -H \"Content-Type: application/json\" -d '{\"name\": \"John\", \"age\": 30}'"
-          }
-        ]
-      },
-      {
-        "title": "Error Handlilng",
-        "items": [
-          {
-            "question": "How is error handling done in Express?",
-            "answer": "How is error handling done in Express?"
-          },
-          {
-            "question": "Provide an example of a middleware function that handles errors.",
-            "answer": "const express = require('express'); const app = express(); const port = 3000;  // Route that triggers an error app.get('/', (req, res, next) => {   const err = new Error('Something went wrong!');   err.status = 500;   next(err); // Pass the error to the error-handling middleware });  // Error-handling middleware app.use((err, req, res, next) => {   res.status(err.status || 500);   res.json({     error: {       message: err.message     }   }); });  app.listen(port, () => {   console.log(`Server running at http://localhost:${port}/`); });"
-          },
-          {
-            "question": "In synchronous code, how can erros be cauth and then passed to the error handling middleware=",
-            "answer": "By using try catch block and using invoking next, with the error as parameter, in the catch block"
-          },
-          {
-            "question": "In asynchronous code, how can errors be passed to the error handling middleware?",
-            "answer": "By using try catch block and using invoking next, with the error as parameter, in the catch block or by using Promises:app.get('/async-promise', (req, res, next) => {   Promise.reject(new Error('Asynchronous error with promise!'))     .catch(next); // Pass the error to the error-handling middleware });"
-          },
-          {
-            "question": "Which is a good practice for handling when no routes match the one in the request?",
-            "answer": "To define a middleware for handling 404 errors: app.use((req, res, next) => {   res.status(404).json({     error: {       message: 'Not Found'     }   }); });"
-          }
-        ]
-      }
-    ]
-  }
+    {
+      "title": "Core Concepts and Features - Routing",
+      "items": [
+        {
+          "question": "What is routing used for?",
+          "answer": "Used to determine how an application responds to a client request to a particular endpoint."
+        },
+        {
+          "question": "How do you perform basic routing? ",
+          "answer": "By using an Express Application instance's get, post, etc. methods. Passing the endpoint's URL as first parameter and a callback funciton (with res, req parameters) as second parameter. app.get('/', (req, res) => {   res.send('Hello World!'); });  app.post('/submit', (req, res) => {   res.send('Form Submitted!'); });"
+        },
+        {
+          "question": "When passing the endpoint's URL to an Express Applicaiton instance's method, how do you define the request parameters in the URL?",
+          "answer": "When passing the endpoint's URL to an Express Applicaiton instance's method, how do you define route parameters in the URL?"
+        },
+        {
+          "question": "Once you have defined the route parameters in the edpoint's URL, how can you access them on the callback function",
+          "answer": "Once you have defined the route parameters in the edpoint's URL, how can you access it on the callback function"
+        },
+        {
+          "question": "How can you access query parameters of the request on a callback function?",
+          "answer": "Though the req object. The query parameters are defined in the 'q' element in the 'query' element of the req parameter."
+        }
+      ]
+    },
+    {
+      "title": "Core Concepts and Features - Middleware",
+      "items": [
+        {
+          "question": "What are middleware functions?",
+          "answer": "What are middleware functions?"
+        },
+        {
+          "question": "What defines application-level middleware?",
+          "answer": "Is bouind to an instance of the app object using \"app.use\" or \"app.METHOD()' where METHOD is the HTTP method. These middleware functions are executed for every request to the app.const express = require('express'); const app = express(); const port = 3000;  // Application-level middleware app.use((req, res, next) => {   console.log('Time:', Date.now());   next(); // Pass control to the next middleware function });  app.get('/', (req, res) => {   res.send('Hello World!'); });  app.listen(port, () => {   console.log(`Server running at http://localhost:${port}/`); });"
+        },
+        {
+          "question": "What defiens route-level middleware?",
+          "answer": "Is bound to a specific route and executed only for that route. You can add onre more more middleware functions to a route: const express = require('express'); const app = express(); const port = 3000;  // Route-level middleware const logRequest = (req, res, next) => {   console.log(`Request Type: ${req.method}`);   next(); };  app.get('/user/:id', logRequest, (req, res) => {   res.send(`User ID: ${req.params.id}`); });  app.listen(port, () => {   console.log(`Server running at http://localhost:${port}/`); });"
+        },
+        {
+          "question": "What defines built-in- middleware?",
+          "answer": "Built in middleware functions that are provided by Express"
+        },
+        {
+          "question": "Provide 3 examples of built-in middleware functions and what are they for.",
+          "answer": "expres.json: Parses incoming requests with JSON payloads. expres.urlencoded(): parses incoming requess with URL-encoded payloads. express.static(): Serves static files from a specified directory"
+        },
+        {
+          "question": "Provide an example of usafe of express's json() and urlencoded methods.",
+          "answer": "const express = require('express'); const app = express(); const port = 3000;  // Built-in middleware app.use(express.json()); // To parse JSON payloads app.use(express.urlencoded({ extended: true })); // To parse URL-encoded payloads  app.post('/submit', (req, res) => {   res.send(`Received name: ${req.body.name}`); });  app.listen(port, () => {   console.log(`Server running at http://localhost:${port}/`); });"
+        },
+        {
+          "question": "What are static files in express?",
+          "answer": "Files that clients downlad as they are from the server. These include HTML files, CSS, JavaScript files, images, etc. Express provides a built-in middleware function: express.static() to serve these files"
+        },
+        {
+          "question": "Describe what is happeningn in this example: const express = require('express'); const app = express(); const port = 3000;  // Serving static files app.use(express.static('public'));  app.listen(port, () => {   console.log(`Server running at http://localhost:${port}/`); });",
+          "answer": "All files in the 'public' directory are served as static files. For isntance, if there is and \"index.html\" file in the public directoruy, it can be accessed via 'http://localhost:3000/indexhtml'"
+        },
+        {
+          "question": "What are Templating Engines for? How can you use them with express?",
+          "answer": "Allow you to generate dynamic HTML on the server side. Express supports many templating engines such as Pug, EHS and Handlebars"
+        }
+      ]
+    },
+    {
+      "title": "Handling Forms and JSON Data",
+      "items": [
+        {
+          "question": "How can you set up express.json middleware to your Express app?",
+          "answer": "How can you set up express.json middleware to your Express app?"
+        },
+        {
+          "question": "How can you create a route to handle JSON data in incomming requests?",
+          "answer": "After settin up exxpress.json middleware to your Express App. By extarcting the data from teh request and accessing Node's JSON module using one of its methods, for example . strignify(data): app.post('/json', (req, res) => {   const data = req.body;   res.send(`Received JSON data: ${JSON.stringify(data)}`); });  app.listen(port, () => {   console.log(`Server running at http://localhost:${port}/`); });"
+        },
+        {
+          "question": "How can you send JSONData with a client?",
+          "answer": "Once you have created a route to handle JSON data in incomming requestes in your Express App, bYou can use tools like 'curl' or Postman to send JSON data to your server: curl -X POST http://localhost:3000/json -H \"Content-Type: application/json\" -d '{\"name\": \"John\", \"age\": 30}'"
+        }
+      ]
+    },
+    {
+      "title": "Error Handlilng",
+      "items": [
+        {
+          "question": "How is error handling done in Express?",
+          "answer": "How is error handling done in Express?"
+        },
+        {
+          "question": "Provide an example of a middleware function that handles errors.",
+          "answer": "const express = require('express'); const app = express(); const port = 3000;  // Route that triggers an error app.get('/', (req, res, next) => {   const err = new Error('Something went wrong!');   err.status = 500;   next(err); // Pass the error to the error-handling middleware });  // Error-handling middleware app.use((err, req, res, next) => {   res.status(err.status || 500);   res.json({     error: {       message: err.message     }   }); });  app.listen(port, () => {   console.log(`Server running at http://localhost:${port}/`); });"
+        },
+        {
+          "question": "In synchronous code, how can erros be cauth and then passed to the error handling middleware=",
+          "answer": "By using try catch block and using invoking next, with the error as parameter, in the catch block"
+        },
+        {
+          "question": "In asynchronous code, how can errors be passed to the error handling middleware?",
+          "answer": "By using try catch block and using invoking next, with the error as parameter, in the catch block or by using Promises:app.get('/async-promise', (req, res, next) => {   Promise.reject(new Error('Asynchronous error with promise!'))     .catch(next); // Pass the error to the error-handling middleware });"
+        },
+        {
+          "question": "Which is a good practice for handling when no routes match the one in the request?",
+          "answer": "To define a middleware for handling 404 errors: app.use((req, res, next) => {   res.status(404).json({     error: {       message: 'Not Found'     }   }); });"
+        }
+      ]
+    }
+  ]
+}

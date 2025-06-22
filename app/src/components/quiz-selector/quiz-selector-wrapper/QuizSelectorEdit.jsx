@@ -35,7 +35,6 @@ export default function QuizSelectorEdit() {
       MESSAGES.API_MESSAGES.POST_QUIZ[res.status].MESSAGE
     );
     if (res.status >= 200 && res.status < 300) {
-      console.log("success, response", res.data);
       toggleImportModal();
       setQuizzes((prevQuizzes) => [...prevQuizzes, res.data]);
     }

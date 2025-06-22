@@ -164,14 +164,14 @@ const QuizItem = ({
                 }`}
                 ref={dropdownRef}
               >
+                <li className="edit-element" onClick={handleEdit}>
+                  <FaEdit className="icon" /> Edit
+                </li>
                 <li
                   className="entitlement-element"
                   onClick={handleOpenEntitlementModal}
                 >
                   <FaKey className="icon" /> Entitlements
-                </li>
-                <li className="edit-element" onClick={handleEdit}>
-                  <FaEdit className="icon" /> Edit
                 </li>
                 <li className="download-element" onClick={handleDownloadQuiz}>
                   <FaDownload className="icon" /> Download
