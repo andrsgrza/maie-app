@@ -1,0 +1,84 @@
+.section-selector {
+  background-color: #ffffff; /* White background for contrast */
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.quiz-title {
+  font-size: 1.5rem; /* Larger font for quiz title */
+  color: #333; /* Dark text color */
+  margin-bottom: 15px; /* Space below the title */
+}
+
+.section-item {
+  margin-bottom: 15px; /* Space between each section item */
+}
+
+.no-selection-message {
+  color: #e74c3c; /* Red color for warning */
+  font-size: 0.9rem;
+  margin-top: 10px;
+  padding: 8px 12px;
+  background-color: #fdf2f2; /* Light red background */
+  border: 1px solid #f5c6cb; /* Light red border */
+  border-radius: 4px;
+  text-align: center;
+}
+
+.select-all-button {
+  background-color: #f0f0f0; /* Light background for buttons */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded corners */
+  padding: 10px 15px; /* Padding */
+  cursor: pointer; /* Pointer cursor on hover */
+  font-size: 1rem; /* Font size */
+  width: 30%; /* Full width */
+  text-align: left; /* Align text to the left */
+  transition: background-color 0.3s; /* Smooth background transition */
+}
+.section-button {
+  background-color: #f0f0f0; /* Light background for buttons */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded corners */
+  padding: 10px 15px; /* Padding */
+  cursor: pointer; /* Pointer cursor on hover */
+  font-size: 1rem; /* Font size */
+  width: 100%; /* Full width */
+  text-align: left; /* Align text to the left */
+  transition: background-color 0.3s; /* Smooth background transition */
+}
+
+.select-all-button.selected,
+.section-button.selected {
+  background-color: #4caf50; /* Green background for selected state */
+  color: white; /* White text for selected state */
+}
+
+.select-all-button:hover,
+.section-button:hover {
+  background-color: #e0e0e0; /* Darker background on hover */
+}
+
+.continue-button {
+  background-color: #4caf50; /* Green background */
+  color: white; /* White text */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded corners */
+  padding: 10px 20px; /* Padding */
+  cursor: pointer; /* Pointer cursor on hover */
+  font-size: 1rem; /* Font size */
+  margin-top: 15px; /* Space above the button */
+}
+
+.continue-button:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
+
+.select-all-toggle {
+  display: flex;
+  align-items: center; /* Center toggle and label vertically */
+}
