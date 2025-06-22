@@ -89,7 +89,7 @@ export default function Section({
   return (
     <div className={`section ${hasError ? "section-error" : ""}`}>
       <div className="section-header">
-        <div className="collapse-icon" onClick={toggleAddItem}>
+        <div className="collapse-icon" onClick={toggleCollapse}>
           {isCollapsed ? (
             <i className="fas fa-chevron-down"></i>
           ) : (

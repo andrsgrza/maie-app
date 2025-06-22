@@ -37,20 +37,36 @@ export default function QuizPerformer() {
   }, []);
 
   useEffect(() => {
-    const allQuizzesHaveSelections = selectedQuizzes.every((_, index) => {
-      const sections = selectedSections[index];
-      return sections && sections.length > 0;
-    });
+    const handleGlobalKeyDown = (event) => {
+      if (event.key === "Enter" && allQuizzesHaveSelections()) {
+        event.preventDefault();
+        setSectionsConfirmed(true);
+      }
+    };
 
+    document.addEventListener("keydown", handleGlobalKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleGlobalKeyDown);
+    };
+  }, [selectedSections, selectedQuizzes]);
+
+  useEffect(() => {
     setTrainingCreatorButtons([
       {
         contentType: "button",
         label: "Continue",
         onClick: () => setSectionsConfirmed(true),
-        disabled: !allQuizzesHaveSelections,
+        disabled: !allQuizzesHaveSelections(),
       },
     ]);
   }, [selectedSections, selectedQuizzes]);
+
+  const allQuizzesHaveSelections = () =>
+    selectedQuizzes.every((_, index) => {
+      const sections = selectedSections[index];
+      return sections && sections.length > 0;
+    });
 
   const handleQuizzesSelected = (quizzes) => {
     setSelectedQuizzes(quizzes);

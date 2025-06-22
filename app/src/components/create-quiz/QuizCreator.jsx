@@ -243,7 +243,7 @@ export default function QuizCreator() {
           },
           {
             contentType: "button",
-            label: "Save Quiz",
+            label: "Save",
             onClick: handleSaveQuiz,
           },
           {

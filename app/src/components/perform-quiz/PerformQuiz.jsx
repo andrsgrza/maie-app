@@ -41,15 +41,7 @@ export default function PerformQuiz({ quiz, onComplete }) {
       if (event.key === "Enter" && !event.shiftKey) {
         event.preventDefault(); // Prevent default behavior
         if (isMarked) {
-          if (isLastQuestionInSection()) {
-            if (isLastSection()) {
-              handleSubmitQuiz();
-            } else {
-              handleNextSection();
-            }
-          } else {
-            handleNextQuestion();
-          }
+          handleSubmitResponse();
         } else if (userAnswer.trim() !== "") {
           handleSubmitAnswer();
         }
@@ -61,6 +53,18 @@ export default function PerformQuiz({ quiz, onComplete }) {
     };
   }, [showAnswer, userAnswer, isMarked]);
 
+  const handleSubmitResponse = () => {
+    if (isLastQuestionInSection()) {
+      if (isLastSection()) {
+        handleSubmitQuiz();
+      } else {
+        handleNextSection();
+      }
+    } else {
+      handleNextQuestion();
+    }
+  };
+
   const handleKeyDown = (event) => {
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault(); // Prevent default behavior
@@ -71,14 +75,6 @@ export default function PerformQuiz({ quiz, onComplete }) {
       }
     }
   };
-
-  // const fetchQuiz = async () => {
-  //   try {
-  //     const quiz = await QuizClient.getQuizById(quizId);
-  //     setCurrentQuiz(quiz);
-  //     setIsLoaded(true);
-  //   } catch (error) {}
-  // };
 
   const restartQuiz = () => {
     setCurrentSectionIndex(0);
@@ -241,6 +237,13 @@ export default function PerformQuiz({ quiz, onComplete }) {
                     Incorrect
                   </button>
                 </div>
+              </div>
+            )}
+            {isMarked && (
+              <div className="button-group">
+                <button className="quiz-button" onClick={handleSubmitResponse}>
+                  Submit
+                </button>
               </div>
             )}
           </div>
