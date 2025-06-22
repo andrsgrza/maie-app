@@ -123,6 +123,10 @@ body {
 }
 .inner-content {
   transition: margin-left 0.3s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .left-menu.collapsed ~ .content {

@@ -6,6 +6,7 @@ import "./quiz-selector.css";
 import { MESSAGES } from "../../common/constants";
 import { useBanner } from "../../context/BannerContext";
 import { useNavigate } from "react-router-dom";
+import ButtonBar from "../ButtonBar";
 
 const QuizSelector = ({
   quizzes,
@@ -27,7 +28,6 @@ const QuizSelector = ({
   }, []);
 
   useEffect(() => {
-    console.log("Selected quizzes:", selectedQuizzes);
     setStartTrainingEnabled(selectedQuizzes.length > 0);
   }, [selectedQuizzes]);
 
@@ -61,10 +61,8 @@ const QuizSelector = ({
         (quiz) => quiz === selectedQuiz
       );
       if (isAlreadySelected) {
-        console.log("Quiz already selected:", selectedQuiz);
         return prevSelectedQuizzes.filter((quiz) => quiz !== selectedQuiz);
       } else {
-        console.log("Quiz selected:", selectedQuiz);
         return [...prevSelectedQuizzes, selectedQuiz];
       }
     });
@@ -110,19 +108,22 @@ const QuizSelector = ({
 
   return (
     <div className="quiz-selector">
-      {isLoading & <pre>Loading</pre> ? (
-        getContent()
+      {isLoading ? (
+        <h3>Loading</h3>
       ) : (
         <div className="quiz-selector">{getContent()}</div>
       )}
       {selectible && (
-        <button
-          className="basic-button"
-          onClick={() => onSelected(selectedQuizzes)}
-          disabled={!startTrainingEnabled}
-        >
-          Start Training
-        </button>
+        <ButtonBar
+          centerItems={[
+            {
+              contentType: "button",
+              label: "Start Training",
+              onClick: () => onSelected(selectedQuizzes),
+              disabled: !startTrainingEnabled,
+            },
+          ]}
+        />
       )}
     </div>
   );

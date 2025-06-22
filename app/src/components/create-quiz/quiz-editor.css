@@ -43,6 +43,7 @@
 
 /* Section List */
 .section-list-wrapper {
+  padding-bottom: calc(30px + 1rem);
   max-width: 1200px;
   padding: 20px;
   box-sizing: border-box;
@@ -55,6 +56,10 @@
   margin: 0 auto;
   padding: 0 20px;
   box-sizing: border-box;
+}
+
+.with-bottom-bar {
+  padding-bottom: calc(30px + 1rem);
 }
 
 .controls-container {

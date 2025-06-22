@@ -106,6 +106,7 @@ body {
   border-radius: 8px;
   padding: 20px;
   margin: 20px auto;
+  margin-bottom: 30px;
   max-width: 800px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   position: relative; /* For positioning the buttons */
@@ -193,7 +194,8 @@ body {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 .add-section-button:hover {
@@ -356,6 +358,7 @@ body {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background-color: #f9f9f9;
   border-radius: 8px;
+  max-width: 1200px;
 }
 
 /* Responsive design */

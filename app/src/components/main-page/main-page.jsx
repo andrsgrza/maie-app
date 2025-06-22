@@ -107,7 +107,7 @@ function MainPageContent({
           <ul>
             <li>
               <Link to="/my-quizzes" onClick={handleClickOnSidebar}>
-                My Trainings{" "}
+                Quizzes{" "}
               </Link>
             </li>
             <li>

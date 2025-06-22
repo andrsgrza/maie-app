@@ -13,13 +13,22 @@ export default function QuizPerformer() {
   const [allQuizzesCompleted, setAllQuizzesCompleted] = useState(false);
   const [selectedSections, setSelectedSections] = useState({});
   const [sectionsConfirmed, setSectionsConfirmed] = useState(false);
-  const [trainingSubmittable, setTrainningSubmittable] = useState(true);
 
-  const [buttons, setButtons] = useState([
+  const [trainingCreatorButtons, setTrainingCreatorButtons] = useState([
     {
+      contentType: "button",
       label: "Continue",
       onClick: () => setSectionsConfirmed(true),
-      disabled: true,
+      disabled: false,
+    },
+  ]);
+
+  const [quizReportButtons, setQuizReportButtons] = useState([
+    {
+      contentType: "button",
+      label: "Arena",
+      onClick: () => handleRefreshArena(),
+      disabled: false,
     },
   ]);
 
@@ -33,18 +42,15 @@ export default function QuizPerformer() {
       return sections && sections.length > 0;
     });
 
-    setButtons([
+    setTrainingCreatorButtons([
       {
+        contentType: "button",
         label: "Continue",
         onClick: () => setSectionsConfirmed(true),
         disabled: !allQuizzesHaveSelections,
       },
     ]);
   }, [selectedSections, selectedQuizzes]);
-
-  const handleButtonClick = (buttonLabel) => {
-    console.log(`${buttonLabel} clicked!`);
-  };
 
   const handleQuizzesSelected = (quizzes) => {
     setSelectedQuizzes(quizzes);
@@ -113,12 +119,11 @@ export default function QuizPerformer() {
                 onContinue={() => setSectionsConfirmed(true)}
               />
             ))}
-            <ButtonBar buttons={buttons} />
+            <ButtonBar centerItems={trainingCreatorButtons} />
           </>
         )}
       </div>
 
-      {console.log("Selected sections:", selectedSections)}
       {selectedQuizzes.length > 0 &&
         currentQuizIndex < selectedQuizzes.length &&
         sectionsConfirmed &&
@@ -136,17 +141,11 @@ export default function QuizPerformer() {
         ))}
       {allQuizzesCompleted &&
         completedQuizzes.map((completedQuiz, index) => (
-          <div key={`quiz-report-${index}`}>
+          <div className="quiz-report-container" key={`quiz-report-${index}`}>
             <QuizReport completedQuiz={completedQuiz} />
           </div>
         ))}
-      {allQuizzesCompleted && (
-        <div>
-          <button className="basic-button" onClick={handleRefreshArena}>
-            Go to Arena
-          </button>
-        </div>
-      )}
+      {allQuizzesCompleted && <ButtonBar centerItems={quizReportButtons} />}
     </div>
   );
 }

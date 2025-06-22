@@ -6,21 +6,118 @@
   background-color: #fff; /* Background color */
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow for depth */
   display: flex; /* Use flexbox for layout */
-  justify-content: space-around; /* Space buttons evenly */
-  padding: 10px; /* Padding around the buttons */
-  z-index: 1000; /* Ensure it appears above other content */
+  justify-content: space-between; /* Space between the 3 sections */
+  align-items: center;
+  padding: 10px 20px; /* Padding around the content */
+  z-index: 100; /* Ensure it appears above other content */
+  min-height: 50px; /* Ensure consistent height even with empty sections */
 }
 
-.button-bar-button {
-  background-color: #4caf50; /* Button background color */
-  color: white; /* Button text color */
-  border: none; /* Remove border */
-  border-radius: 5px; /* Rounded corners */
-  padding: 10px 20px; /* Padding inside the button */
-  cursor: pointer; /* Pointer cursor on hover */
-  transition: background-color 0.3s; /* Smooth background transition */
+.button-bar-section {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Space between items within each section */
+  flex: 1; /* Each section takes equal space */
 }
 
-.button-bar-button:hover {
-  background-color: #45a049; /* Darker green on hover */
+.button-bar-left {
+  justify-content: flex-start; /* Items align to the left */
+}
+
+.button-bar-center {
+  justify-content: center; /* Items align to the center */
+}
+
+.button-bar-right {
+  justify-content: flex-end; /* Items align to the right */
+}
+
+/* Default button styles for buttons inside the bar */
+.button-bar button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.button-bar button:hover {
+  background-color: #45a049;
+}
+
+.button-bar button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Toggle Switch Styles for ButtonBar */
+.button-bar .autosave-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.button-bar .switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.button-bar .switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.button-bar .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+.button-bar .slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+.button-bar input:checked + .slider {
+  background-color: #28a745;
+}
+
+.button-bar input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+.button-bar .save-message {
+  font-size: 0.9rem;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+.button-bar .save-message.success {
+  color: #28a745;
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+}
+
+.button-bar .save-message.error {
+  color: #dc3545;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
 }
