@@ -87,15 +87,6 @@ const SectionSelector = ({
           Please select at least one section to continue.
         </div>
       )}
-      <button
-        className="continue-button"
-        onClick={onContinue}
-        disabled={!selectedSections.length}
-      >
-        {" "}
-        Continue
-      </button>{" "}
-      {/* Button to continue */}
     </div>
   );
 };
