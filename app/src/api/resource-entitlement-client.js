@@ -1,8 +1,8 @@
 import axios from "axios";
-
+import { HOST_ENDPOINTS } from "../common/constants";
 export class ResouceEntitlementClient {
   static apiClient = axios.create({
-    baseURL: "http://localhost:8081/api/resource-entitlement", // Base URL for the backend
+    baseURL: `${process.env.QUIZ_HOST_PATH}/${HOST_ENDPOINTS.RESOURCE_ENTITLEMENT}`, // Base URL for the backend
     withCredentials: true, // Include cookies in requests
   });
 

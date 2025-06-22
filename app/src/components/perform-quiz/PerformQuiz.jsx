@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import "./PerformQuiz.css";
+import "./perform-quiz.css";
 import QuizClient from "../../api/quiz-client";
 
-export default function PerformQuiz({ quizId, onComplete }) {
-  const [currentQuiz, setCurrentQuiz] = useState(null);
+export default function PerformQuiz({ quiz, onComplete }) {
+  // const [currentQuiz, setCurrentQuiz] = useState(null);
   const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [userAnswer, setUserAnswer] = useState("");
@@ -17,12 +17,8 @@ export default function PerformQuiz({ quizId, onComplete }) {
   const answerInputRef = useRef(null);
 
   useEffect(() => {
-    fetchQuiz();
-  }, [quizId]);
-
-  useEffect(() => {
-    setCompletedQuiz(currentQuiz);
-  }, [currentQuiz]);
+    setCompletedQuiz(quiz);
+  }, [quiz]);
 
   useEffect(() => {
     if (answerInputRef.current) {
@@ -76,13 +72,13 @@ export default function PerformQuiz({ quizId, onComplete }) {
     }
   };
 
-  const fetchQuiz = async () => {
-    try {
-      const quiz = await QuizClient.getQuizById(quizId);
-      setCurrentQuiz(quiz);
-      setIsLoaded(true);
-    } catch (error) {}
-  };
+  // const fetchQuiz = async () => {
+  //   try {
+  //     const quiz = await QuizClient.getQuizById(quizId);
+  //     setCurrentQuiz(quiz);
+  //     setIsLoaded(true);
+  //   } catch (error) {}
+  // };
 
   const restartQuiz = () => {
     setCurrentSectionIndex(0);
@@ -166,95 +162,90 @@ export default function PerformQuiz({ quizId, onComplete }) {
   const isLastQuestionInSection = () => {
     return (
       currentQuestionIndex >=
-      currentQuiz.sections[currentSectionIndex].items.length - 1
+      quiz.sections[currentSectionIndex].items.length - 1
     );
   };
 
   const isLastSection = () => {
-    return currentSectionIndex >= currentQuiz.sections.length - 1;
+    return currentSectionIndex >= quiz.sections.length - 1;
   };
 
   return (
-    <div className="perform-quiz-container">
-      {isLoaded ? (
-        <>
-          <h2 className="quiz-title">{currentQuiz.title}</h2>
-          <div className="section-container">
-            <h3 className="section-title">
-              {currentQuiz.sections[currentSectionIndex].title}
+    <>
+      <div className="perform-quiz-container">
+        <h2 className="quiz-title">{quiz.title}</h2>
+        <div className="section-container">
+          <h3 className="section-title">
+            {quiz.sections[currentSectionIndex].title}
+          </h3>
+          <div className="question-section">
+            <h3 className="question-text">
+              {
+                quiz.sections[currentSectionIndex].items[currentQuestionIndex]
+                  .question
+              }
             </h3>
-            <div className="question-section">
-              <h3 className="question-text">
-                {
-                  currentQuiz.sections[currentSectionIndex].items[
-                    currentQuestionIndex
-                  ].question
-                }
-              </h3>
-              <textarea
-                className="answer-input"
-                placeholder="Write here your answer"
-                value={userAnswer}
-                onChange={(e) => setUserAnswer(e.target.value)}
-                ref={answerInputRef}
-                disabled={showAnswer}
-              />
-              {!showAnswer && (
+            <textarea
+              className="answer-input"
+              placeholder="Write here your answer"
+              value={userAnswer}
+              onChange={(e) => setUserAnswer(e.target.value)}
+              ref={answerInputRef}
+              disabled={showAnswer}
+            />
+            {!showAnswer && (
+              <div className="button-group">
+                <button
+                  className="quiz-button"
+                  onClick={handleSubmitAnswer}
+                  disabled={!userAnswer.trim()}
+                >
+                  Submit
+                </button>
+                {/* <button
+                  className="quiz-button"
+                  disabled={!canGoNext}
+                  onClick={() =>
+                    setCurrentQuestionIndex(currentQuestionIndex + 1)
+                  }
+                >
+                  Next Question
+                </button> */}
+              </div>
+            )}
+            {showAnswer && (
+              <div className="answer-section">
+                <h4>Correct Answer:</h4>
+                <p>
+                  {
+                    quiz.sections[currentSectionIndex].items[
+                      currentQuestionIndex
+                    ].answer
+                  }
+                </p>
                 <div className="button-group">
                   <button
-                    className="quiz-button"
-                    onClick={handleSubmitAnswer}
-                    disabled={!userAnswer.trim()}
+                    className={`mark-button ${
+                      isAnswerCorrect === true ? "selected correct" : ""
+                    }`}
+                    onClick={() => handleMarkAnswer(true)}
                   >
-                    Submit
+                    Correct
                   </button>
-                  {/* <button
-                    className="quiz-button"
-                    disabled={!canGoNext}
-                    onClick={() =>
-                      setCurrentQuestionIndex(currentQuestionIndex + 1)
-                    }
+                  <button
+                    className={`mark-button ${
+                      isAnswerCorrect === false ? "selected incorrect" : ""
+                    }`}
+                    onClick={() => handleMarkAnswer(false)}
                   >
-                    Next Question
-                  </button> */}
+                    Incorrect
+                  </button>
                 </div>
-              )}
-              {showAnswer && (
-                <div className="answer-section">
-                  <h4>Correct Answer:</h4>
-                  <p>
-                    {
-                      currentQuiz.sections[currentSectionIndex].items[
-                        currentQuestionIndex
-                      ].answer
-                    }
-                  </p>
-                  <div className="button-group">
-                    <button
-                      className={`mark-button ${
-                        isAnswerCorrect === true ? "selected correct" : ""
-                      }`}
-                      onClick={() => handleMarkAnswer(true)}
-                    >
-                      Correct
-                    </button>
-                    <button
-                      className={`mark-button ${
-                        isAnswerCorrect === false ? "selected incorrect" : ""
-                      }`}
-                      onClick={() => handleMarkAnswer(false)}
-                    >
-                      Incorrect
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
-        </>
-      ) : (
-        <div>Loading...</div>
-      )}
-    </div>
+        </div>
+      </div>
+    </>
   );
 }

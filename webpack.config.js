@@ -1,7 +1,9 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
+const Dotenv = require("dotenv-webpack");
+
+const isProduction = process.env.NODE_ENV === "production";
 
 module.exports = {
   entry: "./app/src/index.jsx",
@@ -12,7 +14,11 @@ module.exports = {
   },
   module: {
     rules: [
-      { test: /\.(js|jsx)$/, use: "babel-loader" },
+      {
+        test: /\.(js|jsx)$/,
+        use: "babel-loader",
+        include: path.resolve(__dirname, "app/src"),
+      },
       { test: /\.css$/, use: ["style-loader", "css-loader"] },
       {
         test: /\.(png|jpe?g|gif|svg)$/,
@@ -32,9 +38,12 @@ module.exports = {
   resolve: {
     extensions: [".js", ".jsx"],
   },
-  mode: process.env.NODE_ENV === "production" ? "production" : "development",
+  mode: isProduction ? "production" : "development",
 
   plugins: [
+    new Dotenv({
+      path: isProduction ? "./.env.production" : "./.env",
+    }),
     new HtmlWebpackPlugin({ template: "app/src/index.html" }),
     new CopyWebpackPlugin({
       patterns: [
@@ -45,14 +54,10 @@ module.exports = {
       ],
     }),
   ],
+
   devServer: {
     historyApiFallback: true,
     port: 8082,
   },
-  devtool:
-    process.env.NODE_ENV === "production" ? "source-map" : "eval-source-map",
-  optimization: {
-    minimize: process.env.NODE_ENV === "production", // Only minimize in production
-    minimizer: [new TerserPlugin()],
-  },
+  devtool: "cheap-module-source-map",
 };

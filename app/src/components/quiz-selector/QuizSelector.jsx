@@ -27,6 +27,7 @@ const QuizSelector = ({
   }, []);
 
   useEffect(() => {
+    console.log("Selected quizzes:", selectedQuizzes);
     setStartTrainingEnabled(selectedQuizzes.length > 0);
   }, [selectedQuizzes]);
 
@@ -60,8 +61,10 @@ const QuizSelector = ({
         (quiz) => quiz === selectedQuiz
       );
       if (isAlreadySelected) {
+        console.log("Quiz already selected:", selectedQuiz);
         return prevSelectedQuizzes.filter((quiz) => quiz !== selectedQuiz);
       } else {
+        console.log("Quiz selected:", selectedQuiz);
         return [...prevSelectedQuizzes, selectedQuiz];
       }
     });
@@ -97,7 +100,7 @@ const QuizSelector = ({
             onSelect={handleSelectQuiz}
             onDelete={onDeleteQuiz}
             isSelected={selectedQuizzes.some(
-              (selectedQuiz) => selectedQuiz === quiz["id"]
+              (selectedQuiz) => selectedQuiz["id"] === quiz["id"]
             )}
           />
         ))}

@@ -114,26 +114,37 @@ const QuizItem = ({
     toggleHandleEntitlementModal();
   };
 
+  const formatDate = (dateString) => {
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    };
+    return new Date(dateString).toLocaleDateString("en-EN", options);
+  };
+
   return (
     <div
       className={`quiz-item ${isSelected ? "selected" : ""}  ${
         selectible ? "quiz-item-selectible" : ""
       }`}
-      onClick={() => (quiz.redo ? onSelect(quiz.id) : onSelect(quiz.id))}
+      onClick={() => (quiz.redo ? onSelect(quiz) : onSelect(quiz))}
     >
       <div className="quiz-item-header">
         <h3>{quiz.title}</h3>
-        <p>{quiz.metadata.description}</p>
+        <p>{formatRoleName(quiz.entitlementRole)}</p>
+        <p>{quiz.description}</p>
         {editable ? (
-          <p>Created on {quiz.metadata.creationDate}</p>
+          <p>Created on {formatDate(quiz.createdAt)}</p>
         ) : (
           <p>
-            Last performed{" "}
-            {calculateDaysSinceLastPerformance(quiz.metadata.creationDate)} days
-            ago
+            Last performed {calculateDaysSinceLastPerformance(quiz.createdAt)}{" "}
+            days ago
           </p>
         )}
-        <p>{formatRoleName(quiz.entitlementRole)}</p>
       </div>
       {editable && (
         <div className="quiz-item-actions">

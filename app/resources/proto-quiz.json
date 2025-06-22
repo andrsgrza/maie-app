@@ -1,16 +1,12 @@
 {
   "title": "Title",
-  "metadata": {
-    "author": "",
-    "description":"This is a quiz for practicing concept comprehension and memorization",
-    "creationDate":""
-  },
+  "createdBy": "",
+  "createdAt": "",
+  "description": "This is a quiz for practicing concept comprehension and memorization",
   "sections": [
     {
       "title": "Section",
-      "items": [
-
-      ]
+      "items": []
     }
   ]
 }

@@ -1,12 +1,11 @@
 import axios from "axios";
+import { HOST_ENDPOINTS } from "../common/constants";
 
 export default class QuizClient {
-  // Create an Axios instance with the base URL and credentials configuration
-  static apiBaseUrl = "http://localhost:8081/api/quizzes"; // Base URL for the backend
-
+  static apiBaseUrl = `${process.env.QUIZ_HOST_PATH}/${HOST_ENDPOINTS.QUIZZES}`;
   static apiClient = axios.create({
     baseURL: QuizClient.apiBaseUrl,
-    withCredentials: true, // Include cookies in requests
+    withCredentials: true,
   });
 
   // Static method to post a quiz
