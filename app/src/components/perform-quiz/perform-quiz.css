@@ -89,6 +89,8 @@ body {
   cursor: pointer;
   transition: all 0.3s ease;
   background-color: white;
+  width: 50%;
+  font-size: larger;
 }
 .mark-button.selected.correct {
   background-color: #4caf50;

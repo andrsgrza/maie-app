@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import QuizClient from "../../api/quiz-client";
 import QuizItem from "../perform-quiz/QuizItem";
 import ErrorBanner from "../../common/banner/Banner";
@@ -16,11 +16,18 @@ const QuizSelector = ({
   editable,
   isLoading,
   error,
+  hideStartButton = false,
+  onSelectionChange,
 }) => {
   const [selectedQuizzes, setSelectedQuizzes] = useState([]);
   const [startTrainingEnabled, setStartTrainingEnabled] = useState(false);
-  const { addBanner } = useBanner();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (onSelectionChange) {
+      onSelectionChange(selectedQuizzes);
+    }
+  }, [selectedQuizzes, onSelectionChange]);
 
   useEffect(() => {
     // Initialize the selected property for each quiz
@@ -31,12 +38,18 @@ const QuizSelector = ({
     setStartTrainingEnabled(selectedQuizzes.length > 0);
   }, [selectedQuizzes]);
 
+  const handleSubmitSelection = useCallback(() => {
+    if (selectedQuizzes.length > 0 && onSelected) {
+      onSelected();
+    }
+  }, [selectedQuizzes, onSelected]);
+
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (selectedQuizzes.length > 0) {
         if (event.key === "Enter") {
-          event.preventDefault(); // Prevent default behavior
-          onSelected(selectedQuizzes);
+          event.preventDefault();
+          handleSubmitSelection();
         }
       }
     };
@@ -44,7 +57,7 @@ const QuizSelector = ({
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [selectedQuizzes]);
+  }, [selectedQuizzes, handleSubmitSelection]);
 
   useEffect(() => {
     if (error === 404) {
@@ -112,18 +125,6 @@ const QuizSelector = ({
         <h3>Loading</h3>
       ) : (
         <div className="quiz-selector">{getContent()}</div>
-      )}
-      {selectible && (
-        <ButtonBar
-          centerItems={[
-            {
-              contentType: "button",
-              label: "Start Training",
-              onClick: () => onSelected(selectedQuizzes),
-              disabled: !startTrainingEnabled,
-            },
-          ]}
-        />
       )}
     </div>
   );

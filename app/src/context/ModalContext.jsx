@@ -1,72 +1,105 @@
-import React, { createContext, useState, useContext } from 'react';
-import { ConfirmModal } from '../common/modal/ConfirmModal'
-import { ImportModal } from '../common/modal/ImportModal'
-import HandleEntitlementModal from '../common/modal/HandleEntitlementModal'
+import React, { createContext, useState, useContext } from "react";
+import { ConfirmModal } from "../common/modal/ConfirmModal";
+import { ImportModal } from "../common/modal/ImportModal";
+import HandleEntitlementModal from "../common/modal/HandleEntitlementModal";
+import SelectModal from "../common/modal/SelectModal";
+import { BannerProvider } from "./BannerContext";
 
-// Create the context
 const ModalContext = createContext();
 
-// Create a custom hook to use the ModalContext
 export const useModal = () => {
-    return useContext(ModalContext);
+  return useContext(ModalContext);
 };
 
-
 export const ModalProvider = ({ children }) => {
+  const [confirmModalState, setConfirmModalState] = useState({
+    isOpen: false,
+    title: "Confirm Action",
+  });
+  const [importModal, setImportModal] = useState(new ImportModal());
+  const [handleEntitlementState, setHandleEntitlementState] = useState({
+    isOpen: false,
+    resourceId: null,
+  });
+  const [selectModalState, setSelectModalState] = useState({
+    isOpen: false,
+    resourceId: null,
+  });
 
-    const [confirmModal, setConfirmModal] = useState(new ConfirmModal());
-    const [importModal, setImportModal] = useState(new ImportModal());
-    const [handleEntitlementState, setHandleEntitlementState] = useState({ isOpen: false, resourceId: null });
+  const configureConfirmModal = (config) => {
+    setConfirmModalState((prevModal) => ({ ...prevModal, ...config }));
+  };
 
-    const configureConfirmModal = (config) => {
-        setConfirmModal(prevModal => ({ ...prevModal, ...config }));
-    };
+  const toggleConfirmModal = () => {
+    setConfirmModalState((prevState) => ({
+      ...prevState,
+      isOpen: !prevState.isOpen,
+    }));
+  };
 
-    const toggleConfirmModal = () => {
-        setConfirmModal(prevModal => {
-            const newModal = new ConfirmModal(prevModal);
-            newModal.isOpen = !prevModal.isOpen;
-            return newModal;
-        });
-    }
-    const configureImportModal = (config) => {
-        setImportModal(prevModal => ({ ...prevModal, ...config }));
-    };
+  const configureImportModal = (config) => {
+    setImportModal((prevModal) => ({ ...prevModal, ...config }));
+  };
 
-    const toggleImportModal = () => {
-        setImportModal(prevModal => {
-            const newModal = new ImportModal(prevModal);
-            newModal.isOpen = !prevModal.isOpen;
-            return newModal;
-        });
-    }
-    const toggleHandleEntitlementModal = () => {
-        setHandleEntitlementState(prevState => ({
-            ...prevState,
-            isOpen: !prevState.isOpen
-        }));
-    };
+  const toggleImportModal = () => {
+    setImportModal((prevModal) => {
+      const newModal = new ImportModal(prevModal);
+      newModal.isOpen = !prevModal.isOpen;
+      return newModal;
+    });
+  };
 
-    const configureHandleEntitlementModal = (config) => {
-        setHandleEntitlementState(prevModal => ({ ...prevModal, ...config }));
-    };
+  const toggleHandleEntitlementModal = () => {
+    setHandleEntitlementState((prevState) => ({
+      ...prevState,
+      isOpen: !prevState.isOpen,
+    }));
+  };
 
-    return (
-        <ModalContext.Provider value={{
-                configureConfirmModal,
-                toggleConfirmModal,
-                configureImportModal,
-                toggleImportModal,
-                toggleHandleEntitlementModal,
-                configureHandleEntitlementModal,
-                handleEntitlementState
-            }}>
-            {children}
-            {confirmModal.isOpen && <ConfirmModal {...confirmModal} />}
-            {importModal.isOpen && <ImportModal {...importModal} />}
-            {handleEntitlementState.isOpen && <HandleEntitlementModal toggleModal={toggleHandleEntitlementModal} />}
-        </ModalContext.Provider>
-    );
-    
+  const configureHandleEntitlementModal = (config) => {
+    setHandleEntitlementState((prevModal) => ({ ...prevModal, ...config }));
+  };
 
+  const toggleSelectModal = () => {
+    setSelectModalState((prevState) => ({
+      ...prevState,
+      isOpen: !prevState.isOpen,
+    }));
+  };
+
+  const configureSelectModal = (config) => {
+    setSelectModalState((prevModal) => ({ ...prevModal, ...config }));
+  };
+
+  return (
+    <ModalContext.Provider
+      value={{
+        configureConfirmModal,
+        toggleConfirmModal,
+        configureImportModal,
+        toggleImportModal,
+        toggleHandleEntitlementModal,
+        configureHandleEntitlementModal,
+        handleEntitlementState,
+        selectModalState, // Make sure this is exported
+        toggleSelectModal,
+        configureSelectModal,
+      }}
+    >
+      {children}
+      {importModal.isOpen && <ImportModal {...importModal} />}
+      {confirmModalState.isOpen && <ConfirmModal {...confirmModalState} />}
+      {handleEntitlementState.isOpen && (
+        <HandleEntitlementModal toggleModal={toggleHandleEntitlementModal} />
+      )}
+      {selectModalState.isOpen && (
+        <BannerProvider>
+          <SelectModal
+            toggleModal={toggleSelectModal}
+            {...selectModalState} // This spreads all the configured props including onClose
+          />
+        </BannerProvider>
+      )}
+    </ModalContext.Provider>
+  );
 };

@@ -50,7 +50,6 @@ const SectionSelector = ({
 
   return (
     <div className="section-selector">
-      <h3 className="quiz-title">{quizTitle}</h3>
       <div className="section-item">
         <div className="select-all-toggle">
           <label className="switch">

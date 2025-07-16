@@ -4,13 +4,13 @@ import { BackButton } from "../../common/BackButton";
 import QuizClient from "../../api/quiz-client";
 import { useLocation } from "react-router-dom";
 import protoQuiz from "../../../resources/proto-quiz.json";
-import "./quiz-editor.css";
+import "./quiz-manager.css";
 import { useNavigate } from "react-router-dom";
 import { useBanner } from "../../context/BannerContext";
 import { MESSAGES } from "../../common/constants";
 import ButtonBar from "../ButtonBar";
 
-export default function QuizCreator() {
+export default function QuizmManager() {
   const [isEditingQuizTitle, setIsEditingQuizTitle] = useState(false);
   const [saveMessage, setSaveMessage] = useState({ text: "", type: "" });
   const [highlightedSections, setHighlightedSections] = useState([]);
@@ -150,19 +150,19 @@ export default function QuizCreator() {
 
       try {
         let response;
-        if (preloadedQuiz) {
+        if (forgedQuiz?.id) {
           response = await QuizClient.updateQuiz(forgedQuiz);
         } else {
           response = await QuizClient.postQuiz(forgedQuiz);
         }
-
+        Object.assign(forgedQuiz, response.data);
         addBanner(
           MESSAGES.API_MESSAGES.PUT_QUIZ[response.status].TYPE,
           MESSAGES.API_MESSAGES.PUT_QUIZ[response.status].TITLE,
           MESSAGES.API_MESSAGES.PUT_QUIZ[response.status].MESSAGE
         );
       } catch (error) {
-        setSaveMessage({ text: "Error saving quiz.", type: "error" });
+        setSaveMessage({ text: `Error saving quiz: ${error}`, type: "error" });
       }
     }
     setHighlightedSections([]);
@@ -174,7 +174,7 @@ export default function QuizCreator() {
   };
 
   return (
-    <div className="quiz-creator">
+    <div className="quiz-creator with-bottom-bar">
       <div className="centered-container">
         {isEditingQuizTitle ? (
           <input
@@ -219,7 +219,7 @@ export default function QuizCreator() {
       <ButtonBar
         leftItems={[
           {
-            contentType: "toggle",
+            contentType: "switch",
             label: "Autosave",
             checked: autosaveEnabled,
             onChange: () => setAutosaveEnabled(!autosaveEnabled),
@@ -227,7 +227,7 @@ export default function QuizCreator() {
           ...(saveMessage.text
             ? [
                 {
-                  type: "message",
+                  contentType: "message",
                   text: saveMessage.text,
                   messageType: saveMessage.type,
                 },
@@ -236,17 +236,17 @@ export default function QuizCreator() {
         ]}
         rightItems={[
           {
-            type: "button",
+            contentType: "button",
             label: "Back",
             onClick: () => navigate(-1),
           },
           {
-            type: "button",
+            contentType: "button",
             label: "Save",
             onClick: handleSaveQuiz,
           },
           {
-            type: "button",
+            contentType: "button",
             label: "Save and Exit",
             onClick: handleSaveAndExit,
           },

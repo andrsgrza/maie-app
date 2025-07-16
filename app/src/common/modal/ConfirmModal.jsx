@@ -1,37 +1,36 @@
 import React from "react";
-import { BaseModal } from "./BaseModal";
 import Modal, { ModalHeader, ModalBody, ModalFooter } from "./Modal";
 
-export class ConfirmModal extends BaseModal {
-  constructor(config = {}) {
-    super(config);
-    this.message = config.message || "";
-    this.onConfirm = config.onConfirm || (() => {});
-    this.onClose = config.onClose || (() => {});
-    this.buttonAClass = config.buttonAClass || "cancel-button";
-    this.buttonBClass = config.buttonBClass || "confrm-button";
-    this.buttonAContent = config.buttonAContent || "Cancel";
-    this.buttonBContent = config.buttonBContent || "Confirm";
-  }
+export function ConfirmModal({
+  title = "Confirm Action",
+  message = "Are you sure?",
+  onConfirm = () => {},
+  onClose = () => {},
+  buttonAClass = "cancel-button",
+  buttonBClass = "confirm-button",
+  buttonAContent = "Cancel",
+  buttonBContent = "Confirm",
+}) {
+  const handleOnClose = () => {
+    onClose();
+  };
 
-  configure(config) {
-    Object.assign(this, config);
-  }
+  const handleOnConfirm = () => {
+    onConfirm();
+  };
 
-  render() {
-    return (
-      <Modal>
-        <ModalHeader title={this.title} onClose={this.onClose} />
-        <ModalBody>{this.message}</ModalBody>
-        <ModalFooter>
-          <button onClick={this.onClose} className={this.buttonAClass}>
-            {this.buttonAContent}
-          </button>
-          <button onClick={this.onConfirm} className={this.buttonBClass}>
-            {this.buttonBContent}
-          </button>
-        </ModalFooter>
-      </Modal>
-    );
-  }
+  return (
+    <Modal>
+      <ModalHeader title={title} onClose={handleOnClose} />
+      <ModalBody>{message}</ModalBody>
+      <ModalFooter>
+        <button onClick={handleOnClose} className={buttonAClass}>
+          {buttonAContent}
+        </button>
+        <button onClick={handleOnConfirm} className={buttonBClass}>
+          {buttonBContent}
+        </button>
+      </ModalFooter>
+    </Modal>
+  );
 }
