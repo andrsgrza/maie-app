@@ -6,7 +6,7 @@ const Dotenv = require("dotenv-webpack");
 const isProduction = process.env.NODE_ENV === "production";
 
 module.exports = {
-  entry: "./app/src/index.jsx",
+  entry: "./src/index.jsx",
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "index.bundle.js",
@@ -17,7 +17,7 @@ module.exports = {
       {
         test: /\.(js|jsx)$/,
         use: "babel-loader",
-        include: path.resolve(__dirname, "app/src"),
+        include: path.resolve(__dirname, "src"),
       },
       { test: /\.css$/, use: ["style-loader", "css-loader"] },
       {
@@ -44,11 +44,11 @@ module.exports = {
     new Dotenv({
       path: isProduction ? "./.env.production" : "./.env",
     }),
-    new HtmlWebpackPlugin({ template: "app/src/index.html" }),
+    new HtmlWebpackPlugin({ template: "src/index.html" }),
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: path.resolve(__dirname, "app/resources/logo.ico"),
+          from: path.resolve(__dirname, "resources/logo.ico"),
           to: "resources/",
         },
       ],

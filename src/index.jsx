@@ -16,6 +16,6 @@ class Maie extends React.Component {
   }
 }
 
-const rootElement = document.getElementById("app");
+const rootElement = document.getElementById("maie-app");
 const root = ReactDOM.createRoot(rootElement);
 root.render(<Maie />);
