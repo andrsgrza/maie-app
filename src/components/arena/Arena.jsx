@@ -1,45 +1,48 @@
 import React from "react";
 import "./arena.css";
+import { useNavigate } from "react-router-dom";
 
-export default function Arena() {
+const Arena = () => {
+  const navigate = useNavigate();
+
+  const handleQuickQuiz = () => {
+    navigate("/arena/quick-quiz"); // por ahora puede redirigir al mismo PerformQuiz con un quiz default
+  };
+
+  const handleTraining = () => {
+    navigate("/arena/start-training");
+  };
+
+  const handleScheduled = () => {
+    navigate("/arena/scheduled-trainings");
+  };
+
   return (
     <div className="arena-container">
-      <h1>Welcome to the Arena</h1>
-
-      {/* 1. Quick Quiz Execution */}
-      <section className="arena-section">
-        <h2>Quick Quiz</h2>
-        <p>Select a quiz to perform a quick practice session.</p>
-        {/* TODO: QuizSelectorPerform for quick start */}
-      </section>
-
-      {/* 2. Training Execution */}
-      <section className="arena-section">
-        <h2>My Trainings</h2>
-        <p>Continue or start a training session.</p>
-        {/* TODO: TrainingSelector or Resume interface */}
-      </section>
-
-      {/* 3. Schedule a Training */}
-      <section className="arena-section">
-        <h2>Schedule Training</h2>
-        <p>Pick a training and set a due date to get reminders.</p>
-        {/* TODO: ScheduleTrainingForm */}
-      </section>
-
-      {/* 4. Clear Out Incomplete Trainings */}
-      <section className="arena-section">
-        <h2>Clear Out</h2>
-        <p>Resume or complete trainings based on past mistakes.</p>
-        {/* TODO: ClearOutManager */}
-      </section>
-
-      {/* 5. Create from Mistakes */}
-      <section className="arena-section">
-        <h2>Create From Mistakes</h2>
-        <p>Generate new quizzes/trainings from previous incorrect answers.</p>
-        {/* TODO: PastReportsAnalyzer */}
-      </section>
+      <h2 className="arena-title">Welcome to the Arena</h2>
+      <div className="arena-cards">
+        <div className="arena-card">
+          <h3>🏋️ Ejecutar Training</h3>
+          <p>
+            Realiza un entrenamiento completo, con sets y quizzes organizados.
+          </p>
+          <button onClick={handleTraining}>Iniciar Training</button>
+        </div>
+        <div className="arena-card">
+          <h3>⚡ Quiz Rápido</h3>
+          <p>
+            Resuelve un quiz sin estructura, ideal para repasar en poco tiempo.
+          </p>
+          <button onClick={handleQuickQuiz}>Iniciar Quiz</button>
+        </div>
+        <div className="arena-card">
+          <h3>📆 Entrenamientos Agendados</h3>
+          <p>Revisa tus trainings pendientes, programados o con due date.</p>
+          <button onClick={handleScheduled}>Ver Agendados</button>
+        </div>
+      </div>
     </div>
   );
-}
+};
+
+export default Arena;

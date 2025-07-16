@@ -1,6 +1,8 @@
 import React from "react";
-import ResourceList from "../ResourceList";
-import ResourceCard from "../ResourceCard";
+
+import ResourceList from "../resource/ResourceList";
+import ResourceCard from "../resource/ResourceCard";
+
 import { FaKey } from "react-icons/fa";
 
 export default function QuizSelectorPerform({ onSelected, onSelectionChange }) {

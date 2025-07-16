@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import ResourceList from "./ResourceList";
-import ResourceCard from "./ResourceCard";
-import { FaEdit, FaTrash, FaKey, FaDownload } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+
+import { FaEdit, FaTrash, FaKey, FaDownload } from "react-icons/fa";
+
+import ResourceList from "../resource/ResourceList";
+import ResourceCard from "../resource/ResourceCard";
 
 import { useModal } from "../../context/ModalContext";
 

@@ -1,0 +1,51 @@
+.arena-container {
+  padding: 2rem;
+  text-align: center;
+}
+
+.arena-title {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.arena-cards {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.arena-card {
+  background: #f5f5f5;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  width: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.arena-card:hover {
+  transform: translateY(-4px);
+}
+
+.arena-card h3 {
+  margin-bottom: 1rem;
+}
+
+.arena-card p {
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.arena-card button {
+  background-color: #007bff;
+  border: none;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.arena-card button:hover {
+  background-color: #0056b3;
+}

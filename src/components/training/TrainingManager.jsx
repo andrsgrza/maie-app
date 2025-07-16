@@ -1,8 +1,8 @@
 // ... otros imports
 import React, { useState, useEffect, useRef } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import QuizSelectorPerform from "../quiz-selector/quiz-selector-wrapper/QuizSelectorPerform";
-import SectionSelector from "../quiz-selector/SectionSelector";
+import QuizSelectorPerform from "../arena/QuizSelectorPerform";
+import SectionSelector from "../quiz/SectionSelector";
 import ButtonBar from "../ButtonBar";
 import "./training-manager.css";
 import { useModal } from "../../context/ModalContext";
