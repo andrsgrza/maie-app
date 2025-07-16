@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./perform-quiz.css";
-import QuizClient from "../../api/quiz-client";
 
 export default function PerformQuiz({ quiz, onComplete }) {
-  // const [currentQuiz, setCurrentQuiz] = useState(null);
   const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [userAnswer, setUserAnswer] = useState("");
@@ -11,7 +9,6 @@ export default function PerformQuiz({ quiz, onComplete }) {
   const [isAnswerCorrect, setIsAnswerCorrect] = useState(null);
   const [isMarked, setIsMarked] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  // const [canGoNext, setCanGoNext] = useState(false);
   const [completedQuiz, setCompletedQuiz] = useState(null);
 
   const answerInputRef = useRef(null);
@@ -198,15 +195,6 @@ export default function PerformQuiz({ quiz, onComplete }) {
                 >
                   Submit
                 </button>
-                {/* <button
-                  className="quiz-button"
-                  disabled={!canGoNext}
-                  onClick={() =>
-                    setCurrentQuestionIndex(currentQuestionIndex + 1)
-                  }
-                >
-                  Next Question
-                </button> */}
               </div>
             )}
             {showAnswer && (
@@ -242,7 +230,7 @@ export default function PerformQuiz({ quiz, onComplete }) {
             {isMarked && (
               <div className="button-group">
                 <button className="quiz-button" onClick={handleSubmitResponse}>
-                  Submit
+                  Next
                 </button>
               </div>
             )}

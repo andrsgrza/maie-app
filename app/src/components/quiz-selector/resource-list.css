@@ -1,0 +1,231 @@
+.resource-list-container {
+  width: inherit;
+  position: relative;
+}
+
+.resource-card {
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  background: white;
+  transition: all 0.2s ease;
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.resource-card:hover {
+  border-color: #007bff;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.1);
+}
+
+.resource-card.no-select-hover:hover {
+  border-color: #e0e0e0;
+  box-shadow: none;
+}
+
+.resource-card.selected {
+  border-color: #007bff;
+  background-color: #e6f0ff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+}
+
+.resource-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+}
+
+.resource-card h3 {
+  margin: 0;
+}
+
+.resource-icons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.role-icon {
+  font-size: 18px;
+  cursor: default;
+}
+
+/* Botón de menú minimalista */
+.dropdown-btn {
+  background: none;
+  color: #333;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 2px 6px;
+  margin-top: 0px;
+}
+
+.dropdown-container {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  min-width: 160px;
+  overflow: hidden;
+}
+
+.dropdown-content ul {
+  list-style: none;
+  margin: 5px;
+  padding: 5px;
+}
+
+.dropdown-container:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  color: #333;
+}
+
+.dropdown-item:hover {
+  background-color: #f0f4f8;
+}
+
+.dropdown-item.edit:hover {
+  background-color: #e3f2fd;
+  color: #1a73e8;
+}
+
+.dropdown-item.entitlement:hover {
+  background-color: #fff8e1;
+  color: #f9a825;
+}
+
+.dropdown-item.download:hover {
+  background-color: #ede7f6;
+  color: #673ab7;
+}
+
+.dropdown-item.danger:hover {
+  background-color: #ffebee;
+  color: #d32f2f;
+}
+
+.resource-date {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #777;
+}
+
+.role-badge {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  cursor: default;
+  margin: 0px 8px 0 0;
+}
+
+.role-owner {
+  background-color: #007bff;
+}
+
+.role-read-write {
+  background-color: #28a745;
+}
+
+.role-read-only {
+  background-color: #ffc107;
+}
+
+.role-unknown {
+  background-color: #6c757d;
+}
+
+/* Add Resource Button Styles */
+.add-resource-wrapper {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 1000;
+}
+
+.add-resource-button {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #007bff;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-resource-button:hover {
+  background: #0056b3;
+  box-shadow: 0 6px 16px rgba(0, 123, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+.add-resource-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+}
+
+.add-resource-dropdown {
+  position: absolute;
+  bottom: 70px;
+  right: 0;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  min-width: 180px;
+}
+
+.add-resource-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.add-resource-dropdown-item:hover {
+  background-color: #f8f9fa;
+}
+
+.add-resource-dropdown-item i {
+  font-size: 16px;
+  color: #007bff;
+}

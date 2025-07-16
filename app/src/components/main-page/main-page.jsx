@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { BrowserRouter as Router, Routes, Link, Route } from "react-router-dom";
-import QuizCreator from "../create-quiz/QuizCreator";
-import QuizPerformer from "../perform-quiz/QuizPerformer";
+import QuizManager from "../create-quiz/QuizManager";
+import Arena from "../perform-quiz/Arena";
 import "./main-page.css";
-import QuizSelectorEdit from "../quiz-selector/quiz-selector-wrapper/QuizSelectorEdit";
 import Login from "../login/LoginForm";
 import RegistryForm from "../login/RegistryForm";
 import TopBar from "./TopBar";
@@ -18,6 +17,11 @@ import { useAuth } from "../../context/AuthContext";
 import { BannerProvider } from "../../context/BannerContext";
 import { ModalProvider } from "../../context/ModalContext";
 import { useLocation } from "react-router-dom";
+import TrainingManager from "../perform-quiz/TrainingManager";
+import MyQuizzes from "../quiz-selector/MyQuizzes";
+import MyTrainings from "../perform-quiz/MyTrainings";
+import PerformQuiz from "../perform-quiz/PerformQuiz";
+import expressQuizzes from "../../../resources/demo-quizes/express.json";
 
 export default function MainPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -37,7 +41,12 @@ export default function MainPage() {
   };
 
   return (
-    <Router>
+    <Router
+      future={{
+        v7_startTransition: true,
+        v7_relativeSplatPath: true,
+      }}
+    >
       <ScrollToTop />
       <MainPageContent
         isMenuOpen={isMenuOpen}
@@ -63,6 +72,7 @@ function MainPageContent({
   const handleClickOnSidebar = () => {
     setIsMenuOpen(false);
   };
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     const verifyAuth = async () => {
@@ -77,7 +87,6 @@ function MainPageContent({
         } else {
           setCurrentUser(null);
           unauthenticate();
-          //navigate('/error')
         }
       } catch (error) {}
     };
@@ -113,6 +122,11 @@ function MainPageContent({
             <li>
               <Link to="/perform-quiz" onClick={handleClickOnSidebar}>
                 Arena
+              </Link>
+            </li>
+            <li>
+              <Link to="/my-trainings" onClick={handleClickOnSidebar}>
+                Trainings
               </Link>
             </li>
           </ul>
@@ -157,7 +171,9 @@ function MainPageContent({
                     path="/my-quizzes"
                     element={
                       <PrivateRoute>
-                        <QuizSelectorEdit />
+                        <div className=" centered-container">
+                          <MyQuizzes />
+                        </div>
                       </PrivateRoute>
                     }
                   />
@@ -181,7 +197,7 @@ function MainPageContent({
                     path="/create-quiz"
                     element={
                       <PrivateRoute>
-                        <QuizCreator />
+                        <QuizManager />
                       </PrivateRoute>
                     }
                   />
@@ -189,7 +205,29 @@ function MainPageContent({
                     path="/perform-quiz"
                     element={
                       <PrivateRoute>
-                        <QuizPerformer />
+                        {/* <Arena /> */}
+                        <PerformQuiz
+                          quiz={expressQuizzes}
+                          onComplete={() => console.log("Completed")}
+                        />
+                      </PrivateRoute>
+                    }
+                  />
+                  <Route
+                    path="/my-trainings"
+                    element={
+                      <PrivateRoute>
+                        <div className=" centered-container">
+                          <MyTrainings />
+                        </div>
+                      </PrivateRoute>
+                    }
+                  />
+                  <Route
+                    path="/create-training"
+                    element={
+                      <PrivateRoute>
+                        <TrainingManager />
                       </PrivateRoute>
                     }
                   />

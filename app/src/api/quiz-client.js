@@ -32,7 +32,7 @@ export default class QuizClient {
   }
 
   // Static method to delete a quiz by ID
-  static async deleteQuiz(quizId) {
+  static async delete(quizId) {
     try {
       const response = await QuizClient.apiClient.delete(`/${quizId}`);
       return response.data;
@@ -68,6 +68,22 @@ export default class QuizClient {
       return response.data;
     } catch (error) {
       throw error;
+    }
+  }
+  //Experimental
+  static async searchQuizzes({ title, ownerId, tags } = {}) {
+    try {
+      const params = new URLSearchParams();
+      if (title) params.append("title", title);
+      if (ownerId) params.append("ownerId", ownerId);
+      if (tags) params.append("tags", tags);
+
+      const response = await QuizClient.apiClient.get(
+        `/search?${params.toString()}`
+      );
+      return { status: response.status, data: response.data };
+    } catch (error) {
+      return { status: error.status, message: error.message };
     }
   }
 }
