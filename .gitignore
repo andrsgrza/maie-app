@@ -6,3 +6,4 @@ launch.json
 .env*
 certs/
 .vscode/*
+util-scripts/*

@@ -1,14 +1,17 @@
 import React, { useState } from "react";
-import ResourceList from "../quiz-selector/ResourceList";
-import ResourceCard from "../quiz-selector/ResourceCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronDown,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { FaEdit, FaTrash, FaKey, FaDownload, FaPlus } from "react-icons/fa";
+
+import ResourceList from "../resource/ResourceList";
+import ResourceCard from "../resource/ResourceCard";
+
 import { useNavigate } from "react-router-dom";
 import { useModal } from "../../context/ModalContext";
+
 import "./my-trainings.css";
 
 function SetPreview({ set }) {

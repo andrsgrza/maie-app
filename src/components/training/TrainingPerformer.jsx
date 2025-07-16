@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import PerformQuiz from "./PerformQuiz";
+
 import QuizReport from "../report/QuizReport";
-import SectionSelector from "../quiz-selector/SectionSelector";
-import "./perform-quiz.css";
 import ButtonBar from "../ButtonBar";
 import TrainingManager from "./TrainingManager";
+
+import PerformQuiz from "../arena/PerformQuiz";
+
+import "../arena/perform-quiz.css";
 
 export default function Arena() {
   const [configuredSets, setConfiguredSets] = useState([]);

@@ -1,27 +1,29 @@
 import React, { useState, useEffect, useRef } from "react";
 import { BrowserRouter as Router, Routes, Link, Route } from "react-router-dom";
-import QuizManager from "../create-quiz/QuizManager";
-import Arena from "../perform-quiz/Arena";
 import "./main-page.css";
-import Login from "../login/LoginForm";
-import RegistryForm from "../login/RegistryForm";
 import TopBar from "./TopBar";
 import SidebarMenu from "./SidebarLoginMenu";
 import HomeGuest from "./home-page/HomeGuest";
 import HomeUser from "./home-page/HomeUser";
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
+
 import { UserClient } from "../../api/user-client";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { BannerProvider } from "../../context/BannerContext";
 import { ModalProvider } from "../../context/ModalContext";
 import { useLocation } from "react-router-dom";
-import TrainingManager from "../perform-quiz/TrainingManager";
-import MyQuizzes from "../quiz-selector/MyQuizzes";
-import MyTrainings from "../perform-quiz/MyTrainings";
-import PerformQuiz from "../perform-quiz/PerformQuiz";
 import expressQuizzes from "../../../resources/demo-quizes/express.json";
+
+import QuizManager from "../quiz/QuizManager";
+import Arena from "../arena/Arena";
+import Login from "../auth/LoginForm";
+import RegistryForm from "../auth/RegistryForm";
+import TrainingManager from "../training/TrainingManager";
+import MyQuizzes from "../quiz/MyQuizzes";
+import MyTrainings from "../training/MyTrainings";
+import PerformQuiz from "../arena/PerformQuiz";
 
 export default function MainPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -120,7 +122,7 @@ function MainPageContent({
               </Link>
             </li>
             <li>
-              <Link to="/perform-quiz" onClick={handleClickOnSidebar}>
+              <Link to="/arena" onClick={handleClickOnSidebar}>
                 Arena
               </Link>
             </li>
@@ -210,6 +212,14 @@ function MainPageContent({
                           quiz={expressQuizzes}
                           onComplete={() => console.log("Completed")}
                         />
+                      </PrivateRoute>
+                    }
+                  />
+                  <Route
+                    path="/arena"
+                    element={
+                      <PrivateRoute>
+                        <Arena />
                       </PrivateRoute>
                     }
                   />
