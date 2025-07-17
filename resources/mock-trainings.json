@@ -1,0 +1,152 @@
+[
+  {
+    "id": "RT_12345678",
+    "title": "Sample Training",
+    "createdAt": "2025-07-15T10:00:00Z",
+    "lastEdited": "2025-07-15T14:30:00Z",
+    "lastPerformed": "2025-07-15T15:45:00Z",
+    "entitlementRole": "OWNER",
+    "resourceEntitlement": {
+      "OWNER": [
+        {
+          "userId": "UR_5ec20924",
+          "username": "John Doe"
+        }
+      ],
+      "READ_ONLY": [
+        {
+          "userId": "UR_1a2b3c4d",
+          "username": "Jane Smith"
+        }
+      ]
+    },
+    "sets": [
+      {
+        "title": "Set 1",
+        "quizzes": [
+          {
+            "quizId": "RQ_0da6a0f2",
+            "title": "Title",
+            "sections": [
+              {
+                "title": "Section",
+                "items": [
+                  {
+                    "question": "ojljk",
+                    "answer": "kjlhlkjj"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "quizId": "RQ_1a187d55",
+            "title": "Title2",
+            "sections": [
+              {
+                "title": "Section",
+                "items": [
+                  {
+                    "question": "asdfasd",
+                    "answer": "asdfsdfasd"
+                  }
+                ]
+              },
+              {
+                "title": "Section 2",
+                "items": [
+                  {
+                    "question": "asdfasdf",
+                    "answer": "asfasdf"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "quizId": "RQ_4d0f058a",
+            "title": "Title2",
+            "sections": [
+              {
+                "title": "Section",
+                "items": [
+                  {
+                    "question": "asdfasd",
+                    "answer": "asdfsdfasd"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Set 2",
+        "quizzes": [
+          {
+            "quizId": "RQ_95b5a930",
+            "title": "Title3",
+            "sections": [
+              {
+                "title": "Section",
+                "items": [
+                  {
+                    "question": "asdfasdf",
+                    "answer": "asdfasdf"
+                  },
+                  {
+                    "question": "asfdas",
+                    "answer": "adsfasdf"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "quizId": "RQ_5b8cc089",
+            "title": "Title",
+            "sections": [
+              {
+                "title": "Section",
+                "items": [
+                  {
+                    "question": "ojljk",
+                    "answer": "kjlhlkjj"
+                  },
+                  {
+                    "question": "kjhljkh",
+                    "answer": "lkjnlkn"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "quizId": "RQ_1a187d55",
+            "title": "Title2",
+            "sections": [
+              {
+                "title": "Section",
+                "items": [
+                  {
+                    "question": "asdfasd",
+                    "answer": "asdfsdfasd"
+                  }
+                ]
+              },
+              {
+                "title": "Section 2",
+                "items": [
+                  {
+                    "question": "asdfasdf",
+                    "answer": "asfasdf"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
