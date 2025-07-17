@@ -128,9 +128,9 @@
 }
 
 .resource-date {
-  margin-top: 10px;
   font-size: 12px;
   color: #777;
+  margin: 0px;
 }
 
 .role-badge {

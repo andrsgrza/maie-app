@@ -14,6 +14,7 @@ import { useAuth } from "../../context/AuthContext";
 import { BannerProvider } from "../../context/BannerContext";
 import { ModalProvider } from "../../context/ModalContext";
 import { useLocation } from "react-router-dom";
+import useFetchResources from "../../hooks/useFetchResources";
 import expressQuizzes from "../../../resources/demo-quizes/express.json";
 
 import QuizManager from "../quiz/QuizManager";
@@ -23,6 +24,8 @@ import RegistryForm from "../auth/RegistryForm";
 import TrainingManager from "../training/TrainingManager";
 import MyQuizzes from "../quiz/MyQuizzes";
 import MyTrainings from "../training/MyTrainings";
+import ManageResources from "../resource/ManageResources";
+import ResourceCard from "../resource/ResourceCard";
 import PerformQuiz from "../arena/PerformQuiz";
 
 export default function MainPage() {
@@ -172,13 +175,20 @@ function MainPageContent({
                   <Route
                     path="/my-quizzes"
                     element={
-                      <PrivateRoute>
-                        <div className=" centered-container">
-                          <MyQuizzes />
-                        </div>
-                      </PrivateRoute>
+                      <div className=" centered-container">
+                        <ManageResources resourceType="quiz" />
+                      </div>
                     }
                   />
+                  <Route
+                    path="/my-trainings"
+                    element={
+                      <div className=" centered-container">
+                        <ManageResources resourceType="training" />
+                      </div>
+                    }
+                  />
+
                   <Route
                     path="/profile"
                     element={
@@ -220,16 +230,6 @@ function MainPageContent({
                     element={
                       <PrivateRoute>
                         <Arena />
-                      </PrivateRoute>
-                    }
-                  />
-                  <Route
-                    path="/my-trainings"
-                    element={
-                      <PrivateRoute>
-                        <div className=" centered-container">
-                          <MyTrainings />
-                        </div>
                       </PrivateRoute>
                     }
                   />

@@ -55,12 +55,14 @@ export default function ResourceCard({
         </div>
       </div>
       {item.description && <p>{item.description}</p>}
-      {item.createdAt && (
-        <p className="resource-date">
-          Created on {new Date(item.createdAt).toLocaleString()}
-        </p>
-      )}
       {children}
+      {item.createdAt && (
+        <div className="training-meta">
+          <p className="resource-date">
+            Created on {new Date(item.createdAt).toLocaleString()}
+          </p>
+        </div>
+      )}
     </div>
   );
 }

@@ -6,7 +6,7 @@ import { useBanner } from "../../context/BannerContext";
 import { useModal } from "../../context/ModalContext";
 import "./resource-list.css";
 // Add this at the top of ResourceList.jsx
-import mockTrainings from "../../../resources/mock-training.json";
+import mockTrainings from "../../../resources/mock-trainings.json";
 
 export default function ResourceList({
   resourceType,
@@ -16,19 +16,18 @@ export default function ResourceList({
   onSelectionChange,
   filters = {},
 }) {
-  // const { items, setItems, isLoading, error } = useFetchResources(
-  //   resourceType,
-  //   filters
-  // );
-  const { items, setItems, isLoading, error } =
-    resourceType === "training"
-      ? {
-          items: [mockTrainings], // simulate array of trainings
-          setItems: () => {},
-          isLoading: false,
-          error: null,
-        }
-      : useFetchResources(resourceType, filters);
+  const {
+    items: fetchedItems,
+    setItems: setFetchedItems,
+    isLoading: fetchedLoading,
+    error: fetchedError,
+  } = useFetchResources(resourceType, filters);
+
+  const isTraining = resourceType === "training";
+  const items = isTraining ? mockTrainings : fetchedItems;
+  const setItems = isTraining ? () => {} : setFetchedItems;
+  const isLoading = isTraining ? false : fetchedLoading;
+  const error = isTraining ? null : fetchedError;
 
   const [selectedItems, setSelectedItems] = useState([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -105,16 +104,18 @@ export default function ResourceList({
 
     return (
       <div className="resource-list-items">
-        {items.map((item) =>
-          renderItem({
-            item,
-            isSelected: selectedItems.some((i) => i.id === item.id),
-            onSelect: () => handleSelect(item),
-            onDelete: () => handleDelete(item.id),
-            editable,
-            selectable,
-          })
-        )}
+        {items.map((item) => (
+          <React.Fragment key={item.id}>
+            {renderItem({
+              item,
+              isSelected: selectedItems.some((i) => i.id === item.id),
+              onSelect: () => handleSelect(item),
+              onDelete: () => handleDelete(item.id),
+              editable,
+              selectable,
+            })}
+          </React.Fragment>
+        ))}
       </div>
     );
   };
