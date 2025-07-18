@@ -1,48 +1,78 @@
 import React from "react";
-import "./arena.css";
+import { useModal } from "../../context/ModalContext";
 import { useNavigate } from "react-router-dom";
+import ResourceList from "../resource/ResourceList";
+import ResourceCard from "../resource/ResourceCard";
 
-const Arena = () => {
+export default function Arena() {
+  const { configureSelectModal, toggleSelectModal } = useModal();
   const navigate = useNavigate();
 
-  const handleQuickQuiz = () => {
-    navigate("/arena/quick-quiz"); // por ahora puede redirigir al mismo PerformQuiz con un quiz default
+  const createTrainingFromQuizzes = (quizzes) => {
+    return {
+      id: "TEMP_" + Date.now(),
+      title: "Quick Training",
+      sets: [
+        {
+          title: "Quick Set",
+          quizzes: quizzes.map((q) => ({
+            quizId: q.id,
+            title: q.title,
+            sections: q.sections || [],
+          })),
+        },
+      ],
+      createdAt: new Date().toISOString(),
+      lastEdited: new Date().toISOString(),
+      lastPerformed: null,
+      entitlementRole: "OWNER",
+      resourceEntitlement: [],
+    };
   };
 
-  const handleTraining = () => {
-    navigate("/arena/start-training");
-  };
+  const handleQuickTraining = () => {
+    console.log("CLICK: handleQuickTraining");
 
-  const handleScheduled = () => {
-    navigate("/arena/scheduled-trainings");
+    configureSelectModal({
+      isOpen: true,
+      title: "Select Quizzes for Quick Training",
+      selector: (setSelectedItems) => (
+        <ResourceList
+          resourceType="quiz"
+          editable={false}
+          selectable={true}
+          onSelectionChange={setSelectedItems}
+          renderItem={({ item, isSelected, onSelect }) => (
+            <ResourceCard
+              item={item}
+              selectable={true}
+              isSelected={isSelected}
+              onSelect={onSelect}
+              actions={[]}
+            />
+          )}
+        />
+      ),
+      onAdd: (selectedQuizzes) => {
+        console.log("Selected quizzes:", selectedQuizzes);
+        toggleSelectModal();
+        const training = createTrainingFromQuizzes(selectedQuizzes);
+        navigate("/perform-training", {
+          state: { training },
+        });
+      },
+      onClose: () => {
+        console.log("Quick training modal closed");
+      },
+    });
   };
 
   return (
-    <div className="arena-container">
-      <h2 className="arena-title">Welcome to the Arena</h2>
-      <div className="arena-cards">
-        <div className="arena-card">
-          <h3>🏋️ Ejecutar Training</h3>
-          <p>
-            Realiza un entrenamiento completo, con sets y quizzes organizados.
-          </p>
-          <button onClick={handleTraining}>Iniciar Training</button>
-        </div>
-        <div className="arena-card">
-          <h3>⚡ Quiz Rápido</h3>
-          <p>
-            Resuelve un quiz sin estructura, ideal para repasar en poco tiempo.
-          </p>
-          <button onClick={handleQuickQuiz}>Iniciar Quiz</button>
-        </div>
-        <div className="arena-card">
-          <h3>📆 Entrenamientos Agendados</h3>
-          <p>Revisa tus trainings pendientes, programados o con due date.</p>
-          <button onClick={handleScheduled}>Ver Agendados</button>
-        </div>
-      </div>
+    <div style={{ padding: "2rem" }}>
+      <h2>Arena</h2>
+      <button className="create-button" onClick={handleQuickTraining}>
+        Quick Quiz Training
+      </button>
     </div>
   );
-};
-
-export default Arena;
+}

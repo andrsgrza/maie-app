@@ -22,11 +22,9 @@ import Arena from "../arena/Arena";
 import Login from "../auth/LoginForm";
 import RegistryForm from "../auth/RegistryForm";
 import TrainingManager from "../training/TrainingManager";
-import MyQuizzes from "../quiz/MyQuizzes";
-import MyTrainings from "../training/MyTrainings";
 import ManageResources from "../resource/ManageResources";
-import ResourceCard from "../resource/ResourceCard";
 import PerformQuiz from "../arena/PerformQuiz";
+import PerformTraining from "../arena/PerformTraining";
 
 export default function MainPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -53,13 +51,17 @@ export default function MainPage() {
       }}
     >
       <ScrollToTop />
-      <MainPageContent
-        isMenuOpen={isMenuOpen}
-        setIsMenuOpen={setIsMenuOpen}
-        currentUser={currentUser}
-        setCurrentUser={setCurrentUser}
-        toggleMenu={toggleMenu}
-      />
+      <ModalProvider>
+        <BannerProvider>
+          <MainPageContent
+            isMenuOpen={isMenuOpen}
+            setIsMenuOpen={setIsMenuOpen}
+            currentUser={currentUser}
+            setCurrentUser={setCurrentUser}
+            toggleMenu={toggleMenu}
+          />
+        </BannerProvider>
+      </ModalProvider>
     </Router>
   );
 }
@@ -147,105 +149,103 @@ function MainPageContent({
       <div className="main-page">
         {getNavigationMenu()}
         <div className="content">
-          <ModalProvider>
-            <TopBar
-              enableStart={isMenuOpen}
-              openSidebar={toggleMenu}
-              showMenu={currentUser ? true : false}
-            />
-            <div className="inner-content">
-              <BannerProvider>
-                <Routes>
-                  <Route
-                    path="/signup"
-                    element={
-                      <PublicRoute>
-                        <RegistryForm />
-                      </PublicRoute>
-                    }
-                  />
-                  <Route
-                    path="/login"
-                    element={
-                      <PublicRoute>
-                        <Login setCurrentUser={setCurrentUser} />
-                      </PublicRoute>
-                    }
-                  />
-                  <Route
-                    path="/my-quizzes"
-                    element={
-                      <div className=" centered-container">
-                        <ManageResources resourceType="quiz" />
-                      </div>
-                    }
-                  />
-                  <Route
-                    path="/my-trainings"
-                    element={
-                      <div className=" centered-container">
-                        <ManageResources resourceType="training" />
-                      </div>
-                    }
-                  />
+          <TopBar
+            enableStart={isMenuOpen}
+            openSidebar={toggleMenu}
+            showMenu={currentUser ? true : false}
+          />
+          <div className="inner-content">
+            <Routes>
+              <Route
+                path="/signup"
+                element={
+                  <PublicRoute>
+                    <RegistryForm />
+                  </PublicRoute>
+                }
+              />
+              <Route
+                path="/login"
+                element={
+                  <PublicRoute>
+                    <Login setCurrentUser={setCurrentUser} />
+                  </PublicRoute>
+                }
+              />
+              <Route
+                path="/my-quizzes"
+                element={
+                  <div className=" centered-container">
+                    <PrivateRoute>
+                      <ManageResources resourceType="quiz" />
+                    </PrivateRoute>
+                  </div>
+                }
+              />
+              <Route
+                path="/my-trainings"
+                element={
+                  <div className=" centered-container">
+                    <PrivateRoute>
+                      <ManageResources resourceType="training" />
+                    </PrivateRoute>
+                  </div>
+                }
+              />
 
-                  <Route
-                    path="/profile"
-                    element={
-                      <PrivateRoute>
-                        <Profile />
-                      </PrivateRoute>
-                    }
-                  />
-                  <Route
-                    path="/error"
-                    element={
-                      <PublicRoute>
-                        <Error />
-                      </PublicRoute>
-                    }
-                  />
-                  <Route
-                    path="/create-quiz"
-                    element={
-                      <PrivateRoute>
-                        <QuizManager />
-                      </PrivateRoute>
-                    }
-                  />
-                  <Route
-                    path="/perform-quiz"
-                    element={
-                      <PrivateRoute>
-                        {/* <Arena /> */}
-                        <PerformQuiz
-                          quiz={expressQuizzes}
-                          onComplete={() => console.log("Completed")}
-                        />
-                      </PrivateRoute>
-                    }
-                  />
-                  <Route
-                    path="/arena"
-                    element={
-                      <PrivateRoute>
-                        <Arena />
-                      </PrivateRoute>
-                    }
-                  />
-                  <Route
-                    path="/create-training"
-                    element={
-                      <PrivateRoute>
-                        <TrainingManager />
-                      </PrivateRoute>
-                    }
-                  />
-                  <Route path="/" element={<Home />} />
-                </Routes>
-              </BannerProvider>
-            </div>
-          </ModalProvider>
+              <Route
+                path="/profile"
+                element={
+                  <PrivateRoute>
+                    <Profile />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/error"
+                element={
+                  <PublicRoute>
+                    <Error />
+                  </PublicRoute>
+                }
+              />
+              <Route
+                path="/create-quiz"
+                element={
+                  <PrivateRoute>
+                    <QuizManager />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/perform-training"
+                element={
+                  <div className=" centered-container">
+                    <PrivateRoute>
+                      <PerformTraining />
+                    </PrivateRoute>
+                  </div>
+                }
+              />
+              <Route
+                path="/arena"
+                element={
+                  <PrivateRoute>
+                    <Arena />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/create-training"
+                element={
+                  <PrivateRoute>
+                    <TrainingManager />
+                  </PrivateRoute>
+                }
+              />
+              <Route path="/" element={<Home />} />
+            </Routes>
+          </div>
         </div>
       </div>
     </>

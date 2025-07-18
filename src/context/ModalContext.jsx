@@ -68,9 +68,13 @@ export const ModalProvider = ({ children }) => {
   };
 
   const configureSelectModal = (config) => {
+    console.log("Setting select modal state", config);
     setSelectModalState((prevModal) => ({ ...prevModal, ...config }));
   };
 
+  if (selectModalState.isOpen) {
+    console.log("Select modal isOpen:", selectModalState.isOpen);
+  }
   return (
     <ModalContext.Provider
       value={{
@@ -92,6 +96,7 @@ export const ModalProvider = ({ children }) => {
       {handleEntitlementState.isOpen && (
         <HandleEntitlementModal toggleModal={toggleHandleEntitlementModal} />
       )}
+
       {selectModalState.isOpen && (
         <BannerProvider>
           <SelectModal
