@@ -1,84 +1,342 @@
+/* Report General Styles */
 .quiz-report h2 {
-    margin-bottom: 20px;
-    color: #333;
+  margin-bottom: 20px;
+  color: #333;
+  padding: 20px;
 }
 
 .overall-summary {
-    margin-bottom: 30px;
+  margin-bottom: 30px;
 }
 
 .overall-summary h3 {
-    margin-bottom: 20px;
-    color: #444;
+  margin-bottom: 20px;
+  color: #444;
 }
 
 .quiz-summary {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }
 
 .summary-item {
-    background-color: #fff;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    flex: 1;
-    margin: 0 10px;
-    text-align: center;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  margin: 0 10px;
+  text-align: center;
 }
 
 .summary-label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 5px;
-    color: #666;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+  color: #666;
 }
 
 .summary-value {
-    font-size: 1.2em;
-    color: #333;
+  font-size: 1.2em;
+  color: #333;
 }
 
 .quiz-section {
-    margin-bottom: 30px;
+  background-color: #ffffff;
+  padding: 20px;
+  margin-top: 25px;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.03);
+}
+
+.quiz-section h4 {
+  font-size: 1.2em;
+  color: #333;
+  margin-bottom: 12px;
+  border-bottom: 1px dashed #ccc;
+  padding-bottom: 4px;
 }
 
 .quiz-details {
-    list-style-type: none;
-    padding: 0;
+  list-style-type: none;
+  padding: 0;
 }
 
+/* Report Item: Correct/Incorrect */
 .report-item {
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    background-color: #fff;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    width: 780px;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  width: 780px;
 }
 
 .report-item.correct {
-    border-left: 5px solid #4caf50;
+  border-left: 5px solid #4caf50;
 }
 
 .report-item.incorrect {
-    border-left: 5px solid #f44336;
+  border-left: 5px solid #f44336;
 }
 
 .report-item p {
-    margin: 5px 0;
+  margin: 5px 0;
 }
+
+/* Buttons */
 .back-button {
-    background-color: black;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1rem;
-    margin-top: 20px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+  background-color: black;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 20px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.basic-button {
+  background-color: #1976d2;
+  color: white;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  margin: 5px;
+  cursor: pointer;
+}
+
+/* Quiz block and headers */
+.quiz-block {
+  background-color: #fdfdfd;
+  padding: 30px;
+  margin-bottom: 50px;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.quiz-block h3 {
+  font-size: 1.7em;
+  color: #111;
+  margin-bottom: 20px;
+  border-bottom: 3px solid #ddd;
+  padding-bottom: 8px;
+}
+
+.quiz-block h4 {
+  font-size: 1.2em;
+  color: #444;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/* Training report layout */
+.training-report {
+  padding: 30px;
+  background-color: #fdfdfd;
+  border-radius: 10px;
+  width: -webkit-fill-available;
+}
+
+.training-report h1 {
+  font-size: 2em;
+  color: #111;
+  margin-bottom: 30px;
+  border-bottom: 3px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.training-set-report {
+  margin-bottom: 40px;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+}
+
+.training-set-report h3 {
+  font-size: 1.5em;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.training-quiz-report h4 {
+  font-size: 1.3em;
+  margin: 15px 0 10px;
+  color: #444;
+}
+
+.training-section-report {
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #fafafa;
+  border-radius: 6px;
+  border: 1px dashed #ccc;
+}
+
+.training-section-report h5 {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  color: #444;
+}
+
+.training-section-report ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.training-section-report li {
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.training-section-report li.correct {
+  border-left: 5px solid #4caf50;
+}
+
+.training-section-report li.incorrect {
+  border-left: 5px solid #f44336;
+}
+
+.training-section-report li p {
+  margin: 5px 0;
+}
+
+.save-options {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.title-input {
+  width: 400px;
+  padding: 10px;
+  font-size: 1rem;
+  margin-bottom: 20px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.redo-training-saved-message {
+  margin-top: 20px;
+  text-align: center;
+  font-weight: bold;
+  color: green;
+}
+
+/* Modal styles for training creation */
+.training-modal-content {
+  padding: 1rem;
+  width: -webkit-fill-available;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.modal-mode-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+.mode-option {
+  padding: 0.75rem;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  font-weight: 500;
+  background-color: #ffffff;
+  transition: all 0.2s ease-in-out;
+}
+
+.mode-option:hover {
+  background-color: #eef3ff;
+  border-color: #4c6ef5;
+}
+
+.mode-option.selected {
+  background-color: #4c6ef5;
+  color: white;
+  font-weight: bold;
+  border: 2px solid #3b5bdb;
+}
+
+.mode-description {
+  background-color: #f1f5f9;
+  border-left: 4px solid #3b82f6;
+  padding: 1rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  color: #374151;
+  font-style: italic;
+}
+
+.modal-title-input {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.modal-title-input label {
+  font-weight: 600;
+}
+
+.modal-title-input input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  margin: 8px 0;
+  gap: 8px;
+}
+
+.manual-select-block {
+  margin-top: 1rem;
+}
+
+.manual-select-block p {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.manual-select-block ul {
+  margin-top: 0.25rem;
+  padding-left: 1.25rem;
+}
+
+.manual-select-block label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.manual-select-block strong {
+  display: block;
+  margin-top: 1rem;
+  color: #333;
+}
+
+.manual-select-block em {
+  display: block;
+  margin-top: 0.5rem;
+  color: #555;
 }

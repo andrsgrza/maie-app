@@ -73,11 +73,12 @@ export default function ManageResources({ resourceType = "quiz" }) {
   };
 
   const handleEdit = (item) => {
-    const route = isTraining ? "/create-training" : "/create-quiz";
+    const route = isTraining ? "/training-manager" : "/quiz-manager";
     navigate(route, {
       state: {
         [isTraining ? "preloadedTraining" : "preloadedQuiz"]: item,
         edit: true,
+        page: "editor",
       },
     });
   };
@@ -140,7 +141,7 @@ export default function ManageResources({ resourceType = "quiz" }) {
         >
           <button
             className="create-button"
-            onClick={() => navigate("/create-training")}
+            onClick={() => navigate("/training-manager")}
             style={{
               backgroundColor: "#4CAF50",
               color: "white",

@@ -1,94 +1,54 @@
-import React, { useState } from "react";
-import PerformQuiz from "./PerformQuiz";
-import TrainingReport from "../report/TrainingReport";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import PerformQuiz from "./PerformQuiz";
 
 export default function PerformTraining() {
   const location = useLocation();
   const navigate = useNavigate();
   const training = location.state?.training;
-
-  const [currentSetIndex, setCurrentSetIndex] = useState(0);
   const [currentQuizIndex, setCurrentQuizIndex] = useState(0);
   const [completedQuizzes, setCompletedQuizzes] = useState([]);
-  const [finished, setFinished] = useState(false);
 
-  console.log("📦 Training loaded for execution:", training);
+  useEffect(() => {
+    console.log("🔁 Starting training", training);
+  }, [training]);
 
-  if (!training) {
-    return <div>No training data provided.</div>;
-  }
+  if (!training || !training.sets?.length) return <div>No training loaded</div>;
 
-  const sets = training.sets || [];
-  const currentSet = sets[currentSetIndex];
-  const quizzes = currentSet?.quizzes || [];
-  const currentQuiz = quizzes[currentQuizIndex];
+  const allQuizzes = training.sets.flatMap(
+    (set) => set.resources || set.quizzes || []
+  );
 
-  console.log("🧩 Current Set/Quiz selection:");
-  console.log("Set Index:", currentSetIndex);
-  console.log("Quiz Index:", currentQuizIndex);
-  console.log("Current Set:", currentSet);
-  console.log("Current Quiz:", currentQuiz);
+  const handleQuizComplete = (completedQuiz) => {
+    const updatedCompleted = [...completedQuizzes, completedQuiz];
+    setCompletedQuizzes(updatedCompleted);
 
-  const handleQuizCompleted = (completedQuiz) => {
-    const clonedQuiz = JSON.parse(JSON.stringify(completedQuiz));
-    console.log("✅ Quiz completed:", clonedQuiz);
-
-    setCompletedQuizzes((prev) => {
-      const updated = [...prev, clonedQuiz];
-      console.log("🧮 Accumulated completed quizzes:", updated);
-      return updated;
-    });
-
-    const nextQuizIndex = currentQuizIndex + 1;
-    if (nextQuizIndex < quizzes.length) {
-      setCurrentQuizIndex(nextQuizIndex);
+    if (currentQuizIndex + 1 < allQuizzes.length) {
+      setCurrentQuizIndex(currentQuizIndex + 1);
     } else {
-      const nextSetIndex = currentSetIndex + 1;
-      if (nextSetIndex < sets.length) {
-        setCurrentSetIndex(nextSetIndex);
-        setCurrentQuizIndex(0);
-      } else {
-        setFinished(true);
-      }
+      const completedTraining = {
+        ...training,
+        sets: training.sets.map((set) => ({
+          ...set,
+          resources: (set.resources || set.quizzes || []).map(
+            (quiz) =>
+              updatedCompleted.find((q) => q.quizId === quiz.quizId) || quiz
+          ),
+        })),
+        lastPerformed: new Date().toISOString(),
+      };
+      console.log("✅ Training completed:", completedTraining);
+      navigate("/training-report", {
+        state: { completedTraining },
+      });
     }
   };
 
-  const compiledTraining = {
-    ...training,
-    sets: training.sets.map((set) => ({
-      ...set,
-      quizzes: set.quizzes.map((quiz) => {
-        const completed = completedQuizzes.find(
-          (q) => q.quizId === quiz.quizId || q.id === quiz.quizId
-        );
-        return completed || quiz;
-      }),
-    })),
-  };
-
-  if (finished) {
-    return (
-      <TrainingReport
-        completedTraining={compiledTraining}
-        onBack={() => navigate("/arena")}
-      />
-    );
-  }
-
   return (
-    <div style={{ padding: "2rem" }}>
-      <h2>
-        Training: {training.title} - Set {currentSetIndex + 1} / {sets.length}
-      </h2>
-      <p>
-        Quiz {currentQuizIndex + 1} / {quizzes.length}: {currentQuiz?.title}
-      </p>
-      <PerformQuiz
-        key={currentQuiz.quizId || currentQuiz.id}
-        quiz={currentQuiz}
-        onComplete={handleQuizCompleted}
-      />
-    </div>
+    <PerformQuiz
+      key={allQuizzes[currentQuizIndex].quizId}
+      quiz={allQuizzes[currentQuizIndex]}
+      onComplete={handleQuizComplete}
+    />
   );
 }

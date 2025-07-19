@@ -127,7 +127,7 @@ export default function ResourceList({
       <div className="add-resource-wrapper">
         {isDropdownOpen && (
           <div className="add-resource-dropdown">
-            <Link to="/create-quiz" className="add-resource-dropdown-item">
+            <Link to="/quiz-manager" className="add-resource-dropdown-item">
               <i className="fas fa-plus"></i>
               Create New Quiz
             </Link>

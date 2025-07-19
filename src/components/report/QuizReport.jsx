@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import "./quiz-report.css";
-import { cleanQuizData } from "../../utils/quizUtils.js";
+import { cleanQuizData, filterQuizByItems } from "../../utils/quizUtils.js";
 import QuizClient from "../../api/quiz-client";
 import { UserClient } from "../../api/user-client";
-import { ResouceEntitlementClient } from "../../api/resource-entitlement-client";
-import { CgSlack } from "react-icons/cg";
+import { useModal } from "../../context/ModalContext";
+import ResourceList from "../resource/ResourceList";
+import ResourceCard from "../resource/ResourceCard";
 
 const QuizReport = ({ completedQuiz }) => {
   const { title, sections } = completedQuiz;
@@ -19,16 +20,60 @@ const QuizReport = ({ completedQuiz }) => {
   );
   const incorrectAnswers = totalQuestions - correctAnswers;
 
-  const [activated, setActivated] = useState(false);
-  const [redoSaved, setRedoSaved] = useState(false);
-  const handleSaveRedoQuiz = async () => {
-    const quizCopy = JSON.parse(JSON.stringify(completedQuiz));
-    const redoQuiz = cleanQuizData(quizCopy);
-    redoQuiz.title = `${title} - redo`;
-    const savedQuiz = await QuizClient.postQuiz(redoQuiz);
+  const [savingTitle, setSavingTitle] = useState(`Retry Quiz - ${title}`);
+  const [quizSaved, setQuizSaved] = useState(false);
+  const { configureSelectModal, toggleSelectModal } = useModal();
+
+  const handleSaveWrongAnswers = async () => {
+    const wrongItems = sections.flatMap((section) =>
+      section.items.filter((item) => !item.isAnswerCorrect)
+    );
+    const quizCopy = filterQuizByItems(completedQuiz, wrongItems);
+    quizCopy.title = savingTitle;
+    const savedQuiz = await QuizClient.postQuiz(quizCopy);
     const userId = await UserClient.whoAmI();
-    setRedoSaved(true);
-    setActivated(true);
+    setQuizSaved(true);
+  };
+
+  const handleManualSelection = () => {
+    const flatItems = sections.flatMap((section) => section.items);
+    configureSelectModal({
+      isOpen: true,
+      title: "Select Questions to Save",
+      selector: (setSelectedItems) => (
+        <div className="manual-selection-list">
+          {flatItems.map((item, index) => (
+            <div
+              key={index}
+              className="manual-selection-item"
+              onClick={() =>
+                setSelectedItems((prev) => {
+                  const exists = prev.includes(item);
+                  return exists
+                    ? prev.filter((i) => i !== item)
+                    : [...prev, item];
+                })
+              }
+            >
+              <p>
+                <strong>{item.question}</strong>
+              </p>
+              <p>Your Answer: {item.userAnswer}</p>
+              <p>Correct Answer: {item.answer}</p>
+            </div>
+          ))}
+        </div>
+      ),
+      onAdd: async (selectedItems) => {
+        const quizCopy = filterQuizByItems(completedQuiz, selectedItems);
+        quizCopy.title = savingTitle;
+        const savedQuiz = await QuizClient.postQuiz(quizCopy);
+        const userId = await UserClient.whoAmI();
+        setQuizSaved(true);
+        toggleSelectModal();
+      },
+      onClose: () => toggleSelectModal(),
+    });
   };
 
   return (
@@ -81,7 +126,7 @@ const QuizReport = ({ completedQuiz }) => {
                 }`}
               >
                 <p>
-                  <strong>{item.question}</strong>{" "}
+                  <strong>{item.question}</strong>
                 </p>
                 <p>
                   <strong>Your Answer:</strong> {item.userAnswer}
@@ -94,23 +139,28 @@ const QuizReport = ({ completedQuiz }) => {
           </ul>
         </div>
       ))}
-      <button
-        className="basic-button"
-        onClick={handleSaveRedoQuiz}
-        disabled={redoSaved}
-      >
-        Save wrong answers quiz
-      </button>
-      {redoSaved && (
+
+      <div className="save-options">
+        <input
+          type="text"
+          value={savingTitle}
+          onChange={(e) => setSavingTitle(e.target.value)}
+          placeholder="Quiz title"
+          className="title-input"
+        />
+        <button className="basic-button" onClick={handleSaveWrongAnswers}>
+          Save incorrect answers
+        </button>
+        <button className="basic-button" onClick={handleManualSelection}>
+          Choose questions manually
+        </button>
+      </div>
+
+      {quizSaved && (
         <div className="redo-quiz-saved-message">
-          <p>Quiz '{title} - redo' succesfully saved</p>
+          <p>Quiz '{savingTitle}' successfully saved</p>
         </div>
       )}
-      {/* {activated && (
-        <p>
-          <pre>{JSON.stringify(completedQuiz, null, 2)}</pre>
-        </p>
-      )} */}
     </div>
   );
 };

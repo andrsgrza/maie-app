@@ -25,6 +25,7 @@ import TrainingManager from "../training/TrainingManager";
 import ManageResources from "../resource/ManageResources";
 import PerformQuiz from "../arena/PerformQuiz";
 import PerformTraining from "../arena/PerformTraining";
+import TrainingReport from "../report/TrainingReport";
 
 export default function MainPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -114,6 +115,98 @@ function MainPageContent({
       <button className="sidebar-button menu-open">☰</button>
     </div>
   );
+  const handleCreateFromExecution = () => {
+    handleClickOnSidebar(); // Close sidebar
+    navigate("/training-manager", {
+      state: {
+        page: "create-from-execution",
+        executedTraining: {
+          id: "TEMP_1752957427617",
+          title: "Quick Training",
+          sets: [
+            {
+              title: "Quick Set",
+              resources: [
+                {
+                  quizId: "RQ_c5003267",
+                  title: "Test Quiz",
+                  sections: [
+                    {
+                      title: "Section 1",
+                      items: [
+                        {
+                          question: "S1 Q1",
+                          answer: "S1 Q1",
+                          userAnswer: "asdfasdf",
+                          isAnswerCorrect: true,
+                        },
+                        {
+                          question: "S1 Q2",
+                          answer: "S1 Q2",
+                          userAnswer: "asdfasd",
+                          isAnswerCorrect: false,
+                        },
+                      ],
+                    },
+                    {
+                      title: "Section 2",
+                      items: [
+                        {
+                          question: "S2 Q1",
+                          answer: "S2 Q1",
+                          userAnswer: "asdfasd",
+                          isAnswerCorrect: true,
+                        },
+                      ],
+                    },
+                    {
+                      title: "Section 3",
+                      items: [
+                        {
+                          question: "S2 Q2",
+                          answer: "S2 Q2",
+                          userAnswer: "sadfasd",
+                          isAnswerCorrect: false,
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  quizId: "RQ_95b5a930",
+                  title: "Title3",
+                  sections: [
+                    {
+                      title: "Section",
+                      items: [
+                        {
+                          question: "asdfasdf",
+                          answer: "asdfasdf",
+                          userAnswer: "asdfasf",
+                          isAnswerCorrect: true,
+                        },
+                        {
+                          question: "asfdas",
+                          answer: "adsfasdf",
+                          userAnswer: "asdfsa",
+                          isAnswerCorrect: false,
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+          createdAt: "2025-07-19T20:37:07.617Z",
+          lastEdited: "2025-07-19T20:37:07.617Z",
+          lastPerformed: "2025-07-19T20:37:20.974Z",
+          entitlementRole: "OWNER",
+          resourceEntitlement: [],
+        },
+      },
+    });
+  };
 
   const getNavigationMenu = () => (
     <div className={`left-menu ${isMenuOpen ? "open" : "collapsed"}`}>
@@ -127,14 +220,19 @@ function MainPageContent({
               </Link>
             </li>
             <li>
+              <Link to="/my-trainings" onClick={handleClickOnSidebar}>
+                Trainings
+              </Link>
+            </li>
+            <li>
               <Link to="/arena" onClick={handleClickOnSidebar}>
                 Arena
               </Link>
             </li>
             <li>
-              <Link to="/my-trainings" onClick={handleClickOnSidebar}>
-                Trainings
-              </Link>
+              <button onClick={handleCreateFromExecution}>
+                Create From Execution
+              </button>
             </li>
           </ul>
         </nav>
@@ -210,7 +308,7 @@ function MainPageContent({
                 }
               />
               <Route
-                path="/create-quiz"
+                path="/quiz-manager"
                 element={
                   <PrivateRoute>
                     <QuizManager />
@@ -228,6 +326,16 @@ function MainPageContent({
                 }
               />
               <Route
+                path="/training-report"
+                element={
+                  <div className=" centered-container">
+                    <PrivateRoute>
+                      <TrainingReport />
+                    </PrivateRoute>
+                  </div>
+                }
+              />
+              <Route
                 path="/arena"
                 element={
                   <PrivateRoute>
@@ -236,10 +344,12 @@ function MainPageContent({
                 }
               />
               <Route
-                path="/create-training"
+                path="/training-manager"
                 element={
                   <PrivateRoute>
-                    <TrainingManager />
+                    <div className="centered-container">
+                      <TrainingManager />
+                    </div>
                   </PrivateRoute>
                 }
               />
