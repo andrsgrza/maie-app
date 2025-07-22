@@ -128,3 +128,30 @@
   margin-right: 5px;
   margin-bottom: 5px;
 }
+.primary-button {
+  background-color: #007bff;
+  color: white;
+  padding: 0.5rem 1.25rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.primary-button:hover {
+  background-color: #0069d9;
+}
+
+.secondary-button {
+  background-color: #f2f2f2;
+  color: #333;
+  padding: 0.5rem 1.25rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.secondary-button:hover {
+  background-color: #e2e2e2;
+}

@@ -230,8 +230,40 @@ function MainPageContent({
               </Link>
             </li>
             <li>
-              <button onClick={handleCreateFromExecution}>
-                Create From Execution
+              <button
+                onClick={() => {
+                  handleClickOnSidebar();
+                  navigate("/quiz-manager/create-from-execution", {
+                    state: {
+                      page: "create-from-execution",
+                      executedQuiz: {
+                        id: "RQ_TEST1234",
+                        title: "Executed Sample Quiz",
+                        sections: [
+                          {
+                            title: "Section 1",
+                            items: [
+                              {
+                                question: "What is React?",
+                                answer: "A library",
+                                userAnswer: "A framework",
+                                isAnswerCorrect: false,
+                              },
+                              {
+                                question: "JSX stands for?",
+                                answer: "JavaScript XML",
+                                userAnswer: "JavaScript Extension",
+                                isAnswerCorrect: false,
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                    },
+                  });
+                }}
+              >
+                Create Quiz From Execution
               </button>
             </li>
           </ul>
@@ -312,6 +344,16 @@ function MainPageContent({
                 element={
                   <PrivateRoute>
                     <QuizManager />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/quiz-manager/create-from-execution"
+                element={
+                  <PrivateRoute>
+                    <div className="centered-container">
+                      <QuizManager />
+                    </div>
                   </PrivateRoute>
                 }
               />

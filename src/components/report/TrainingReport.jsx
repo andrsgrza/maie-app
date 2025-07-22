@@ -1,90 +1,85 @@
 import React, { useState } from "react";
-import { useModal } from "../../context/ModalContext";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import Modal, {
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from "../../common/modal/Modal";
+import TrainingManager from "../training/TrainingManager";
+import QuizReport from "./QuizReport";
 import "./quiz-report.css";
 
 export default function TrainingReport({ completedTraining: propTraining }) {
   const location = useLocation();
-  const locationTraining = location.state?.completedTraining;
-  const completedTraining = propTraining || locationTraining;
+  const [modalOpen, setModalOpen] = useState(false);
+  const [previewTraining, setPreviewTraining] = useState(null);
+
+  const completedTraining =
+    propTraining ||
+    location.state?.completedTraining ||
+    location.state?.training ||
+    null;
 
   if (!completedTraining) return <div>No training report available</div>;
-
   const { title, sets } = completedTraining;
-  const { configureSelectModal, toggleSelectModal } = useModal();
-
-  const [trainingSaved, setTrainingSaved] = useState(false);
-
-  const navigate = useNavigate();
-
-  const handleOpenCreationModal = () => {
-    navigate("/training-manager", {
-      state: {
-        page: "create-from-execution",
-        executedTraining: completedTraining,
-      },
-    });
-
-    // configureSelectModal({
-    //   isOpen: true,
-    //   title: "Create Training From Result",
-    //   selector: () => {},
-    //   onAdd: () => {
-    // if (!selectedMode) return;
-    // const trainingToSave = buildTrainingByMode(selectedMode);
-    // trainingToSave.title = newTitle;
-    // console.log("💾 Saving new training:", trainingToSave);
-    // toggleSelectModal();
-    // setTrainingSaved(true);
-    //   },
-    //   onClose: () => toggleSelectModal(),
-    //   confirmButtonText: "Create Training",
-    // });
-  };
 
   return (
     <div className="training-report">
       <h1>{title} - Training Report</h1>
-
       {sets.map((set, i) => (
         <div key={i} className="training-set-report">
           <h3>{set.title}</h3>
           {set.resources?.map((quiz, j) => (
             <div key={j} className="training-quiz-report">
-              <h4>{quiz.title}</h4>
-              {quiz.sections?.map((section, k) => (
-                <div key={k} className="training-section-report">
-                  <h5>{section.title}</h5>
-                  <ul>
-                    {section.items?.map((item, idx) => (
-                      <li
-                        key={idx}
-                        className={
-                          item.isAnswerCorrect ? "correct" : "incorrect"
-                        }
-                      >
-                        <strong>Q:</strong> {item.question} <br />
-                        <strong>Your Answer:</strong> {item.answer} <br />
-                        <strong>Correct:</strong>{" "}
-                        {item.isAnswerCorrect ? "✔" : "✘"}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
+              <QuizReport completedQuiz={quiz} />
             </div>
           ))}
         </div>
       ))}
 
-      <button className="basic-button" onClick={handleOpenCreationModal}>
+      <button className="basic-button" onClick={() => setModalOpen(true)}>
         Create Training
       </button>
 
-      {trainingSaved && (
-        <div className="redo-training-saved-message">
-          <p>Training 'Training title' successfully saved (console only)</p>
-        </div>
+      {modalOpen && (
+        <Modal>
+          <ModalHeader
+            title="Create Training From Result"
+            onClose={() => setModalOpen(false)}
+          />
+          <ModalBody>
+            <TrainingManager
+              executedTraining={completedTraining}
+              mode="create-from-execution"
+              onTrainingChanged={setPreviewTraining}
+            />
+            {previewTraining && (
+              <pre className="debug-box" style={{ marginTop: "1rem" }}>
+                {JSON.stringify(previewTraining, null, 2)}
+              </pre>
+            )}
+          </ModalBody>
+          <ModalFooter>
+            <button
+              className="secondary-button"
+              onClick={() => setModalOpen(false)}
+            >
+              Cancel
+            </button>
+            <button
+              className="primary-button"
+              onClick={() => {
+                if (previewTraining) {
+                  console.log("✅ New training:", previewTraining);
+                  setModalOpen(false);
+                }
+              }}
+              disabled={!previewTraining}
+            >
+              Add
+            </button>
+          </ModalFooter>
+        </Modal>
       )}
     </div>
   );

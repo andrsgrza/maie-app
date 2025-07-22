@@ -1,13 +1,13 @@
 import React, { useState } from "react";
+import Modal, {
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from "../../common/modal/Modal";
+import { CreateFromExecution } from "../quiz/QuizManager";
 import "./quiz-report.css";
-import { cleanQuizData, filterQuizByItems } from "../../utils/quizUtils.js";
-import QuizClient from "../../api/quiz-client";
-import { UserClient } from "../../api/user-client";
-import { useModal } from "../../context/ModalContext";
-import ResourceList from "../resource/ResourceList";
-import ResourceCard from "../resource/ResourceCard";
 
-const QuizReport = ({ completedQuiz }) => {
+export default function QuizReport({ completedQuiz }) {
   const { title, sections } = completedQuiz;
   const totalQuestions = sections.reduce(
     (total, section) => total + section.items.length,
@@ -20,61 +20,8 @@ const QuizReport = ({ completedQuiz }) => {
   );
   const incorrectAnswers = totalQuestions - correctAnswers;
 
-  const [savingTitle, setSavingTitle] = useState(`Retry Quiz - ${title}`);
-  const [quizSaved, setQuizSaved] = useState(false);
-  const { configureSelectModal, toggleSelectModal } = useModal();
-
-  const handleSaveWrongAnswers = async () => {
-    const wrongItems = sections.flatMap((section) =>
-      section.items.filter((item) => !item.isAnswerCorrect)
-    );
-    const quizCopy = filterQuizByItems(completedQuiz, wrongItems);
-    quizCopy.title = savingTitle;
-    const savedQuiz = await QuizClient.postQuiz(quizCopy);
-    const userId = await UserClient.whoAmI();
-    setQuizSaved(true);
-  };
-
-  const handleManualSelection = () => {
-    const flatItems = sections.flatMap((section) => section.items);
-    configureSelectModal({
-      isOpen: true,
-      title: "Select Questions to Save",
-      selector: (setSelectedItems) => (
-        <div className="manual-selection-list">
-          {flatItems.map((item, index) => (
-            <div
-              key={index}
-              className="manual-selection-item"
-              onClick={() =>
-                setSelectedItems((prev) => {
-                  const exists = prev.includes(item);
-                  return exists
-                    ? prev.filter((i) => i !== item)
-                    : [...prev, item];
-                })
-              }
-            >
-              <p>
-                <strong>{item.question}</strong>
-              </p>
-              <p>Your Answer: {item.userAnswer}</p>
-              <p>Correct Answer: {item.answer}</p>
-            </div>
-          ))}
-        </div>
-      ),
-      onAdd: async (selectedItems) => {
-        const quizCopy = filterQuizByItems(completedQuiz, selectedItems);
-        quizCopy.title = savingTitle;
-        const savedQuiz = await QuizClient.postQuiz(quizCopy);
-        const userId = await UserClient.whoAmI();
-        setQuizSaved(true);
-        toggleSelectModal();
-      },
-      onClose: () => toggleSelectModal(),
-    });
-  };
+  const [modalOpen, setModalOpen] = useState(false);
+  const [previewQuiz, setPreviewQuiz] = useState(null);
 
   return (
     <div className="quiz-report">
@@ -141,28 +88,50 @@ const QuizReport = ({ completedQuiz }) => {
       ))}
 
       <div className="save-options">
-        <input
-          type="text"
-          value={savingTitle}
-          onChange={(e) => setSavingTitle(e.target.value)}
-          placeholder="Quiz title"
-          className="title-input"
-        />
-        <button className="basic-button" onClick={handleSaveWrongAnswers}>
-          Save incorrect answers
-        </button>
-        <button className="basic-button" onClick={handleManualSelection}>
-          Choose questions manually
+        <button className="basic-button" onClick={() => setModalOpen(true)}>
+          Crear quiz desde ejecución
         </button>
       </div>
 
-      {quizSaved && (
-        <div className="redo-quiz-saved-message">
-          <p>Quiz '{savingTitle}' successfully saved</p>
-        </div>
+      {modalOpen && (
+        <Modal>
+          <ModalHeader
+            title="Create Quiz From Execution"
+            onClose={() => setModalOpen(false)}
+          />
+          <ModalBody>
+            <CreateFromExecution
+              executedQuiz={completedQuiz}
+              onQuizChanged={setPreviewQuiz}
+            />
+            {previewQuiz && (
+              <pre className="debug-box" style={{ marginTop: "1rem" }}>
+                {JSON.stringify(previewQuiz, null, 2)}
+              </pre>
+            )}
+          </ModalBody>
+          <ModalFooter>
+            <button
+              className="secondary-button"
+              onClick={() => setModalOpen(false)}
+            >
+              Cancel
+            </button>
+            <button
+              className="primary-button"
+              onClick={() => {
+                if (previewQuiz) {
+                  console.log("✅ New quiz to save:", previewQuiz);
+                  setModalOpen(false);
+                }
+              }}
+              disabled={!previewQuiz}
+            >
+              Add
+            </button>
+          </ModalFooter>
+        </Modal>
       )}
     </div>
   );
-};
-
-export default QuizReport;
+}

@@ -38,6 +38,7 @@ export default function PerformTraining() {
         lastPerformed: new Date().toISOString(),
       };
       console.log("✅ Training completed:", completedTraining);
+      console.log("Navegando al report con:", completedTraining);
       navigate("/training-report", {
         state: { completedTraining },
       });
