@@ -229,3 +229,28 @@
   font-size: 16px;
   color: #007bff;
 }
+.resource-sort-filter-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.resource-filter-select,
+.resource-sort-select {
+  font-size: 1rem;
+  padding: 7px 14px;
+  border-radius: 6px;
+  border: 1.3px solid #ccc;
+  background: #f8faf8;
+  font-weight: 600;
+  color: #223a2b;
+  transition: border 0.16s;
+  outline: none;
+}
+
+.resource-filter-select:focus,
+.resource-sort-select:focus {
+  border: 1.3px solid #47b348;
+}

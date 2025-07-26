@@ -68,12 +68,10 @@ export const ModalProvider = ({ children }) => {
   };
 
   const configureSelectModal = (config) => {
-    console.log("Setting select modal state", config);
     setSelectModalState((prevModal) => ({ ...prevModal, ...config }));
   };
 
   if (selectModalState.isOpen) {
-    console.log("Select modal isOpen:", selectModalState.isOpen);
   }
   return (
     <ModalContext.Provider

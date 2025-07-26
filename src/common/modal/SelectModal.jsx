@@ -19,7 +19,6 @@ export default function SelectModal({
     }
   };
 
-  console.log("Rendering SelectModal");
   return (
     <Modal>
       <ModalHeader title={title} onClose={handleOnClose} />

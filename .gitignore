@@ -7,3 +7,4 @@ launch.json
 certs/
 .vscode/*
 util-scripts/*
+AGENT.md

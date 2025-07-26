@@ -10,9 +10,7 @@ export default function PerformQuiz({ quiz, onComplete }) {
   const [completedQuiz, setCompletedQuiz] = useState(quiz);
   const inputRef = useRef(null);
 
-  useEffect(() => {
-    console.log("📘 Starting quiz:", quiz);
-  }, [quiz]);
+  useEffect(() => {}, [quiz]);
 
   // Validate quiz structure
   if (
@@ -28,7 +26,6 @@ export default function PerformQuiz({ quiz, onComplete }) {
   const currentItem = currentSection.items[questionIndex];
 
   useEffect(() => {
-    console.log("🧭 Now on section", sectionIndex, "question", questionIndex);
     if (inputRef.current) inputRef.current.focus();
   }, [sectionIndex, questionIndex]);
 
@@ -55,17 +52,14 @@ export default function PerformQuiz({ quiz, onComplete }) {
   }, [showAnswer, userAnswer, isMarkedCorrect]);
 
   const handleSubmit = () => {
-    console.log("📨 Submitting answer:", userAnswer);
     setShowAnswer(true);
   };
 
   const handleMark = (isCorrect) => {
-    console.log("✅ Marked as", isCorrect ? "Correct" : "Incorrect");
     setIsMarkedCorrect(isCorrect);
   };
 
   const handleNext = () => {
-    console.log("➡️ Proceeding to next step...");
     const updatedSections = [...completedQuiz.sections];
     const item = updatedSections[sectionIndex].items[questionIndex];
     updatedSections[sectionIndex].items[questionIndex] = {
@@ -83,7 +77,6 @@ export default function PerformQuiz({ quiz, onComplete }) {
       setSectionIndex(nextSection);
       setQuestionIndex(0);
     } else {
-      console.log("🎓 Quiz completed");
       if (onComplete)
         onComplete({ ...completedQuiz, sections: updatedSections });
       return;

@@ -225,7 +225,6 @@ function CreateFromExecution({ state, onTrainingChanged }) {
   );
 }
 function TrainingEditor({ state }) {
-  console.log(state);
   const [sets, setSets] = useState([]);
   const [trainingTitle, setTrainingTitle] = useState("");
   const [editingSetId, setEditingSetId] = useState(null);

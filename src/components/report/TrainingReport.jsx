@@ -70,7 +70,6 @@ export default function TrainingReport({ completedTraining: propTraining }) {
               className="primary-button"
               onClick={() => {
                 if (previewTraining) {
-                  console.log("✅ New training:", previewTraining);
                   setModalOpen(false);
                 }
               }}

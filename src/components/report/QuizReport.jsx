@@ -121,7 +121,6 @@ export default function QuizReport({ completedQuiz }) {
               className="primary-button"
               onClick={() => {
                 if (previewQuiz) {
-                  console.log("✅ New quiz to save:", previewQuiz);
                   setModalOpen(false);
                 }
               }}

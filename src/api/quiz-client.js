@@ -19,7 +19,7 @@ export default class QuizClient {
   }
 
   // Static method to get all quizzes
-  static async getQuizzes() {
+  static async get() {
     try {
       const response = await QuizClient.apiClient.get("/getAll");
       return { status: response.status, data: response.data };

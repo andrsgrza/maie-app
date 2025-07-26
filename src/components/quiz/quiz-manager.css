@@ -92,7 +92,7 @@
 
 .section-list {
   width: 100%;
-  max-width: 1200px;
+  max-width: 70vh;
   margin: 0 auto;
   padding: 0 20px;
   box-sizing: border-box;

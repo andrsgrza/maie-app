@@ -9,9 +9,7 @@ export default function PerformTraining() {
   const [currentQuizIndex, setCurrentQuizIndex] = useState(0);
   const [completedQuizzes, setCompletedQuizzes] = useState([]);
 
-  useEffect(() => {
-    console.log("🔁 Starting training", training);
-  }, [training]);
+  useEffect(() => {}, [training]);
 
   if (!training || !training.sets?.length) return <div>No training loaded</div>;
 
@@ -37,8 +35,7 @@ export default function PerformTraining() {
         })),
         lastPerformed: new Date().toISOString(),
       };
-      console.log("✅ Training completed:", completedTraining);
-      console.log("Navegando al report con:", completedTraining);
+
       navigate("/training-report", {
         state: { completedTraining },
       });
