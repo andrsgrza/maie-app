@@ -1,4 +1,12 @@
 /* General styles */
+:root {
+  --primary-green: #47b348;
+  --primary-green-dark: #359338;
+  --primary-green-light: #eaf7ed;
+  --arena-blue: #23446c;
+  --arena-grey: #5c7089;
+}
+
 body {
   font-family: "Playfair Display", serif;
   background-color: #f0f2f5;

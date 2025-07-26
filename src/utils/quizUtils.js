@@ -23,3 +23,27 @@ export function cleanQuizData(quizData) {
 
   return quizData;
 }
+export function filterQuizByItems(quiz, selectedQuestions) {
+  const filteredSections = quiz.sections
+    .map((section) => {
+      const matchingItems = section.items.filter((item) =>
+        selectedQuestions.some(
+          (q) =>
+            q.quizId === quiz.quizId &&
+            q.sectionTitle === section.title &&
+            q.question === item.question
+        )
+      );
+      return matchingItems.length > 0
+        ? { ...section, items: matchingItems }
+        : null;
+    })
+    .filter(Boolean); // remove nulls
+
+  if (filteredSections.length === 0) return null;
+
+  return {
+    ...quiz,
+    sections: filteredSections,
+  };
+}

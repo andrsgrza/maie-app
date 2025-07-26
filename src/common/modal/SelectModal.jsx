@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import Modal, { ModalBody, ModalFooter, ModalHeader } from "./Modal";
 import "./HandleEntitlementModal.css";
 
@@ -9,7 +9,7 @@ export default function SelectModal({
   onClose,
   onAdd,
 }) {
-  const [isLoading, setIsLoading] = useState(true);
+  const [selectedItems, setSelectedItems] = useState([]);
 
   const handleOnClose = () => {
     if (onClose) {
@@ -24,17 +24,18 @@ export default function SelectModal({
       <ModalHeader title={title} onClose={handleOnClose} />
       <ModalBody>
         {selector && typeof selector === "function" ? (
-          selector()
+          selector(setSelectedItems)
         ) : (
-          <ResourceList
-            resourceType="quiz"
-            editable={false}
-            selectable={true}
-          />
+          <div>No selector provided</div>
         )}
       </ModalBody>
       <ModalFooter>
-        <button className="add-button" onClick={onAdd}>
+        <button
+          className="add-button"
+          onClick={() => {
+            onAdd(selectedItems);
+          }}
+        >
           Add
         </button>
       </ModalFooter>

@@ -2,93 +2,88 @@ import React, { useState, useEffect, useRef } from "react";
 import SectionList from "./SectionList";
 import { BackButton } from "../../common/BackButton";
 import QuizClient from "../../api/quiz-client";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import protoQuiz from "../../../resources/proto-quiz.json";
 import "./quiz-manager.css";
-import { useNavigate } from "react-router-dom";
 import { useBanner } from "../../context/BannerContext";
 import { MESSAGES } from "../../common/constants";
 import ButtonBar from "../ButtonBar";
 
-export default function QuizmManager() {
+export default function QuizManager(props) {
+  const location = useLocation();
+  const pageMode = location.state?.page;
+
+  if (pageMode === "create-from-execution") {
+    return <CreateFromExecution executedQuiz={location.state?.executedQuiz} />;
+  }
+
+  return <QuizEditor />;
+}
+
+function QuizEditor({ preloadedQuiz: propQuiz, edit: propEdit }) {
   const [isEditingQuizTitle, setIsEditingQuizTitle] = useState(false);
   const [saveMessage, setSaveMessage] = useState({ text: "", type: "" });
   const [highlightedSections, setHighlightedSections] = useState([]);
   const [forgedQuiz, setForgedQuiz] = useState(protoQuiz);
   const [autosaveEnabled, setAutosaveEnabled] = useState(true);
+  const [quizLoaded, setQuizLoaded] = useState(false);
 
-  const hasMounted = useRef(false); // Ref to track if component has mounted
-  const isSettingPreloadedQuiz = useRef(false); // Ref to track if setting preloadedQuiz
+  const hasMounted = useRef(false);
+  const isSettingPreloadedQuiz = useRef(false);
   const previousQuizState = useRef(forgedQuiz);
   const { addBanner } = useBanner();
   const location = useLocation();
-
-  // quiz is preloaded quiz recieved on endit
-  // TODO change quiz to preloadedQuiz and remove unecessary edit by checking if quiz exists
-  const { preloadedQuiz, edit } = location.state || {};
   const navigate = useNavigate();
 
+  // Permite recibir por prop (directo) o por location.state
+  const { preloadedQuiz: stateQuiz, edit: stateEdit } = location.state || {};
+
+  // Decide qué usar
+  const preloadedQuiz = propQuiz || stateQuiz;
+  const edit = typeof propEdit !== "undefined" ? propEdit : stateEdit;
+
+  // Soporte para cargar el quiz preexistente solo una vez
   useEffect(() => {
     if (preloadedQuiz) {
-      isSettingPreloadedQuiz.current = true; // Set to true when setting preloadedQuiz
       setForgedQuiz(preloadedQuiz);
+      previousQuizState.current = preloadedQuiz;
     }
+    setQuizLoaded(true); // <-- Listo para autosave SOLO después de cargar
   }, [preloadedQuiz]);
 
   useEffect(() => {
-    if (hasMounted.current) {
-      // Check if component has mounted
-      // Check if the relevant properties have changed
-      const hasChanges = forgedQuiz.sections.some((section, sectionIndex) => {
-        const previousItems =
-          previousQuizState.current.sections[sectionIndex]?.items || [];
-        return section.items.some((item, itemIndex) => {
-          const previousItem = previousItems[itemIndex];
-          // Check if the previous item exists and compare properties
-          return (
-            !previousItem ||
-            previousItem.question !== item.question ||
-            previousItem.answer !== item.answer
-          );
-        });
+    // Evitar autosave en primer render/después de cargar quiz
+    if (!quizLoaded) return;
+
+    const hasChanges = forgedQuiz.sections.some((section, sectionIndex) => {
+      const previousItems =
+        previousQuizState.current.sections[sectionIndex]?.items || [];
+      return section.items.some((item, itemIndex) => {
+        const previousItem = previousItems[itemIndex];
+        return (
+          !previousItem ||
+          previousItem.question !== item.question ||
+          previousItem.answer !== item.answer
+        );
       });
+    });
 
-      if (autosaveEnabled && !isSettingPreloadedQuiz.current && hasChanges) {
-        handleSaveQuiz();
-      }
-    } else {
-      hasMounted.current = true; // Set to true after first render
+    if (autosaveEnabled && hasChanges) {
+      handleSaveQuiz();
     }
-
-    // Update the previous quiz state to the current state
     previousQuizState.current = forgedQuiz;
+  }, [forgedQuiz, autosaveEnabled, quizLoaded]);
 
-    isSettingPreloadedQuiz.current = false; // Reset after the effect runs
-  }, [forgedQuiz]);
-
-  useEffect(() => {
-    if (preloadedQuiz) {
-      isSettingPreloadedQuiz.current = true; // Set to true when setting preloadedQuiz
-      setForgedQuiz(preloadedQuiz);
-    }
-  }, [preloadedQuiz]);
+  // ...resto del código igual
 
   const updateForgedQuizTitle = (event) => {
-    setForgedQuiz((prevState) => ({
-      ...prevState,
-      title: event.target.value,
-    }));
+    setForgedQuiz((prev) => ({ ...prev, title: event.target.value }));
   };
 
-  const exitTitleEdit = () => {
-    setIsEditingQuizTitle(false);
-  };
+  const exitTitleEdit = () => setIsEditingQuizTitle(false);
 
   const handleQuizDescriptionChange = (event) => {
-    setForgedQuiz((prevState) => ({
-      ...prevState,
-      description: event.target.value,
-    }));
+    setForgedQuiz((prev) => ({ ...prev, description: event.target.value }));
   };
 
   const addSection = () => {
@@ -106,32 +101,24 @@ export default function QuizmManager() {
       const newSections = prevQuiz.sections.map((section, i) =>
         i === index ? updatedSection : section
       );
-      return {
-        ...prevQuiz,
-        sections: newSections,
-      };
+      return { ...prevQuiz, sections: newSections };
     });
 
     if (updatedSection.items.length > 0) {
       const newHighlightedSections = highlightedSections.filter(
-        (sectionIndex) => sectionIndex !== index
+        (i) => i !== index
       );
       setHighlightedSections(newHighlightedSections);
-
-      if (newHighlightedSections.length === 0) {
+      if (newHighlightedSections.length === 0)
         setSaveMessage({ text: "", type: "" });
-      }
     }
   };
 
   const deleteSection = (index) => {
-    if (index === 0) return; // Prevent deletion of the first section
+    if (index === 0) return;
     setForgedQuiz((prevQuiz) => {
       const newSections = prevQuiz.sections.filter((_, i) => i !== index);
-      return {
-        ...prevQuiz,
-        sections: newSections,
-      };
+      return { ...prevQuiz, sections: newSections };
     });
   };
 
@@ -146,8 +133,6 @@ export default function QuizmManager() {
       });
       setHighlightedSections(emptySections);
     } else {
-      const quizJson = JSON.stringify(forgedQuiz, null, 2);
-
       try {
         let response;
         if (forgedQuiz?.id) {
@@ -235,23 +220,225 @@ export default function QuizmManager() {
             : []),
         ]}
         rightItems={[
-          {
-            contentType: "button",
-            label: "Back",
-            onClick: () => navigate(-1),
-          },
-          {
-            contentType: "button",
-            label: "Save",
-            onClick: handleSaveQuiz,
-          },
-          {
-            contentType: "button",
-            label: "Save and Exit",
-            onClick: handleSaveAndExit,
-          },
+          { label: "Back", onClick: () => navigate(-1) },
+          { label: "Save", onClick: handleSaveQuiz },
+          { label: "Save and Exit", onClick: handleSaveAndExit },
         ]}
       />
     </div>
   );
 }
+
+function CreateFromExecution({ executedQuiz, onQuizChanged }) {
+  const [localSelected, setLocalSelected] = useState(null);
+  const [selectedQuestions, setSelectedQuestions] = useState([]);
+  const [selectedSections, setSelectedSections] = useState([]);
+  const [newTitle, setNewTitle] = useState(
+    `Retry Quiz - ${executedQuiz?.title || ""}`
+  );
+
+  if (!executedQuiz) return <div>No quiz execution provided</div>;
+  const { sections } = executedQuiz;
+
+  const MODES = [
+    {
+      label: "Incorrect Questions",
+      description: "Only the questions you got wrong.",
+    },
+    {
+      label: "Incorrect Sections",
+      description: "Entire sections where you made mistakes.",
+    },
+    {
+      label: "Manual Section Selection",
+      description: "Manually select which sections to include.",
+    },
+    {
+      label: "Manual Question Selection",
+      description: "Manually select which questions to include.",
+    },
+    { label: "Repeat Entire Quiz", description: "Clone the entire quiz." },
+  ];
+
+  function buildQuizByMode() {
+    switch (localSelected) {
+      case "Incorrect Questions":
+        return {
+          ...executedQuiz,
+          title: newTitle,
+          sections: executedQuiz.sections
+            .map((section) => ({
+              ...section,
+              items: section.items.filter(
+                (item) => item.isAnswerCorrect === false
+              ),
+            }))
+            .filter((section) => section.items.length > 0),
+        };
+      case "Incorrect Sections":
+        return {
+          ...executedQuiz,
+          title: newTitle,
+          sections: executedQuiz.sections.filter((section) =>
+            section.items.some((item) => item.isAnswerCorrect === false)
+          ),
+        };
+      case "Manual Section Selection":
+        return {
+          ...executedQuiz,
+          title: newTitle,
+          sections: executedQuiz.sections.filter((section) =>
+            selectedSections.includes(section.title)
+          ),
+        };
+      case "Manual Question Selection":
+        return {
+          ...executedQuiz,
+          title: newTitle,
+          sections: executedQuiz.sections
+            .map((section) => {
+              const filteredItems = section.items.filter((item) =>
+                selectedQuestions.some(
+                  (q) =>
+                    q.sectionTitle === section.title &&
+                    q.question === item.question
+                )
+              );
+              return { ...section, items: filteredItems };
+            })
+            .filter((section) => section.items.length > 0),
+        };
+      case "Repeat Entire Quiz":
+        return {
+          ...executedQuiz,
+          title: newTitle,
+          sections: JSON.parse(JSON.stringify(executedQuiz.sections)),
+        };
+      default:
+        return null;
+    }
+  }
+
+  // Notifica al padre en cada cambio relevante
+  useEffect(() => {
+    if (!localSelected) {
+      onQuizChanged && onQuizChanged(null);
+    } else {
+      const quizToSave = buildQuizByMode();
+      onQuizChanged && onQuizChanged(quizToSave);
+    }
+    // eslint-disable-next-line
+  }, [localSelected, selectedQuestions, selectedSections, newTitle]);
+
+  // Resto de la UI (sin botones de footer/modal)
+  return (
+    <div className="training-modal-content">
+      <div className="modal-title-input">
+        <label>Quiz Title:</label>
+        <input
+          type="text"
+          value={newTitle}
+          onChange={(e) => setNewTitle(e.target.value)}
+          className="title-input"
+        />
+      </div>
+      <div className="modal-mode-options">
+        {MODES.map(({ label }) => (
+          <div
+            key={label}
+            className={`mode-option ${
+              localSelected === label ? "selected" : ""
+            }`}
+            onClick={() => {
+              setLocalSelected(label);
+              setSelectedQuestions([]);
+              setSelectedSections([]);
+            }}
+          >
+            {label}
+          </div>
+        ))}
+      </div>
+      {localSelected && (
+        <div className="mode-description">
+          {MODES.find((m) => m.label === localSelected)?.description}
+        </div>
+      )}
+
+      {localSelected === "Manual Section Selection" && (
+        <div className="manual-select-block">
+          <p>Select sections to include:</p>
+          <div className="pill-grid">
+            {sections.map((section) => {
+              const selected = selectedSections.includes(section.title);
+              return (
+                <div
+                  key={section.title}
+                  className={`pill ${selected ? "pill-selected" : ""}`}
+                  onClick={() =>
+                    setSelectedSections((prev) =>
+                      prev.includes(section.title)
+                        ? prev.filter((t) => t !== section.title)
+                        : [...prev, section.title]
+                    )
+                  }
+                >
+                  {section.title}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {localSelected === "Manual Question Selection" && (
+        <div className="manual-select-block">
+          <p>Select specific questions:</p>
+          {sections.map((section) => (
+            <div key={section.title} className="question-block">
+              <h4>{section.title}</h4>
+              <div className="pill-grid">
+                {section.items.map((item, idx) => {
+                  const exists = selectedQuestions.some(
+                    (q) =>
+                      q.sectionTitle === section.title &&
+                      q.question === item.question
+                  );
+                  return (
+                    <div
+                      key={`${section.title}-${idx}`}
+                      className={`pill ${exists ? "pill-selected" : ""}`}
+                      onClick={() =>
+                        setSelectedQuestions((prev) =>
+                          exists
+                            ? prev.filter(
+                                (q) =>
+                                  !(
+                                    q.sectionTitle === section.title &&
+                                    q.question === item.question
+                                  )
+                              )
+                            : [
+                                ...prev,
+                                {
+                                  sectionTitle: section.title,
+                                  question: item.question,
+                                },
+                              ]
+                        )
+                      }
+                    >
+                      {item.question}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export { CreateFromExecution };

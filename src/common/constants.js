@@ -94,5 +94,7 @@ export const HOST_ENDPOINTS = {
   USER: "identity/user",
   LOGIN: "identity/auth",
   QUIZZES: "quiz/quizzes",
+  TRAININGS: "training/trainings",
   RESOURCE_ENTITLEMENT: "quiz/resource-entitlement",
+  SESSIONS: "sessions",
 };

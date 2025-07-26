@@ -71,6 +71,8 @@ export const ModalProvider = ({ children }) => {
     setSelectModalState((prevModal) => ({ ...prevModal, ...config }));
   };
 
+  if (selectModalState.isOpen) {
+  }
   return (
     <ModalContext.Provider
       value={{
@@ -92,6 +94,7 @@ export const ModalProvider = ({ children }) => {
       {handleEntitlementState.isOpen && (
         <HandleEntitlementModal toggleModal={toggleHandleEntitlementModal} />
       )}
+
       {selectModalState.isOpen && (
         <BannerProvider>
           <SelectModal

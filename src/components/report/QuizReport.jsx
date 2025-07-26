@@ -1,12 +1,13 @@
 import React, { useState } from "react";
+import Modal, {
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from "../../common/modal/Modal";
+import { CreateFromExecution } from "../quiz/QuizManager";
 import "./quiz-report.css";
-import { cleanQuizData } from "../../utils/quizUtils.js";
-import QuizClient from "../../api/quiz-client";
-import { UserClient } from "../../api/user-client";
-import { ResouceEntitlementClient } from "../../api/resource-entitlement-client";
-import { CgSlack } from "react-icons/cg";
 
-const QuizReport = ({ completedQuiz }) => {
+export default function QuizReport({ completedQuiz }) {
   const { title, sections } = completedQuiz;
   const totalQuestions = sections.reduce(
     (total, section) => total + section.items.length,
@@ -19,17 +20,8 @@ const QuizReport = ({ completedQuiz }) => {
   );
   const incorrectAnswers = totalQuestions - correctAnswers;
 
-  const [activated, setActivated] = useState(false);
-  const [redoSaved, setRedoSaved] = useState(false);
-  const handleSaveRedoQuiz = async () => {
-    const quizCopy = JSON.parse(JSON.stringify(completedQuiz));
-    const redoQuiz = cleanQuizData(quizCopy);
-    redoQuiz.title = `${title} - redo`;
-    const savedQuiz = await QuizClient.postQuiz(redoQuiz);
-    const userId = await UserClient.whoAmI();
-    setRedoSaved(true);
-    setActivated(true);
-  };
+  const [modalOpen, setModalOpen] = useState(false);
+  const [previewQuiz, setPreviewQuiz] = useState(null);
 
   return (
     <div className="quiz-report">
@@ -81,7 +73,7 @@ const QuizReport = ({ completedQuiz }) => {
                 }`}
               >
                 <p>
-                  <strong>{item.question}</strong>{" "}
+                  <strong>{item.question}</strong>
                 </p>
                 <p>
                   <strong>Your Answer:</strong> {item.userAnswer}
@@ -94,25 +86,51 @@ const QuizReport = ({ completedQuiz }) => {
           </ul>
         </div>
       ))}
-      <button
-        className="basic-button"
-        onClick={handleSaveRedoQuiz}
-        disabled={redoSaved}
-      >
-        Save wrong answers quiz
-      </button>
-      {redoSaved && (
-        <div className="redo-quiz-saved-message">
-          <p>Quiz '{title} - redo' succesfully saved</p>
-        </div>
+
+      <div className="save-options">
+        <button className="basic-button" onClick={() => setModalOpen(true)}>
+          Crear quiz desde ejecución
+        </button>
+      </div>
+
+      {modalOpen && (
+        <Modal>
+          <ModalHeader
+            title="Create Quiz From Execution"
+            onClose={() => setModalOpen(false)}
+          />
+          <ModalBody>
+            <CreateFromExecution
+              executedQuiz={completedQuiz}
+              onQuizChanged={setPreviewQuiz}
+            />
+            {previewQuiz && (
+              <pre className="debug-box" style={{ marginTop: "1rem" }}>
+                {JSON.stringify(previewQuiz, null, 2)}
+              </pre>
+            )}
+          </ModalBody>
+          <ModalFooter>
+            <button
+              className="secondary-button"
+              onClick={() => setModalOpen(false)}
+            >
+              Cancel
+            </button>
+            <button
+              className="primary-button"
+              onClick={() => {
+                if (previewQuiz) {
+                  setModalOpen(false);
+                }
+              }}
+              disabled={!previewQuiz}
+            >
+              Add
+            </button>
+          </ModalFooter>
+        </Modal>
       )}
-      {/* {activated && (
-        <p>
-          <pre>{JSON.stringify(completedQuiz, null, 2)}</pre>
-        </p>
-      )} */}
     </div>
   );
-};
-
-export default QuizReport;
+}

@@ -11,7 +11,7 @@ export default function HomeUser({ username }) {
         <Link to="/my-quizzes" className="btn-primary">
           Quizzes
         </Link>
-        <Link to="/perform-quiz" className="btn-secondary">
+        <Link to="/arena" className="btn-secondary">
           Arena
         </Link>
       </div>

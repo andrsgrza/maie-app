@@ -1,7 +1,9 @@
 import React from 'react';
 import '../common.css';
 
-const Modal = ({children} ) => {
+const Modal = ({ open, children, onClose }) => {
+  if (!open) return null;
+  
   return (
     <div className="modal-overlay">
       <div className="modal-content">

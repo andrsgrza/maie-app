@@ -62,7 +62,7 @@ const QuizItem = ({
 
   // Function to navigate to edit page
   const handleEdit = () => {
-    navigate("/create-quiz", {
+    navigate("/quiz-manager", {
       state: { preloadedQuiz: quiz, edit: true },
     });
   };

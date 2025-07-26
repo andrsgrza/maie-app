@@ -2,241 +2,154 @@ import React, { useState, useEffect, useRef } from "react";
 import "./perform-quiz.css";
 
 export default function PerformQuiz({ quiz, onComplete }) {
-  const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [sectionIndex, setSectionIndex] = useState(0);
+  const [questionIndex, setQuestionIndex] = useState(0);
   const [userAnswer, setUserAnswer] = useState("");
   const [showAnswer, setShowAnswer] = useState(false);
-  const [isAnswerCorrect, setIsAnswerCorrect] = useState(null);
-  const [isMarked, setIsMarked] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [completedQuiz, setCompletedQuiz] = useState(null);
+  const [isMarkedCorrect, setIsMarkedCorrect] = useState(null);
+  const [completedQuiz, setCompletedQuiz] = useState(quiz);
+  const inputRef = useRef(null);
 
-  const answerInputRef = useRef(null);
+  useEffect(() => {}, [quiz]);
+
+  // Validate quiz structure
+  if (
+    !quiz ||
+    !quiz.sections?.length ||
+    !quiz.sections[sectionIndex]?.items?.length
+  ) {
+    console.warn("❌ Invalid or empty quiz");
+    return <div>Invalid or empty quiz</div>;
+  }
+
+  const currentSection = quiz.sections[sectionIndex];
+  const currentItem = currentSection.items[questionIndex];
 
   useEffect(() => {
-    setCompletedQuiz(quiz);
-  }, [quiz]);
+    if (inputRef.current) inputRef.current.focus();
+  }, [sectionIndex, questionIndex]);
 
   useEffect(() => {
-    if (answerInputRef.current) {
-      answerInputRef.current.focus();
-    }
-  }, [currentQuestionIndex, currentSectionIndex]);
-
-  useEffect(() => {
-    const handleGlobalKeyDown = (event) => {
+    const handleKey = (e) => {
       if (showAnswer) {
-        if (event.key === "ArrowLeft" || event.key.toLowerCase() === "c") {
-          handleMarkAnswer(true);
-        } else if (
-          event.key === "ArrowRight" ||
-          event.key.toLowerCase() === "m"
-        ) {
-          handleMarkAnswer(false);
+        if (e.key === "ArrowLeft" || e.key.toLowerCase() === "c") {
+          handleMark(true);
+        } else if (e.key === "ArrowRight" || e.key.toLowerCase() === "m") {
+          handleMark(false);
         }
       }
-      if (event.key === "Enter" && !event.shiftKey) {
-        event.preventDefault(); // Prevent default behavior
-        if (isMarked) {
-          handleSubmitResponse();
-        } else if (userAnswer.trim() !== "") {
-          handleSubmitAnswer();
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        if (!showAnswer && userAnswer.trim()) {
+          handleSubmit();
+        } else if (showAnswer && isMarkedCorrect !== null) {
+          handleNext();
         }
       }
     };
-    window.addEventListener("keydown", handleGlobalKeyDown);
-    return () => {
-      window.removeEventListener("keydown", handleGlobalKeyDown);
-    };
-  }, [showAnswer, userAnswer, isMarked]);
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [showAnswer, userAnswer, isMarkedCorrect]);
 
-  const handleSubmitResponse = () => {
-    if (isLastQuestionInSection()) {
-      if (isLastSection()) {
-        handleSubmitQuiz();
-      } else {
-        handleNextSection();
-      }
-    } else {
-      handleNextQuestion();
-    }
-  };
-
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter" && !event.shiftKey) {
-      event.preventDefault(); // Prevent default behavior
-      const answer = answerInputRef.current.value.trim(); // Trim to handle spaces
-      if (userAnswer.trim() !== "") {
-        handleSubmitAnswer();
-      } else {
-      }
-    }
-  };
-
-  const restartQuiz = () => {
-    setCurrentSectionIndex(0);
-    setCurrentQuestionIndex(0);
-    setUserAnswer("");
-    setShowAnswer(false);
-    setIsAnswerCorrect(null);
-    setIsMarked(false);
-  };
-
-  const handleNextQuestion = () => {
-    setCompletedQuiz((prev) => {
-      const newSections = [...prev.sections];
-      newSections[currentSectionIndex].items[currentQuestionIndex] = {
-        ...newSections[currentSectionIndex].items[currentQuestionIndex],
-        userAnswer,
-        isAnswerCorrect,
-      };
-      return {
-        ...prev,
-        sections: newSections,
-      };
-    });
-    setShowAnswer(false);
-    setIsAnswerCorrect(null);
-    setUserAnswer("");
-    setCurrentQuestionIndex(currentQuestionIndex + 1);
-    setIsMarked(false);
-  };
-
-  const handleNextSection = () => {
-    setCompletedQuiz((prev) => {
-      const newSections = [...prev.sections];
-      newSections[currentSectionIndex].items[currentQuestionIndex] = {
-        ...newSections[currentSectionIndex].items[currentQuestionIndex],
-        userAnswer,
-        isAnswerCorrect,
-      };
-      return {
-        ...prev,
-        sections: newSections,
-      };
-    });
-    setShowAnswer(false);
-    setIsAnswerCorrect(null);
-    setUserAnswer("");
-    setCurrentSectionIndex(currentSectionIndex + 1);
-    setCurrentQuestionIndex(0);
-    setIsMarked(false);
-  };
-
-  const handleSubmitAnswer = () => {
+  const handleSubmit = () => {
     setShowAnswer(true);
   };
 
-  const handleMarkAnswer = (isCorrect) => {
-    setIsAnswerCorrect(isCorrect);
-    setIsMarked(true);
+  const handleMark = (isCorrect) => {
+    setIsMarkedCorrect(isCorrect);
   };
 
-  const handleSubmitQuiz = () => {
-    setCompletedQuiz((prev) => {
-      const newSections = [...prev.sections];
-      newSections[currentSectionIndex].items[currentQuestionIndex] = {
-        ...newSections[currentSectionIndex].items[currentQuestionIndex],
-        userAnswer,
-        isAnswerCorrect,
-      };
-      const updatedQuiz = {
-        ...prev,
-        sections: newSections,
-      };
-      setTimeout(() => {
-        onComplete(updatedQuiz);
-      }, 0);
-      return updatedQuiz;
-    });
-    restartQuiz();
-  };
+  const handleNext = () => {
+    const updatedSections = [...completedQuiz.sections];
+    const item = updatedSections[sectionIndex].items[questionIndex];
+    updatedSections[sectionIndex].items[questionIndex] = {
+      ...item,
+      userAnswer,
+      isAnswerCorrect: isMarkedCorrect,
+    };
+    setCompletedQuiz({ ...completedQuiz, sections: updatedSections });
 
-  const isLastQuestionInSection = () => {
-    return (
-      currentQuestionIndex >=
-      quiz.sections[currentSectionIndex].items.length - 1
-    );
-  };
+    const nextQuestion = questionIndex + 1;
+    const nextSection = sectionIndex + 1;
+    if (nextQuestion < currentSection.items.length) {
+      setQuestionIndex(nextQuestion);
+    } else if (nextSection < quiz.sections.length) {
+      setSectionIndex(nextSection);
+      setQuestionIndex(0);
+    } else {
+      if (onComplete)
+        onComplete({ ...completedQuiz, sections: updatedSections });
+      return;
+    }
 
-  const isLastSection = () => {
-    return currentSectionIndex >= quiz.sections.length - 1;
+    setUserAnswer("");
+    setShowAnswer(false);
+    setIsMarkedCorrect(null);
   };
 
   return (
-    <>
-      <div className="perform-quiz-container">
-        <h2 className="quiz-title">{quiz.title}</h2>
-        <div className="section-container">
-          <h3 className="section-title">
-            {quiz.sections[currentSectionIndex].title}
-          </h3>
-          <div className="question-section">
-            <h3 className="question-text">
-              {
-                quiz.sections[currentSectionIndex].items[currentQuestionIndex]
-                  .question
-              }
-            </h3>
-            <textarea
-              className="answer-input"
-              placeholder="Write here your answer"
-              value={userAnswer}
-              onChange={(e) => setUserAnswer(e.target.value)}
-              ref={answerInputRef}
-              disabled={showAnswer}
-            />
-            {!showAnswer && (
-              <div className="button-group">
-                <button
-                  className="quiz-button"
-                  onClick={handleSubmitAnswer}
-                  disabled={!userAnswer.trim()}
-                >
-                  Submit
-                </button>
-              </div>
-            )}
-            {showAnswer && (
+    <div className="perform-quiz-container">
+      <h2 className="quiz-title">{quiz.title}</h2>
+      <div className="section-container">
+        <h3 className="section-title">{currentSection.title}</h3>
+        <div className="question-section">
+          <h3 className="question-text">{currentItem.question}</h3>
+          <textarea
+            ref={inputRef}
+            className="answer-input"
+            placeholder="Write your answer..."
+            value={userAnswer}
+            onChange={(e) => setUserAnswer(e.target.value)}
+            disabled={showAnswer}
+          />
+
+          {!showAnswer && (
+            <div className="button-group">
+              <button
+                className="quiz-button"
+                onClick={handleSubmit}
+                disabled={!userAnswer.trim()}
+              >
+                Submit
+              </button>
+            </div>
+          )}
+
+          {showAnswer && (
+            <>
               <div className="answer-section">
                 <h4>Correct Answer:</h4>
-                <p>
-                  {
-                    quiz.sections[currentSectionIndex].items[
-                      currentQuestionIndex
-                    ].answer
-                  }
-                </p>
-                <div className="button-group">
-                  <button
-                    className={`mark-button ${
-                      isAnswerCorrect === true ? "selected correct" : ""
-                    }`}
-                    onClick={() => handleMarkAnswer(true)}
-                  >
-                    Correct
-                  </button>
-                  <button
-                    className={`mark-button ${
-                      isAnswerCorrect === false ? "selected incorrect" : ""
-                    }`}
-                    onClick={() => handleMarkAnswer(false)}
-                  >
-                    Incorrect
-                  </button>
-                </div>
+                <p>{currentItem.answer}</p>
               </div>
-            )}
-            {isMarked && (
               <div className="button-group">
-                <button className="quiz-button" onClick={handleSubmitResponse}>
-                  Next
+                <button
+                  className={`mark-button ${
+                    isMarkedCorrect === true ? "selected correct" : ""
+                  }`}
+                  onClick={() => handleMark(true)}
+                >
+                  Correct
+                </button>
+                <button
+                  className={`mark-button ${
+                    isMarkedCorrect === false ? "selected incorrect" : ""
+                  }`}
+                  onClick={() => handleMark(false)}
+                >
+                  Incorrect
                 </button>
               </div>
-            )}
-          </div>
+              {isMarkedCorrect !== null && (
+                <div className="button-group">
+                  <button className="quiz-button" onClick={handleNext}>
+                    Next
+                  </button>
+                </div>
+              )}
+            </>
+          )}
         </div>
       </div>
-    </>
+    </div>
   );
 }

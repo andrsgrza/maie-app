@@ -92,7 +92,7 @@
 
 .section-list {
   width: 100%;
-  max-width: 1200px;
+  max-width: 70vh;
   margin: 0 auto;
   padding: 0 20px;
   box-sizing: border-box;
@@ -186,4 +186,22 @@ input:checked + .slider:before {
 .autosave-toggle {
   display: flex;
   align-items: center;
+}
+.primary-button:disabled,
+.secondary-button:disabled,
+.save-quiz-button:disabled {
+  background-color: #d1d5db !important;
+  color: #888 !important;
+  border: 1px solid #ccc !important;
+  cursor: not-allowed !important;
+  opacity: 0.7 !important;
+  box-shadow: none !important;
+  pointer-events: none;
+}
+
+.primary-button:disabled:hover,
+.secondary-button:disabled:hover,
+.save-quiz-button:disabled:hover {
+  background-color: #d1d5db !important;
+  color: #888 !important;
 }

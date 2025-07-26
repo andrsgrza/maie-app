@@ -1,51 +1,501 @@
+:root {
+  --primary-green: #47b348;
+  --primary-green-dark: #359338;
+  --primary-green-light: #eaf7ed;
+  --arena-blue: #23446c;
+  --arena-grey: #5c7089;
+  --badge-pending-bg: #f3e7e7;
+  --badge-pending-text: #b34747;
+  --badge-inprogress-bg: #f7efd7;
+  --badge-inprogress-text: #c08a00;
+  --badge-completed-bg: #e0f4e0;
+  --badge-completed-text: #188652;
+}
+
+/* Main Container */
 .arena-container {
-  padding: 2rem;
-  text-align: center;
-}
-
-.arena-title {
-  font-size: 2rem;
-  margin-bottom: 2rem;
-}
-
-.arena-cards {
+  width: 100%;
+  max-width: 900px;
+  margin: 2.5rem auto 0 auto;
+  padding: 32px 24px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
   display: flex;
+  flex-direction: column;
+  gap: 5%;
+  font-family: "YourAppFont", sans-serif;
+}
+
+/* Title */
+.arena-title {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: #222;
+  margin-bottom: 0.6rem;
+  text-align: center;
+  letter-spacing: -1px;
+}
+
+/* Main buttons */
+.arena-actions {
+  display: flex;
+  gap: 1.4rem;
+  margin-bottom: 1.8rem;
   justify-content: center;
-  gap: 2rem;
-  flex-wrap: wrap;
 }
-
-.arena-card {
-  background: #f5f5f5;
-  padding: 1.5rem;
-  border-radius: 1rem;
-  width: 300px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease;
-}
-
-.arena-card:hover {
-  transform: translateY(-4px);
-}
-
-.arena-card h3 {
-  margin-bottom: 1rem;
-}
-
-.arena-card p {
-  font-size: 0.9rem;
-  margin-bottom: 1rem;
-}
-
-.arena-card button {
-  background-color: #007bff;
+.arena-actions button {
+  background: var(--primary-green);
+  color: #fff;
   border: none;
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
+  border-radius: 30px;
+  font-size: 1.15rem;
+  font-family: inherit;
+  font-weight: 700;
+  padding: 15px 45px;
   cursor: pointer;
+  transition: background 0.16s, color 0.18s;
+  box-shadow: 0 2px 12px rgba(71, 179, 72, 0.08);
+  outline: none;
+}
+.arena-actions button.secondary {
+  background: #fff;
+  color: var(--primary-green);
+  border: 2.5px solid var(--primary-green);
+}
+.arena-actions button:active,
+.session-actions button:active {
+  background: var(--primary-green-dark);
+  color: #fff;
 }
 
-.arena-card button:hover {
-  background-color: #0056b3;
+/* Section Title */
+.arena-section-title {
+  font-size: 1.13rem;
+  font-weight: 700;
+  margin: 1.5rem 0 1.1rem 0;
+  color: var(--arena-blue);
+  letter-spacing: 0px;
+}
+
+/* Sessions List */
+/* Sessions List: scrolleable dentro de la tarjeta principal */
+.sessions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  max-height: 90vh; /* Altura máxima para mostrar ~7-8 cards en desktop */
+  overflow-y: auto;
+  padding-right: 10px; /* Espacio para el scrollbar */
+  margin-bottom: 18px;
+  background: #f9fafb;
+  border-radius: 13px;
+  box-shadow: 0 2px 12px #eaf7ed10, 0 1.5px 4px #eaf7ed05;
+  border: 1.2px solid #e8eae6;
+  /* transition para un efecto más suave al mostrar el scroll */
+  transition: box-shadow 0.16s, border 0.15s;
+}
+
+/* Opcional: hover para resaltar el scroll */
+.sessions-list:hover {
+  box-shadow: 0 8px 22px #eaf7ed20, 0 1.5px 4px #eaf7ed05;
+  border-color: #d6ead9;
+}
+
+/* Scrollbar bonito en Webkit browsers */
+.sessions-list::-webkit-scrollbar {
+  width: 8px;
+  background: #f2f2f2;
+  border-radius: 6px;
+}
+.sessions-list::-webkit-scrollbar-thumb {
+  background: #e0e0e0;
+  border-radius: 6px;
+}
+.sessions-list::-webkit-scrollbar-thumb:hover {
+  background: #b7dec5;
+}
+
+@media (max-width: 600px) {
+  .sessions-list {
+    max-height: 270px;
+    padding-right: 3px;
+  }
+}
+
+/* Session Card */
+.session-card {
+  background: #fafcfa;
+  border: 1.5px solid #ecf2ee;
+  border-radius: 13px;
+  padding: 1.25rem 1.7rem;
+  box-shadow: 0 2px 7px rgba(71, 179, 72, 0.04);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  transition: box-shadow 0.17s;
+}
+.session-card:hover {
+  box-shadow: 0 8px 22px rgba(71, 179, 72, 0.11);
+}
+.session-info {
+  flex: 1;
+  min-width: 0;
+}
+.session-title {
+  font-size: 1.13rem;
+  font-weight: 800;
+  color: #223a2b;
+  margin-bottom: 0.15rem;
+  word-break: break-word;
+}
+.session-meta {
+  color: var(--arena-grey);
+  font-size: 0.96rem;
+  margin-bottom: 0.13rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Estado badge */
+.badge {
+  font-size: 0.97rem;
+  font-weight: 700;
+  border-radius: 8px;
+  padding: 0.2rem 0.8rem;
+  display: inline-block;
+  margin-bottom: 0.3rem;
+  margin-right: 0.9rem;
+  border: 1.2px solid;
+}
+.badge-pending {
+  background: var(--badge-pending-bg);
+  color: var(--badge-pending-text);
+  border-color: var(--badge-pending-text);
+}
+.badge-inprogress {
+  background: var(--badge-inprogress-bg);
+  color: var(--badge-inprogress-text);
+  border-color: var(--badge-inprogress-text);
+}
+.badge-completed {
+  background: var(--badge-completed-bg);
+  color: var(--badge-completed-text);
+  border-color: var(--badge-completed-text);
+}
+
+/* Session actions (right) */
+.session-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  align-items: flex-end;
+  min-width: 120px;
+}
+.session-action-btn {
+  width: 120px;
+  height: 38px;
+  border-radius: 24px;
+  font-size: 1.06rem;
+  font-family: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  outline: none;
+  border: 2px solid var(--primary-green);
+  background: #fff;
+  color: var(--primary-green);
+  transition: background 0.13s, color 0.13s;
+  margin-bottom: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.session-action-btn.main {
+  background: var(--primary-green);
+  color: #fff;
+  border: 2px solid var(--primary-green);
+}
+.session-action-btn.outline {
+  background: #fff;
+  color: var(--primary-green);
+  border: 2px solid var(--primary-green);
+}
+.session-action-btn:active {
+  background: var(--primary-green-dark);
+  color: #fff;
+}
+
+/* Pills (quizzes, tags) */
+.pill-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1.1rem 0 1.3rem 0;
+}
+.pill {
+  background: var(--primary-green-light);
+  color: var(--primary-green);
+  border-radius: 18px;
+  border: 1.5px solid var(--primary-green);
+  padding: 2px 14px;
+  font-size: 0.98rem;
+  font-weight: 700;
+  margin-right: 0.6em;
+  display: inline-block;
+  cursor: pointer;
+  transition: background 0.14s, color 0.14s;
+}
+.pill-selected {
+  background: var(--primary-green);
+  color: #fff;
+  border: 1.5px solid var(--primary-green-dark);
+}
+
+/* Simple info box (modal preview) */
+.info-box {
+  margin-top: 10px;
+  padding: 0.7rem;
+  background: #e0f0ff;
+  border-radius: 6px;
+  color: #295080;
+}
+
+/* Inputs/modals for modal */
+.arena-label {
+  display: block;
+  margin: 0.4rem 0 0.1rem 0;
+  font-weight: 600;
+  color: #23446c;
+  font-size: 0.97rem;
+}
+.arena-select,
+.arena-input {
+  width: 100%;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  padding: 7px;
+  font-size: 1.01rem;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1.1rem;
+  margin-top: 1.2rem;
+}
+.primary-button {
+  background-color: var(--primary-green);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-family: inherit;
+  font-weight: 600;
+  padding: 8px 22px;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.secondary-button {
+  background-color: #fff;
+  color: var(--primary-green);
+  font-weight: 500;
+  border: 2px solid var(--primary-green);
+  border-radius: 5px;
+  font-size: 1rem;
+  font-family: inherit;
+  padding: 8px 22px;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.primary-button:disabled,
+.secondary-button:disabled {
+  background-color: #d1d5db !important;
+  color: #888 !important;
+  border: 1px solid #ccc !important;
+  cursor: not-allowed !important;
+  opacity: 0.7 !important;
+}
+
+.arena-checkbox-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.7rem;
+}
+
+.arena-due-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 0.6rem;
+  margin-top: 0.15rem;
+}
+
+/* Switch for Due Date */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 38px;
+  height: 22px;
+  vertical-align: middle;
+  margin-left: 7px;
+}
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #d7d7d7;
+  transition: 0.3s;
+  border-radius: 22px;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 3px;
+  bottom: 3px;
+  background-color: #fff;
+  transition: 0.3s;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px #eee;
+}
+input:checked + .slider {
+  background-color: var(--primary-green);
+}
+input:checked + .slider:before {
+  transform: translateX(16px);
+}
+
+/* Row for input and label */
+.arena-due-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 0.6rem;
+  margin-top: 0.15rem;
+}
+.arena-checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 0.7rem;
+}
+
+.clearout-desc {
+  margin: 0.4rem 0 0.7rem 0;
+  font-size: 0.98rem;
+  color: #295080;
+  background: #f3f6fb;
+  border-radius: 7px;
+  padding: 0.6em 1em;
+  font-weight: 500;
+}
+
+.arena-accordion {
+  margin: 1.4rem 0 0.3rem 0;
+  border-radius: 10px;
+  border: 1px solid #e8eae6;
+  background: #f8faf8;
+}
+.arena-accordion-header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background: none;
+  border: none;
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: #24466d;
+  padding: 0.8rem 1.2rem;
+  cursor: pointer;
+  outline: none;
+  justify-content: space-between;
+  transition: background 0.12s;
+  border-radius: 10px 10px 0 0;
+}
+.arena-accordion-header:hover {
+  background: #eef3ed;
+}
+.arena-accordion-arrow {
+  transition: transform 0.18s;
+  font-size: 1.05rem;
+  margin-left: 7px;
+}
+.arena-accordion-arrow.open {
+  transform: rotate(180deg);
+}
+.arena-accordion-body {
+  padding: 1.1rem 1.3rem 1rem 1.3rem;
+}
+
+.arena-preview-title {
+  font-weight: 700;
+  font-size: 1.07rem;
+  margin-bottom: 10px;
+  color: #23446c;
+  letter-spacing: 0px;
+}
+
+.arena-session-preview {
+  background: #f7fafc;
+  border-radius: 9px;
+  padding: 1.2em 1.4em;
+  border: 1.2px solid #e8eae6;
+  box-shadow: 0 2px 12px #eaf7ed22;
+  margin-top: 1.2rem;
+  margin-bottom: 0.2rem;
+}
+
+.arena-preview-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.arena-preview-label {
+  font-size: 1.03rem;
+  color: #4a5b75;
+  font-weight: 500;
+  padding-right: 5px;
+  white-space: nowrap;
+}
+
+.arena-preview-value {
+  font-size: 1.06rem;
+  font-weight: 600;
+  color: #2d593b;
+}
+
+.arena-preview-icon {
+  width: 30px;
+  text-align: center;
+  opacity: 0.85;
+  vertical-align: middle;
+}
+
+.arena-preview-table tr {
+  border-bottom: 1px solid #f0f2f6;
+}
+
+.arena-preview-table tr:last-child {
+  border-bottom: none;
+}
+
+@media (max-width: 600px) {
+  .arena-container {
+    padding: 1rem;
+  }
+  .modal-content {
+    min-width: unset;
+    width: 97vw;
+  }
 }

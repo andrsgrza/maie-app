@@ -1,23 +1,239 @@
-// ... otros imports
-import React, { useState, useEffect, useRef } from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import QuizSelectorPerform from "../arena/QuizSelectorPerform";
-import SectionSelector from "../quiz/SectionSelector";
-import ButtonBar from "../ButtonBar";
+import React, { useState } from "react";
+import {
+  filterTrainingByQuizIds,
+  filterTrainingByQuestionIds,
+  filterIncorrectQuestionsOnly,
+  filterIncorrectSections,
+  filterIncorrectQuizzes,
+} from "../../utils/trainingUtils";
 import "./training-manager.css";
-import { useModal } from "../../context/ModalContext";
-import { useBanner } from "../../context/BannerContext";
-import { useLocation } from "react-router-dom";
 
-export default function TrainingManager() {
-  const { state } = useLocation();
+export default function TrainingManager(props) {
+  const isModal = !!props.executedTraining;
+  const state = isModal
+    ? {
+        executedTraining: props.executedTraining,
+        page: props.mode || "create-from-execution",
+        edit: props.edit,
+      }
+    : {};
+
+  const currentPage = state?.page || "editor";
+  if (currentPage === "editor") return <TrainingEditor state={state} />;
+  if (currentPage === "create-from-execution")
+    return (
+      <CreateFromExecution
+        state={state}
+        onTrainingChanged={props.onTrainingChanged}
+      />
+    );
+  return null;
+}
+
+function CreateFromExecution({ state, onTrainingChanged }) {
+  const [localSelected, setLocalSelected] = useState(null);
+  const [selectedQuizzes, setSelectedQuizzes] = useState([]);
+  const [selectedQuestions, setSelectedQuestions] = useState([]);
+
+  const completedTraining = state?.executedTraining;
+  const [newTitle, setNewTitle] = useState(
+    `Retry Training - ${completedTraining?.title || ""}`
+  );
+  if (!completedTraining) throw new Error("No training received");
+  const { sets } = completedTraining;
+
+  const MODES = [
+    { label: "Incorrect Questions", description: "Only incorrect questions." },
+    { label: "Incorrect Sections", description: "Sections with mistakes." },
+    { label: "Incorrect Quizzes", description: "Quizzes with errors." },
+    { label: "Manual Quiz Selection", description: "Select specific quizzes." },
+    {
+      label: "Manual Question Selection",
+      description: "Select specific questions.",
+    },
+    { label: "Repeat Entire Training", description: "Clone entire training." },
+  ];
+
+  const getAllQuizzes = () =>
+    sets.flatMap((set) => set.resources || []).filter((r) => r.quizId);
+
+  function buildTrainingByMode() {
+    switch (localSelected) {
+      case "Incorrect Questions":
+        return {
+          ...filterIncorrectQuestionsOnly(completedTraining),
+          title: newTitle,
+        };
+      case "Incorrect Sections":
+        return {
+          ...filterIncorrectSections(completedTraining),
+          title: newTitle,
+        };
+      case "Incorrect Quizzes":
+        return {
+          ...filterIncorrectQuizzes(completedTraining),
+          title: newTitle,
+        };
+      case "Repeat Entire Training":
+        return {
+          ...JSON.parse(JSON.stringify(completedTraining)),
+          title: newTitle,
+        };
+      case "Manual Quiz Selection":
+        return {
+          ...filterTrainingByQuizIds(completedTraining, selectedQuizzes),
+          title: newTitle,
+        };
+      case "Manual Question Selection":
+        return {
+          ...filterTrainingByQuestionIds(completedTraining, selectedQuestions),
+          title: newTitle,
+        };
+      default:
+        return null;
+    }
+  }
+
+  // Notifica al padre en cada cambio relevante
+  React.useEffect(() => {
+    if (!localSelected) {
+      onTrainingChanged && onTrainingChanged(null);
+    } else {
+      const trainingToSave = buildTrainingByMode();
+      onTrainingChanged && onTrainingChanged(trainingToSave);
+    }
+    // eslint-disable-next-line
+  }, [localSelected, selectedQuizzes, selectedQuestions, newTitle]);
+
+  return (
+    <div className="training-modal-content">
+      <div className="modal-title-input">
+        <label>Training Title:</label>
+        <input
+          type="text"
+          value={newTitle}
+          onChange={(e) => setNewTitle(e.target.value)}
+          className="title-input"
+        />
+      </div>
+
+      <div className="modal-mode-options">
+        {MODES.map(({ label }) => (
+          <div
+            key={label}
+            className={`mode-option ${
+              localSelected === label ? "selected" : ""
+            }`}
+            onClick={() => {
+              setLocalSelected(label);
+              setSelectedQuizzes([]);
+              setSelectedQuestions([]);
+            }}
+          >
+            {label}
+          </div>
+        ))}
+      </div>
+
+      {localSelected && (
+        <div className="mode-description">
+          {MODES.find((m) => m.label === localSelected)?.description}
+        </div>
+      )}
+
+      {localSelected === "Manual Quiz Selection" && (
+        <div className="manual-select-block">
+          <p>Select quizzes to include:</p>
+          <div className="pill-grid">
+            {getAllQuizzes().map((quiz) => {
+              const isSelected = selectedQuizzes.includes(quiz.quizId);
+              return (
+                <div
+                  key={quiz.quizId}
+                  className={`pill ${isSelected ? "pill-selected" : ""}`}
+                  onClick={() =>
+                    setSelectedQuizzes((prev) =>
+                      prev.includes(quiz.quizId)
+                        ? prev.filter((id) => id !== quiz.quizId)
+                        : [...prev, quiz.quizId]
+                    )
+                  }
+                >
+                  {quiz.title}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {localSelected === "Manual Question Selection" && (
+        <div className="manual-select-block">
+          <p>Select specific questions:</p>
+          {getAllQuizzes().map((quiz) => (
+            <div key={quiz.quizId} className="question-block">
+              <h4>{quiz.title}</h4>
+              {quiz.sections.map((section) => (
+                <div key={section.title} className="section-block">
+                  <h5>{section.title}</h5>
+                  <div className="pill-grid">
+                    {section.items.map((item, idx) => {
+                      const exists = selectedQuestions.some(
+                        (q) =>
+                          q.quizId === quiz.quizId &&
+                          q.sectionTitle === section.title &&
+                          q.question === item.question
+                      );
+                      return (
+                        <div
+                          key={`${quiz.quizId}-${section.title}-${idx}`}
+                          className={`pill ${exists ? "pill-selected" : ""}`}
+                          onClick={() =>
+                            setSelectedQuestions((prev) =>
+                              exists
+                                ? prev.filter(
+                                    (q) =>
+                                      !(
+                                        q.quizId === quiz.quizId &&
+                                        q.sectionTitle === section.title &&
+                                        q.question === item.question
+                                      )
+                                  )
+                                : [
+                                    ...prev,
+                                    {
+                                      quizId: quiz.quizId,
+                                      sectionTitle: section.title,
+                                      question: item.question,
+                                    },
+                                  ]
+                            )
+                          }
+                        >
+                          {item.question}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+function TrainingEditor({ state }) {
   const [sets, setSets] = useState([]);
   const [trainingTitle, setTrainingTitle] = useState("");
+  const [editingSetId, setEditingSetId] = useState(null);
+
+  const bottomRef = useRef(null);
+  const inputRef = useRef(null);
+
   const { configureSelectModal } = useModal();
   const { addBanner } = useBanner();
-  const bottomRef = useRef(null);
-  const [editingSetId, setEditingSetId] = useState(null);
-  const inputRef = useRef(null);
 
   const editMode = state?.edit || false;
   const preloadedTraining = state?.preloadedTraining || null;
@@ -240,7 +456,10 @@ export default function TrainingManager() {
           {
             label: "Back",
             contentType: "button",
-            onClick: () => window.history.back(),
+            onClick: () => {
+              if (state?.onClose) state.onClose();
+              else window.history.back();
+            },
           },
         ]}
         centerItems={[
